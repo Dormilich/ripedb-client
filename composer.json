@@ -1,0 +1,29 @@
+{
+    "name": "dormilich/ripedb-client",
+    "description": "A PHP library to communicate with the RIPE NCC database.",
+    "type": "library",
+    "license": "LGPL-2.1",
+    "homepage": "https://github.com/Dormilich/ripedb-client",
+    "authors": [
+        {
+            "name": "Bertold von Dormilich",
+            "email": "Dormilich@netscape.net",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Dormilich/ripedb-client/issues",
+        "source": "https://github.com/Dormilich/ripedb-client.git"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dormilich\\": "src/Dormilich/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.7"
+    }
+}
