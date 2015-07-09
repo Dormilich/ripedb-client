@@ -1,19 +1,19 @@
 <?php
-// Route.php
+// Route6.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
 
-class Route extends Object
+class Route6 extends Object
 {
-    const PRIMARYKEY = 'route';
+    const PRIMARYKEY = 'route6';
 
     /**
-     * Create a ROUTE RIPE object.
+     * Create a ROUTE6 RIPE object.
      * 
-     * @param string $value The IPv4 address prefix of the route.
+     * @param string $value The IPv6 address prefix of the route.
      *      Forms a combined primary key with the 'origin' attribute.
      * @return self
      */
@@ -25,13 +25,13 @@ class Route extends Object
     }
 
     /**
-     * Defines attributes for the ROUTE RIPE object. 
+     * Defines attributes for the ROUTE6 RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('route',        Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('route6',       Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('descr',        Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('origin',       Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('pingable',     Attribute::OPTIONAL, Attribute::MULTIPLE);

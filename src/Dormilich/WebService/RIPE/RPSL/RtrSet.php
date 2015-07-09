@@ -1,19 +1,19 @@
 <?php
-// RouteSet.php
+// RtrSet.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
 
-class RouteSet extends Object
+class RtrSet extends Object
 {
-    const PRIMARYKEY = 'route-set';
+    const PRIMARYKEY = 'rtr-set';
 
     /**
-     * Create a ROUTE-SET RIPE object.
+     * Create a RTR-SET RIPE object.
      * 
-     * @param string $value The name of the set (of route prefixes).
+     * @param string $value The name of the set.
      * @return self
      */
     public function __construct($value)
@@ -24,13 +24,13 @@ class RouteSet extends Object
     }
 
     /**
-     * Defines attributes for the ROUTE-SET RIPE object. 
+     * Defines attributes for the RTR-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('route-set',   Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('rtr-set',     Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('members',     Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('mp-members',  Attribute::OPTIONAL, Attribute::MULTIPLE);

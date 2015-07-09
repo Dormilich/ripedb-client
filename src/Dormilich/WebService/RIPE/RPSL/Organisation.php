@@ -1,7 +1,7 @@
 <?php
 // Organisation.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
@@ -17,11 +17,11 @@ class Organisation extends Object
      * @param string $value A letter combination appended to the Auto-ID.
      * @return self
      */
-    public function __construct($value = '')
+    public function __construct($value = 'AUTO-1')
     {
         $this->type = self::PRIMARYKEY;
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, 'AUTO-1' . $value);
+        $this->setAttribute(self::PRIMARYKEY, $value);
     }
 
     /**
@@ -49,7 +49,6 @@ class Organisation extends Object
         $this->create('org',      Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('admin-c',  Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('tech-c',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        // if set it must reference a ROLE object with the 'abuse-mailbox' attribute
         $this->create('abuse-c',  Attribute::OPTIONAL, Attribute::SINGLE);
         $this->create('ref-nfy',  Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('mnt-ref',  Attribute::REQUIRED, Attribute::MULTIPLE);
@@ -60,8 +59,6 @@ class Organisation extends Object
 
         $this->generated('created');
         $this->generated('last-modified');
-        // deprecated
-        $this->generated('abuse-mailbox', Attribute::MULTIPLE);
     }
 }
 

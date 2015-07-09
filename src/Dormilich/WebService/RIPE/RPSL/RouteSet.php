@@ -1,19 +1,19 @@
 <?php
-// AsSet.php
+// RouteSet.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
 
-class AsSet extends Object
+class RouteSet extends Object
 {
-    const PRIMARYKEY = 'as-set';
+    const PRIMARYKEY = 'route-set';
 
     /**
-     * Create an AS-SET RIPE object.
+     * Create a ROUTE-SET RIPE object.
      * 
-     * @param string $value The name of the AS-Set.
+     * @param string $value The name of the set (of route prefixes).
      * @return self
      */
     public function __construct($value)
@@ -24,15 +24,16 @@ class AsSet extends Object
     }
 
     /**
-     * Defines attributes for the AS-SET RIPE object. 
+     * Defines attributes for the ROUTE-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('as-set',      Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('route-set',   Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('members',     Attribute::OPTIONAL, Attribute::MULTIPLE);
+        $this->create('mp-members',  Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('mbrs-by-ref', Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('org',         Attribute::OPTIONAL, Attribute::MULTIPLE);

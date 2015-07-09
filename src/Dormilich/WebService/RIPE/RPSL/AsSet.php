@@ -1,19 +1,19 @@
 <?php
-// FilterSet.php
+// AsSet.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
 
-class FilterSet extends Object
+class AsSet extends Object
 {
-    const PRIMARYKEY = 'filter-set';
+    const PRIMARYKEY = 'as-set';
 
     /**
-     * Create a RTR-SET RIPE object.
+     * Create an AS-SET RIPE object.
      * 
-     * @param string $value The name of the set (of routers).
+     * @param string $value The name of the AS-Set.
      * @return self
      */
     public function __construct($value)
@@ -24,16 +24,16 @@ class FilterSet extends Object
     }
 
     /**
-     * Defines attributes for the RTR-SET RIPE object. 
+     * Defines attributes for the AS-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('filter-set',  Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('as-set',      Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('filter',      Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('mp-filter',   Attribute::OPTIONAL, Attribute::SINGLE);
+        $this->create('members',     Attribute::OPTIONAL, Attribute::MULTIPLE);
+        $this->create('mbrs-by-ref', Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('org',         Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);

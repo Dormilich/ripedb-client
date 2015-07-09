@@ -1,20 +1,20 @@
 <?php
-// Inetnum.php
+// Inet6num.php
 
-namespace Dormilich\WebService\RIPE\DB;
+namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\FixedAttribute;
 
-class Inetnum extends Object
+class Inet6num extends Object
 {
-    const PRIMARYKEY = 'inetnum';
+    const PRIMARYKEY = 'inet6num';
 
     /**
-     * Create a RIPE INETNUM object
+     * Create a RIPE INET6NUM object
      * 
-     * @param string $netnum A range of or a single IPv4 address.
+     * @param string $netnum A block of or a single IPv6 address.
      * @return self
      */
     public function __construct($netnum)
@@ -31,24 +31,24 @@ class Inetnum extends Object
      */
     protected function init()
     {
-        $this->create('inetnum',     Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('inet6num',    Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('netname',     Attribute::REQUIRED, Attribute::SINGLE);
         $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('country',     Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('geoloc',      Attribute::OPTIONAL, Attribute::SINGLE);
         $this->create('language',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',         Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('org',         Attribute::OPTIONAL, Attribute::SINGLE);
         $this->generated('sponsoring-org');
         $this->create('admin-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);
 
         $this->attributes['status'] = new FixedAttribute('status', Attribute::REQUIRED, [
-            'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',        'ALLOCATED PI', 
-            'LIR-PARTITIONED PA',    'LIR-PARTITIONED PI',  'SUB-ALLOCATED PA', 
-            'ASSIGNED PA',           'ASSIGNED PI',         'ASSIGNED ANYCAST', 
-            'LEGACY',                'NOT_SET', 
+            'ALLOCATED-BY-RIR', 'ALLOCATED-BY-LIR', 'AGGREGATED-BY-LIR', 
+            'ASSIGNED',         'ASSIGNED PI',      'ASSIGNED ANYCAST', 
         ]);
 
+        // this attribute is required if the status is set to 'AGGREGATED-BY-LIR'
+        $this->create('assignment-size', Attribute::OPTIONAL, Attribute::SINGLE);
         $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('notify',      Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('mnt-by',      Attribute::REQUIRED, Attribute::MULTIPLE);
@@ -63,34 +63,35 @@ class Inetnum extends Object
         $this->generated('last-modified');
     }
 }
+
 /*
  * The allowed values for the 'status' attribute:
  * 
- * ‘ALLOCATED UNSPECIFIED’ 
- *      This is mostly used to identify blocks of addresses for which the 
- *      RIPE NCC is administratively responsible. Historically, a small 
- *      number of allocations made to members have this status also.
- * ‘ALLOCATED PA’ 
- *      These are allocations made to members by the RIPE NCC.
- * ‘ALLOCATED PI’ 
- *      This is mostly used to identify blocks of addresses from which the 
- *      RIPE NCC makes assignments to end users. Historically, a small number 
- *      of allocations made to members have this status also.
- * ‘LIR-PARTITIONED PA’ 
- *      This is to allow partitioning of an allocation by a member for 
- *      internal business reasons.
- * ‘LIR-PARTITIONED PI’ 
- *      This is to allow partitioning of an allocation by a member for 
- *      internal business reasons.
- * ‘SUB-ALLOCATED PA’ 
- *      A member can sub-allocate a part of an allocation to another 
- *      organisation. The other organisation may take over some of the 
- *      management of this sub-allocation. However, the RIPE NCC member 
- *      is still responsible for the whole of their registered resources, 
- *      even if parts of it have been sub-allocated. Provisions have been 
- *      built in to the RIPE Database software to ensure that the member 
- *      is always technically in control of their allocated address space.
- * ‘ASSIGNED PA’ 
+ * ‘ALLOCATED-BY-RIR’ 
+ *      This is mostly used to identify blocks of addresses for which the RIPE 
+ *      NCC is administratively responsible and allocations made to members by 
+ *      the RIPE NCC.
+ * ‘ALLOCATED-BY-LIR’ 
+ *      This is equivalent to the inetnum status ‘SUB-ALLOCATED PA’. A member 
+ *      can sub-allocate part of an allocation to another organisation. The 
+ *      other organisation may take over some of the management of this 
+ *      sub-allocation. However, the RIPE NCC member is still responsible for 
+ *      the whole of their registered resources, even if some parts of it have 
+ *      been sub-allocated to another organisation. Provisions have been built 
+ *      in to the RIPE Database software to ensure that the member is always 
+ *      technically in control of their allocated address space.
+ *        With the inet6num object there is no equivalent to the inetnum 
+ *      ‘LIR-PARTITIONED’ status values allowing partitioning of an allocation 
+ *      by a member for internal business reasons.
+ * ‘AGGREGATED-BY-LIR’ 
+ *      With IPv6, it is not necessary to document each individual End User 
+ *      assignment in the RIPE Database. If you have a group of End Users 
+ *      who all require blocks of addresses of the same size, say a /56, 
+ *      then you can create a large, single block with this status. 
+ *      The “assignment-size:” attribute specifies the size of the End User 
+ *      blocks. All assignments made from this block must have that size. 
+ *      It is possible to have two levels of ‘AGGREGATED-BY-LIR’.
+ * ‘ASSIGNED’ 
  *      These are assignments made by a member from their allocations to an 
  *      End User.
  * ‘ASSIGNED PI’ 
@@ -101,13 +102,4 @@ class Inetnum extends Object
  *      objects in the RIPE Database for the End User.
  * ‘ASSIGNED ANYCAST’ 
  *      This address space has been assigned for use in TLD anycast networks.
- * ‘LEGACY’ 
- *      These are resources that were allocated to users before the RIPE NCC 
- *      was set up.
- * ‘NOT-SET’ 
- *      There are some very old objects in the RIPE Database where the status 
- *      was unknown when the “status:” attribute was introduced. When it became 
- *      a mandatory attribute, these objects were given this status value. 
- *      When contact is made with the organisations holding these resources, 
- *      the real status value will be determined. 
  */
