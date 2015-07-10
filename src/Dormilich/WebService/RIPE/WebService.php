@@ -198,4 +198,33 @@ abstract class WebService
      * @return void
      */
     abstract protected function send($type, $path, Object $object = NULL);
+
+    /**
+     * Method to read the error messages from a failed request. 
+     * 
+     * @param string $body Response body.
+     * @return array List of all errors listed in the response.
+     */
+    public static function getErrors($body)
+    {
+        $json = json_decode($body, true);
+        $list = [];
+
+        if (!isset($json['errormessages'])) {
+            return $list;
+        }
+
+        // @see https://github.com/RIPE-NCC/whois/wiki/WHOIS-REST-API-WhoisResources
+        foreach ($json['errormessages']['errormessage'] as $error) {
+            $text = $error['severity'] . ': ' . $error['text'];
+            if (isset($error['attribute'])) {
+                $text .= ' (' . $error['attribute']['name'] . ')';
+            }
+            $list[] = vsprintf($text, array_map(function ($item) {
+                return $item['value'];
+            }, (array) $error['args']));
+        }
+
+        return $list;
+    }
 }

@@ -81,33 +81,4 @@ class Guzzle6Adapter implements ClientAdapter
 
         return json_decode($response->getBody(), true);
     }
-
-    /**
-     * Method to read the error messages from a failed request. The response 
-     * is available from Guzzle’s thrown RequestException.
-     * 
-     * @param ResponseInterface $response Response object.
-     * @return array List of all errors listed in the response.
-     */
-    public static function getErrors(ResponseInterface $response)
-    {
-        $json = json_decode($response->getBody(), true);
-        $list = [];
-
-        if (!isset($json['errormessages'])) {
-            return $list;
-        }
-
-        foreach ($json['errormessages']['errormessage'] as $error) {
-            $text = $error['severity'] . ': ' . $error['text'];
-            if (isset($error['attribute'])) {
-                $text .= ' (' . $error['attribute']['name'] . ')';
-            }
-            $list[] = vsprintf($text, array_map(function ($item) {
-                return $item['value'];
-            }, (array) $error['args']));
-        }
-
-        return $list;
-    }
 }
