@@ -2,24 +2,24 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
+
 class WhoisWebService extends WebService
 {
-    public function __construct(array $config = array())
+    public function __construct(ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
+
         $base  = $this->isSSL() ? 'https://' : 'http://';
         $base .= $this->isProduction() ? parent::PRODUCTION_HOST : parent::SANDBOX_HOST;
-        $this->client = new Client([
-            'base_uri' => $base, 
-            'headers'  => [
-                "Accept" => "application/json", 
-            ],
-        ]);
+
+        $this->client = $client;
+        $this->client->setBaseUri($base);
     }
 
     protected function send($type, $path, Object $object = NULL)
     {
-        $body = $this->client->get($path)->getBody();
+        $body = $this->client->request($type, $path);
 
         $this->setResult(json_decode($body, true));
     }

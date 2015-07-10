@@ -4,34 +4,28 @@ namespace Dormilich\WebService\RIPE;
 
 class RegWebService extends WhoisWebService
 {
-    public function __construct(array $config = array())
+    public function __construct(ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
+
         $base  = 'https://'; // RIPE requires SSL for these methods
         $base .= $this->isProduction() ? parent::PRODUCTION_HOST : parent::SANDBOX_HOST;
-        $this->client = new Client([
-            'base_uri' => $base, 
-            'headers'  => [
-                "Accept"       => "application/json", 
-                "Content-Type" => "application/json", 
-            ],
-        ]);
+
+        $this->client = $client;
+        $this->client->setBaseUri($base);
     }
 
     protected function send($type, $path, Object $object = NULL)
     {
-        if (NULL !== $object) {
-            $options = [
-                'body'  => $this->createJSON($object),
-                'query' => [
-                    'password' => $this->getPassword(), 
-                ],
-            ];
-        } else {
-            $options = [];
+        if (NULL === $object) {
+            return parent::send($type, $path);
         }
 
-        $body = $this->client->request($type, $path, $options)->getBody();
+        $body = $this->client->request($type, $path, $this->createJSON($object), [
+            'query' => [
+                'password' => $this->getPassword(), 
+            ],
+        ]);
 
         $this->setResult(json_decode($body, true));
     }
