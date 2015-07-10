@@ -21,13 +21,13 @@ class RegWebService extends WhoisWebService
             return parent::send($type, $path);
         }
 
-        $body = $this->client->request($type, $path, $this->createJSON($object), [
+        $json = $this->client->request($type, $path, $this->createJSON($object), [
             'query' => [
                 'password' => $this->getPassword(), 
             ],
         ]);
 
-        $this->setResult(json_decode($body, true));
+        $this->setResult($json);
     }
 
     /**

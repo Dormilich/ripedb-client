@@ -19,9 +19,9 @@ class WhoisWebService extends WebService
 
     protected function send($type, $path, Object $object = NULL)
     {
-        $body = $this->client->request($type, $path);
+        $json = $this->client->request($type, $path);
 
-        $this->setResult(json_decode($body, true));
+        $this->setResult($json);
     }
 
     /**
