@@ -8,23 +8,22 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class Irt extends Object
 {
-    const PRIMARYKEY = 'irt';
-
     /**
-     * Create an IRT RIPE object.
+     * Create an incident response team (IRT) RIPE object.
      * 
      * @param string $value The name for the response team.
      * @return self
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('irt');
+        $this->setKey('irt');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('irt', $value);
     }
 
     /**
-     * Defines attributes for the AUT-NUM RIPE object. 
+     * Defines attributes for the IRT RIPE object. 
      * 
      * @return void
      */

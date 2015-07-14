@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class RtrSet extends Object
 {
-    const PRIMARYKEY = 'rtr-set';
-
     /**
      * Create a RTR-SET RIPE object.
      * 
@@ -18,9 +16,10 @@ class RtrSet extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('rtr-set');
+        $this->setKey('rtr-set');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('rtr-set', $value);
     }
 
     /**

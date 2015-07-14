@@ -12,8 +12,6 @@ use Dormilich\WebService\RIPE\Attribute;
  */
 class KeyCert extends Object
 {
-    const PRIMARYKEY = 'key-cert';
-
     /**
      * Create a key certification (KEY-CERT) RIPE object.
      * 
@@ -22,9 +20,10 @@ class KeyCert extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('key-cert');
+        $this->setKey('key-cert');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('key-cert', $value);
     }
 
     /**

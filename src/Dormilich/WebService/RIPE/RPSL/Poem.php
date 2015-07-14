@@ -9,19 +9,18 @@ use Dormilich\WebService\RIPE\MatchedAttribute;
 
 class Poem extends Object
 {
-    const PRIMARYKEY = 'poem';
-
     /**
-     * Create a RIPE PERSON object.
+     * Create a POEM RIPE object.
      * 
      * @param string $title Title of the poem that is represented by this object.
      * @return self
      */
     public function __construct($title)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('poem');
+        $this->setKey('poem');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $title);
+        $this->setAttribute('poem', $value);
     }
 
     /**

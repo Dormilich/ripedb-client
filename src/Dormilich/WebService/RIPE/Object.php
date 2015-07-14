@@ -16,13 +16,17 @@ namespace Dormilich\WebService\RIPE;
  */
 abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
-    // const PRIMARYKEY = '';
-
     /**
      * The type of the object as found in the WHOIS response object’s 'type' parameter.
      * @var string
      */
-    protected $type;
+    private $type        = NULL;
+
+    /**
+     * The primary lookup key of the object.
+     * @var string
+     */
+    private $primaryKey  = NULL;
 
     /**
      * Name-indexed array of attributes.
@@ -46,13 +50,11 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
     /**
      * Get the value of the attribute defined as primary key.
      * 
-     * Note: make sure the instantiated class contains a PRIMARYKEY constant.
-     * 
      * @return string
      */
     public function getPrimaryKey()
     {
-        return $this->getAttribute(static::PRIMARYKEY)->getValue();
+        return $this->getAttribute($this->primaryKey)->getValue();
     }
 
     /**
@@ -64,7 +66,49 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
      */
     public function getPrimaryKeyName()
     {
-        return static::PRIMARYKEY;
+        return $this->primaryKey;
+    }
+
+    /**
+     * Set the name of the primary key.
+     * 
+     * @param string $value The name of the primary key.
+     * @return void
+     */
+    protected function setKey($value)
+    {
+        if (NULL === $this->primaryKey) {
+            $this->primaryKey = (string) $value;
+            if (strlen($this->primaryKey) === 0) {
+                throw new \LogicException('The Primary Key must not be empty.');
+            }
+        }
+    }
+
+    /**
+     * Get the name of the current RIPE object.
+     * 
+     * @return string RIPE object name.
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the name of the object type.
+     * 
+     * @param string $value The name of the primary key.
+     * @return void
+     */
+    protected function setType($value)
+    {
+        if (NULL === $this->type) {
+            $this->type = (string) $value;
+            if (strlen($this->type) === 0) {
+                throw new \LogicException('The object type must not be empty.');
+            }
+        }
     }
 
     /**
@@ -94,21 +138,11 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
     }
 
     /**
-     * Get the name of the current RIPE object.
-     * 
-     * @return string RIPE object name.
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Get an attribute specified by name.
      * 
      * @param string $name Name of the attribute.
      * @return Attribute Attribute object.
-     * @throws OutOfBoundsException Invalid argument name.
+     * @throws InvalidAttributeException Invalid argument name.
      */
     public function getAttribute($name)
     {
@@ -118,7 +152,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
         if (isset($this->generated[$name])) {
             return $this->generated[$name];
         }
-        throw new \OutOfBoundsException('Attribute "' . $name . '" is not defined for the ' . strtoupper($this->type) . ' object.');
+        throw new InvalidAttributeException('Attribute "' . $name . '" is not defined for the ' . strtoupper($this->type) . ' object.');
     }
 
     /**

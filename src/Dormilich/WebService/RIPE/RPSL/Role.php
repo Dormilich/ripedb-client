@@ -9,8 +9,6 @@ use Dormilich\WebService\RIPE\MatchedAttribute;
 
 class Role extends Object
 {
-    const PRIMARYKEY = 'nic-hdl';
-
     /**
      * Create a ROLE RIPE object.
      * 
@@ -19,9 +17,10 @@ class Role extends Object
      */
     public function __construct($value = 'AUTO-1')
     {
-        $this->type = 'role';
+        $this->setType('role');
+        $this->setKey('nic-hdl');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('nic-hdl', $value);
     }
 
     /**

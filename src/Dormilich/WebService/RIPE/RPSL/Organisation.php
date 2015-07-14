@@ -9,8 +9,6 @@ use Dormilich\WebService\RIPE\FixedAttribute;
 
 class Organisation extends Object
 {
-    const PRIMARYKEY = 'organisation';
-
     /**
      * Create an ORGANISATION RIPE object.
      * 
@@ -19,13 +17,14 @@ class Organisation extends Object
      */
     public function __construct($value = 'AUTO-1')
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('organisation');
+        $this->setKey('organisation');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('organisation', $value);
     }
 
     /**
-     * Defines attributes for the AUT-NUM RIPE object. 
+     * Defines attributes for the ORGANISATION RIPE object. 
      * 
      * @return void
      */

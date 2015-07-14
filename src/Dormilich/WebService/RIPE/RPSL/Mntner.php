@@ -8,23 +8,22 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class Mntner extends Object
 {
-    const PRIMARYKEY = 'mntner';
-
     /**
-     * Create a RIPE PERSON object.
+     * Create a maintainer (MNTNER) RIPE object.
      * 
      * @param string $mntner Handle of the maintainer that is represented by this object.
      * @return self
      */
     public function __construct($mntner)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('mntner');
+        $this->setKey('mntner');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $mntner);
+        $this->setAttribute('mntner', $value);
     }
 
     /**
-     * Defines attributes for the PERSON RIPE object. 
+     * Defines attributes for the MNTNER RIPE object. 
      * 
      * @return void
      */

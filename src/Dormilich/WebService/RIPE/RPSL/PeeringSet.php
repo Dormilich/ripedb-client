@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class PeeringSet extends Object
 {
-    const PRIMARYKEY = 'peering-set';
-
     /**
      * Create a PEERING-SET RIPE object.
      * 
@@ -18,9 +16,10 @@ class PeeringSet extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('peering-set');
+        $this->setKey('peering-set');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('peering-set', $value);
     }
 
     /**

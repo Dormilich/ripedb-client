@@ -9,19 +9,18 @@ use Dormilich\WebService\RIPE\FixedAttribute;
 
 class Inet6num extends Object
 {
-    const PRIMARYKEY = 'inet6num';
-
     /**
-     * Create a RIPE INET6NUM object
+     * Create a INET6NUM RIPE object
      * 
      * @param string $netnum A block of or a single IPv6 address.
      * @return self
      */
     public function __construct($netnum)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('inet6num');
+        $this->setKey('inet6num');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $netnum);
+        $this->setAttribute('inet6num', $value);
     }
 
     /**

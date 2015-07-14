@@ -9,23 +9,22 @@ use Dormilich\WebService\RIPE\FixedAttribute;
 
 class Inetnum extends Object
 {
-    const PRIMARYKEY = 'inetnum';
-
     /**
-     * Create a RIPE INETNUM object
+     * Create a INETNUM RIPE object
      * 
      * @param string $netnum A range of or a single IPv4 address.
      * @return self
      */
     public function __construct($netnum)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('inetnum');
+        $this->setKey('inetnum');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $netnum);
+        $this->setAttribute('inetnum', $value);
     }
 
     /**
-     * Defines attributes for the INET6NUM RIPE object. 
+     * Defines attributes for the INETNUM RIPE object. 
      * 
      * @return void
      */

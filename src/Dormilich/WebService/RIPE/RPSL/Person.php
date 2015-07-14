@@ -9,19 +9,18 @@ use Dormilich\WebService\RIPE\MatchedAttribute;
 
 class Person extends Object
 {
-    const PRIMARYKEY = 'nic-hdl';
-
     /**
-     * Create a RIPE PERSON object.
+     * Create a PERSON RIPE object.
      * 
      * @param string $value NIC handle. If not specified an auto-handle is used.
      * @return self
      */
     public function __construct($value = 'AUTO-1')
     {
-        $this->type = 'person';
+        $this->setType('person');
+        $this->setKey('nic-hdl');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('nic-hdl', $value);
     }
 
     /**

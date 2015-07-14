@@ -8,19 +8,18 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class Domain extends Object
 {
-    const PRIMARYKEY = 'domain';
-
     /**
-     * Create a RIPE DOMAIN object.
+     * Create a DOMAIN RIPE object.
      * 
      * @param string $value The reverse delegetion address/range.
      * @return self
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('domain');
+        $this->setKey('domain');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('domain', $value);
     }
 
     /**

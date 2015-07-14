@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class RouteSet extends Object
 {
-    const PRIMARYKEY = 'route-set';
-
     /**
      * Create a ROUTE-SET RIPE object.
      * 
@@ -18,9 +16,10 @@ class RouteSet extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('route-set');
+        $this->setKey('route-set');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('route-set', $value);
     }
 
     /**

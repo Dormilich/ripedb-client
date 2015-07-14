@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class AsSet extends Object
 {
-    const PRIMARYKEY = 'as-set';
-
     /**
      * Create an AS-SET RIPE object.
      * 
@@ -18,9 +16,10 @@ class AsSet extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('as-set');
+        $this->setKey('as-set');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('as-set', $value);
     }
 
     /**

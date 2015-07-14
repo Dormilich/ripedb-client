@@ -12,8 +12,6 @@ use Dormilich\WebService\RIPE\Attribute;
  */
 class AutNum extends Object
 {
-    const PRIMARYKEY = 'aut-num';
-
     /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.
      * 
@@ -22,9 +20,10 @@ class AutNum extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('aut-num');
+        $this->setKey('aut-num');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('aut-num', $value);
     }
 
     /**

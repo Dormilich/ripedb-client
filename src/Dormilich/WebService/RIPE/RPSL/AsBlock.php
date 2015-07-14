@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class AsBlock extends Object
 {
-    const PRIMARYKEY = 'as-block';
-
     /**
      * Create a AS-BLOCK RIPE object.
      * 
@@ -18,9 +16,10 @@ class AsBlock extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('as-block');
+        $this->setKey('as-block');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('as-block', $value);
     }
 
     /**

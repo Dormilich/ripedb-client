@@ -8,23 +8,22 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class FilterSet extends Object
 {
-    const PRIMARYKEY = 'filter-set';
-
     /**
-     * Create a RTR-SET RIPE object.
+     * Create a FILTER-SET RIPE object.
      * 
      * @param string $value The name of the set (of routers).
      * @return self
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('filter-set');
+        $this->setKey('filter-set');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('filter-set', $value);
     }
 
     /**
-     * Defines attributes for the RTR-SET RIPE object. 
+     * Defines attributes for the FILTER-SET RIPE object. 
      * 
      * @return void
      */

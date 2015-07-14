@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class InetRtr extends Object
 {
-    const PRIMARYKEY = 'inet-rtr';
-
     /**
      * Create a router (INET-RTR) RIPE object.
      * 
@@ -18,9 +16,10 @@ class InetRtr extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('inet-rtr');
+        $this->setKey('inet-rtr');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('inet-rtr', $value);
     }
 
     /**

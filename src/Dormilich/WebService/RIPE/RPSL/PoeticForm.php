@@ -8,8 +8,6 @@ use Dormilich\WebService\RIPE\Attribute;
 
 class PoeticForm extends Object
 {
-    const PRIMARYKEY = 'poetic-form';
-
     /**
      * Create a POETIC-FORM RIPE object.
      * 
@@ -18,9 +16,10 @@ class PoeticForm extends Object
      */
     public function __construct($value)
     {
-        $this->type = self::PRIMARYKEY;
+        $this->setType('poetic-form');
+        $this->setKey('poetic-form');
         $this->init();
-        $this->setAttribute(self::PRIMARYKEY, $value);
+        $this->setAttribute('poetic-form', $value);
     }
 
     /**

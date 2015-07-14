@@ -9,13 +9,6 @@ namespace Dormilich\WebService\RIPE;
 class Dummy extends Object
 {
     /**
-     * In case someone uses a function that requires this constant.
-     */
-    const PRIMARYKEY = NULL;
-
-    private $primaryKey;
-
-    /**
      * Create stand-in object for any RIPE object data. 
      * It's the responsibility of the writer to figure out the correct values.
      * One notable difference to the regular objects is that it expects the 
@@ -26,12 +19,12 @@ class Dummy extends Object
      */
     public function __construct($type, $key = null)
     {
-        $this->type = (string) $type;
+        $this->setType($type);
 
         if (null === $key) {
-            $this->primaryKey = $this->type;
+            $this->setKey($this->getType());
         } else {
-            $this->primaryKey = (string) $key;
+            $this->setKey($key);
         }
 
         $this->init();
@@ -44,11 +37,11 @@ class Dummy extends Object
      */
     protected function init() 
     {
-        if ($this->type !== $this->primaryKey) {
+        if ($this->getType() !== $this->getPrimaryKeyName()) {
             // a type attribute (alternate lookup key) is usually required/single
-            $this->create($this->type, Attribute::REQUIRED, Attribute::SINGLE);
+            $this->create($this->getType(), Attribute::REQUIRED, Attribute::SINGLE);
         }
-        $this->create($this->primaryKey, Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create($this->getPrimaryKeyName(), Attribute::REQUIRED, Attribute::SINGLE);
 
         // these attributes are common to all objects (as per documentation)
         $this->create('org',     Attribute::OPTIONAL, Attribute::MULTIPLE);
@@ -62,26 +55,6 @@ class Dummy extends Object
 
         $this->generated('created');
         $this->generated('last-modified');
-    }
-
-    /**
-     * Override, since the PK is not known in advance the PK property is used.
-     * 
-     * @return string
-     */
-    public function getPrimaryKey()
-    {
-        return $this->getAttribute($this->primaryKey)->getValue();
-    }
-
-    /**
-     * Get the name of the primary key.
-     * 
-     * @return sring PK name.
-     */
-    public function getPrimaryKeyName()
-    {
-        return $this->primaryKey;
     }
 
     /**
