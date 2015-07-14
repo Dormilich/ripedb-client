@@ -190,7 +190,7 @@ abstract class WebService
     }
 
     /**
-     * Make a query that modifies the RIPE DB.
+     * Make a query to the RIPE DB and parse the response.
      * 
      * @param string $type An HTTP verb.
      * @param string $path The path identifying the RIPE DB object.

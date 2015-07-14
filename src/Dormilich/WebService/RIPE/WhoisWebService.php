@@ -6,6 +6,14 @@ use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
 
 class WhoisWebService extends WebService
 {
+    /**
+     * Create a webservice to request WHOIS data. These types of request may 
+     * use non-encrypted connections.
+     * 
+     * @param ClientAdapter $client A connection adapter.
+     * @param array $config Webservice config options 
+     * @return self
+     */
     public function __construct(ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
@@ -17,6 +25,9 @@ class WhoisWebService extends WebService
         $this->client->setBaseUri($base);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function send($type, $path, Object $object = NULL)
     {
         $json = $this->client->request($type, $path);
@@ -67,6 +78,13 @@ class WhoisWebService extends WebService
         return $this->getResult();
     }
 
+    /**
+     * Get the available versions of a RIPE resource.
+     * 
+     * @param Object $object The RIPE object of interest.
+     * @return array An array containing the revision number as key and the 
+     *          date and operation type as value.
+     */
     public function versions(Object $object)
     {
         $path = '/%s/%s/%s/versions';
@@ -77,7 +95,7 @@ class WhoisWebService extends WebService
 
         $versions = [];
         foreach ($json['versions']['version'] as $version) {
-            $versions[$version['revision']] = $version['date'];
+            $versions[$version['revision']] = $version['date'] . '(' . $version['operation'] . ')';
         }
         return $versions;
     }
@@ -116,6 +134,12 @@ class WhoisWebService extends WebService
         return count($this->results);
     }
 
+    /**
+     * Get the abuse contact for an Inet[6]num or AutNum object.
+     * 
+     * @param Object $object An Inet[6]num or AutNum object.
+     * @return string Abuse email or FALSE.
+     */
     public function abuseContact(Object $object)
     {
         $path = '/abuse-contact/' . $object->getPrimaryKey();
@@ -128,6 +152,13 @@ class WhoisWebService extends WebService
         return false;
     }
 
+    /**
+     * get the geolocation info for an IP address.
+     * 
+     * @param string $ip A valid IP address.
+     * @return array When found it contains the latitude, longitude and the 
+     *          corresponding object data (as type an primary key).
+     */
     public function geolocation($ip)
     {
         if (!filter_var($ip, \FILTER_VALIDATE_IP)) {
@@ -153,12 +184,29 @@ class WhoisWebService extends WebService
         return $data;
     }
 
-    public function getObjectTemplate($name)
+    /**
+     * Create a RIPE object according to the .
+     * 
+     * @param string|Object $name Either a RIPE object or a RIPE object type.
+     * @return Object The RIPE object from the latest definitions.
+     */
+    public function getObjectFromTemplate($name)
     {
-        $path = '/metadata/templates/' . strtolower($name);
+        if ($name instanceof Object) {
+            $type = $name->getType();
+        }
+        else {
+            $type = strtolower($name);
+        }
+        $path = '/metadata/templates/' . $type;
         $body = $this->client->get($path)->getBody();
         $json = json_decode($body, true);
 
-        return $json['templates']['template']['attributes']['attribute'];
+        $attributes = $json['templates']['template'][1]['attributes']['attribute'];
+
+        $object = Object::factory($type, $attributes);
+        $object['source'] = $json['templates']['template'][0]['source']['id'];
+
+        return $object;
     }
 }

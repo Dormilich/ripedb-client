@@ -4,6 +4,14 @@ namespace Dormilich\WebService\RIPE;
 
 class RegWebService extends WhoisWebService
 {
+    /**
+     * Create a webservice to request WHOIS data. These types of request must use 
+     * encrypted connections, so setting the 'ssl' option to false has no effect.
+     * 
+     * @param ClientAdapter $client A connection adapter.
+     * @param array $config Webservice config options 
+     * @return self
+     */
     public function __construct(ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
@@ -15,6 +23,9 @@ class RegWebService extends WhoisWebService
         $this->client->setBaseUri($base);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function send($type, $path, Object $object = NULL)
     {
         if (NULL === $object) {
