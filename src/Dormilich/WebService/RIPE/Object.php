@@ -3,9 +3,6 @@
 
 namespace Dormilich\WebService\RIPE;
 
-use ArrayIterator;
-use OutOfBoundsException;
-
 /**
  * The prototype for every RIPE object class. 
  * 
@@ -121,7 +118,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
         if (isset($this->generated[$name])) {
             return $this->generated[$name];
         }
-        throw new OutOfBoundsException('Attribute "' . $name . '" is not defined for the ' . strtoupper($this->type) . ' object.');
+        throw new \OutOfBoundsException('Attribute "' . $name . '" is not defined for the ' . strtoupper($this->type) . ' object.');
     }
 
     /**
@@ -287,7 +284,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
      */
     public function getIterator()
     {
-        return new ArrayIterator(array_filter($this->attributes + $this->generated, function ($attr) {
+        return new \ArrayIterator(array_filter($this->attributes + $this->generated, function ($attr) {
             return $attr->isDefined();
         }));
     }
@@ -318,5 +315,36 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
             }
             return $carry;
         }, true);
+    }
+
+    /**
+     * Create a dummy object using the template descriptor from the RIPE 
+     * metadata service. This can be useful if the package’s attribute 
+     * validation rules become outdated and you absolutely need a confomant 
+     * RIPE object (and can’t wait for the update).
+     * 
+     * @param string $type A RIPE object type
+     * @param array $descriptor A template descriptor.
+     * @return Dummy A dummy object according to the descriptor.
+     */
+    public static function factory($type, array $descriptor)
+    {
+        $key = null;
+        foreach ($descriptor as $attribute) {
+            if (in_array('PRIMARY_KEY', $attribute['keys'])) {
+                $key = $attribute['name'];
+                break;
+            }
+        }
+
+        $obj = new Dummy($type, $key);
+
+        foreach ($descriptor as $attribute) {
+            $required = $attribute['requirement'] === 'MANDATORY';
+            $multiple = $attribute['cardinality'] === 'MULTIPLE';
+            $obj->setupAttribute($attribute['name'], $required, $multiple);
+        }
+
+        return $obj;
     }
 }

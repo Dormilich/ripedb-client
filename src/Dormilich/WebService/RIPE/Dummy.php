@@ -11,7 +11,7 @@ class Dummy extends Object
     /**
      * In case someone uses a function that requires this constant.
      */
-    const PRIMARYKEY = 0;
+    const PRIMARYKEY = NULL;
 
     private $primaryKey;
 
@@ -42,7 +42,7 @@ class Dummy extends Object
      * 
      * @return void
      */
-    public function init() 
+    protected function init() 
     {
         if ($this->type !== $this->primaryKey) {
             // a type attribute (alternate lookup key) is usually required/single
@@ -85,6 +85,22 @@ class Dummy extends Object
     }
 
     /**
+     * Get an attribute. If it doesn’t exist, create it on-the-fly.
+     * 
+     * @param type $name 
+     * @return type
+     */
+    protected function findAttribute($name)
+    {
+        try {
+            return $this->getAttribute($name);
+        }
+        catch (\Exception $exc) {
+            return $this->setupAttribute($name);
+        }
+    }
+
+    /**
      * Set an attribute’s value(s). If an attribute does not exist yet, 
      * it is created with the optional and multiple flag beforehand. 
      * 
@@ -94,8 +110,7 @@ class Dummy extends Object
      */
     public function setAttribute($name, $value)
     {
-        $name = (string) $name;
-        $this->setupAttribute($name)->setValue($value);
+        $this->findAttribute((string) $name)->setValue($value);
 
         return $this;
     }
@@ -110,23 +125,27 @@ class Dummy extends Object
      */
     public function addAttribute($name, $value)
     {
-        $name = (string) $name;
-        $this->setupAttribute($name)->addValue($value);
+        $this->findAttribute((string) $name)->addValue($value);
 
         return $this;
     }
 
     /**
-     * Create an Attribute if necessary.
+     * Create an Attribute. If called implicit (e.g. via setAttribute()) it 
+     * will create an optional multiple attribute on-the-fly.
      * 
-     * @param string $name Attribute name.
-     * @return void
+     * This method can be used to create a RIPE object according to a 
+     * descriptor from the metadata service.
+     * 
+     * @param string $name name of the attribute.
+     * @param boolean $required Requirement (mandatory) of the attribute.
+     * @param boolean $multiple Cardinality (multiple) of the attribute.
+     * @return Attribute
      */
-    private function setupAttribute($name)
+    public function setupAttribute($name, $required = Attribute::OPTIONAL, $multiple = Attribute::MULTIPLE)
     {
-        if (!isset($this->attributes[$name])) {
-            $this->create($name, Attribute::OPTIONAL, Attribute::MULTIPLE);
-        }
+        $this->create($name, $required, $multiple);
+
         return $this->attributes[$name];
     }
 }
