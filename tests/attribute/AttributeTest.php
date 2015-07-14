@@ -188,7 +188,9 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testSingleAttributeConvertsToArray()
 	{
-		$array = [['name' => 'foo', 'value' => 'bar']];
+		$array = [
+			['name' => 'foo', 'value' => 'bar']
+		];
 
 		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
 		$attr->setValue('bar');

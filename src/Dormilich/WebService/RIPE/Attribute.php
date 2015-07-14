@@ -114,9 +114,11 @@ class Attribute implements AttributeInterface
         if (count($this->value) === 0) {
             return null;
         }
+
         if (!$this->multiple) {
             return $this->value[0];
         }
+
         return $this->value;
     }
 
@@ -150,9 +152,11 @@ class Attribute implements AttributeInterface
             $this->value = (array) $this->getStringValue($value);
             return $this;
         }
+
         foreach ((array) $value as $v) {
             $this->value[] = $this->getStringValue($v);
         }
+ 
         return $this;
     }
 
