@@ -82,6 +82,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedExceptionMessageRegExp # \[foo\] #
 	 */
 	public function testAttributeDoesNotAcceptNullValue()
 	{
@@ -91,6 +92,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedExceptionMessageRegExp # \[foo\] #
 	 */
 	public function testAttributeDoesNotAcceptResource()
 	{
@@ -100,6 +102,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedExceptionMessageRegExp # \[foo\] #
 	 */
 	public function testAttributeDoesNotAcceptObject()
 	{

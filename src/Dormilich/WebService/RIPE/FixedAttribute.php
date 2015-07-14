@@ -12,7 +12,7 @@ class FixedAttribute extends Attribute
      * 
      * @param string $name Attribute name.
      * @param boolean $mandatory If the attribute is mandatory/required.
-     * @param array $allowedValues Possible values for the attribute.
+     * @param array $allowedValues Possible string values for the attribute.
      * @return self
      */
     public function __construct($name, $mandatory, array $allowedValues)
@@ -26,7 +26,7 @@ class FixedAttribute extends Attribute
      * 
      * @param mixed $value Attribute value.
      * @return string Validated string value.
-     * @throws UnexpectedValueException Value not allowed.
+     * @throws InvalidValueException Value not allowed.
      */
     protected function getStringValue($value)
     {
@@ -34,7 +34,7 @@ class FixedAttribute extends Attribute
 
         if (!in_array($value, $this->values, true)) {
             $msg = sprintf('Value "%s" is not allowed for the [%s] attribute.', $value, $this->name);
-            throw new \UnexpectedValueException($msg);
+            throw new InvalidValueException($msg);
         }
         return $value;
     }
