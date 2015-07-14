@@ -20,25 +20,25 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
      * The type of the object as found in the WHOIS response object’s 'type' parameter.
      * @var string
      */
-    private $type        = NULL;
+    private $type       = NULL;
 
     /**
      * The primary lookup key of the object.
      * @var string
      */
-    private $primaryKey  = NULL;
+    private $primaryKey = NULL;
 
     /**
      * Name-indexed array of attributes.
      * @var array 
      */
-    protected $attributes = [];
+    private $attributes = [];
 
     /**
      * Name-indexed array of auto-generated attributes, which must not be set by the user.
      * @var array 
      */
-    protected $generated  = [];
+    private $generated  = [];
 
     /**
      * Define the attributes for this object according to the RIPE DB docs.

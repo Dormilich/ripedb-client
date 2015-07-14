@@ -60,47 +60,17 @@ class Dummy extends Object
     /**
      * Get an attribute. If it doesn’t exist, create it on-the-fly.
      * 
-     * @param type $name 
-     * @return type
+     * @param string $name Name of the candidate attribute.
+     * @return Attribute
      */
-    protected function findAttribute($name)
+    public function getAttribute($name)
     {
         try {
-            return $this->getAttribute($name);
+            return parent::getAttribute($name);
         }
         catch (\Exception $exc) {
             return $this->setupAttribute($name);
         }
-    }
-
-    /**
-     * Set an attribute’s value(s). If an attribute does not exist yet, 
-     * it is created with the optional and multiple flag beforehand. 
-     * 
-     * @param string $name Attribute name.
-     * @param mixed $value Attibute value(s).
-     * @return self
-     */
-    public function setAttribute($name, $value)
-    {
-        $this->findAttribute((string) $name)->setValue($value);
-
-        return $this;
-    }
-
-    /**
-     * Add a value to an attribute. If an attribute does not exist yet, 
-     * it is created with the optional and multiple flag beforehand. 
-     * 
-     * @param string $name Attribute name.
-     * @param mixed $value Attibute value(s).
-     * @return self
-     */
-    public function addAttribute($name, $value)
-    {
-        $this->findAttribute((string) $name)->addValue($value);
-
-        return $this;
     }
 
     /**
@@ -119,6 +89,7 @@ class Dummy extends Object
     {
         $this->create($name, $required, $multiple);
 
-        return $this->attributes[$name];
+        // to make sure we’re not caught in a loop
+        return parent::getAttribute($name);
     }
 }
