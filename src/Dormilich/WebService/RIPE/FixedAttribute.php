@@ -33,7 +33,7 @@ class FixedAttribute extends Attribute
         $value = parent::getStringValue($value);
 
         if (!in_array($value, $this->values, true)) {
-            $msg = sprintf('Value "%" is not allowed for the [%s] attribute.', $value, $this->name);
+            $msg = sprintf('Value "%s" is not allowed for the [%s] attribute.', $value, $this->name);
             throw new \UnexpectedValueException($msg);
         }
         return $value;
