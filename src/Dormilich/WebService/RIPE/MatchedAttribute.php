@@ -54,7 +54,7 @@ class MatchedAttribute extends Attribute
      * 
      * @param mixed $value Attribute value.
      * @return string Validated string value.
-     * @throws UnexpectedValueException Value does not match pattern.
+     * @throws InvalidValueException Value does not match pattern.
      */
     protected function getStringValue($value)
     {
@@ -62,7 +62,7 @@ class MatchedAttribute extends Attribute
 
         if (!preg_match($this->regexp, $value)) {
             $msg = sprintf('Invalid value for the [%s] attribute.', $this->name);
-            throw new \UnexpectedValueException($msg);
+            throw new InvalidValueException($msg);
         }
         return $value;
     }
