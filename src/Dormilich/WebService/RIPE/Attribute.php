@@ -166,9 +166,16 @@ class Attribute implements AttributeInterface
      */
     protected function getStringValue($value)
     {
-        if (is_scalar($value) or (is_object($value) and method_exists($value, '__toString'))) {
+        if (true === $value) {
+            return 'true';
+        }
+        elseif (false === $value) {
+            return 'false';
+        }
+        elseif (is_scalar($value) or (is_object($value) and method_exists($value, '__toString'))) {
             return (string) $value;
         }
+
         $msg = sprintf('The [%s] attribute does not allow the %s data type.', $this->name, gettype($value));
         throw new InvalidDataTypeException($msg);
     }

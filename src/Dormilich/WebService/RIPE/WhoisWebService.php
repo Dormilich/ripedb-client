@@ -185,7 +185,7 @@ class WhoisWebService extends WebService
     }
 
     /**
-     * Create a RIPE object according to the .
+     * Create a RIPE object according to the current definitions in the RIPE DB.
      * 
      * @param string|Object $name Either a RIPE object or a RIPE object type.
      * @return Object The RIPE object from the latest definitions.
