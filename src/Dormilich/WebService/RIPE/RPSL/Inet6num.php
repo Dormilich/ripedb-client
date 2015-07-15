@@ -40,12 +40,10 @@ class Inet6num extends Object
         $this->generated('sponsoring-org');
         $this->create('admin-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);
-
-        $this->attributes['status'] = new FixedAttribute('status', Attribute::REQUIRED, [
+        $this->fixed('status',       Attribute::REQUIRED, [
             'ALLOCATED-BY-RIR', 'ALLOCATED-BY-LIR', 'AGGREGATED-BY-LIR', 
             'ASSIGNED',         'ASSIGNED PI',      'ASSIGNED ANYCAST', 
         ]);
-
         // this attribute is required if the status is set to 'AGGREGATED-BY-LIR'
         $this->create('assignment-size', Attribute::OPTIONAL, Attribute::SINGLE);
         $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);

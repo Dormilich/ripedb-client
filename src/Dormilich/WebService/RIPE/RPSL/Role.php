@@ -5,7 +5,6 @@ namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\Attribute;
-use Dormilich\WebService\RIPE\MatchedAttribute;
 
 class Role extends Object
 {

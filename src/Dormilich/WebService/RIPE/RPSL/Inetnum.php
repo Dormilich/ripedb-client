@@ -40,14 +40,12 @@ class Inetnum extends Object
         $this->generated('sponsoring-org');
         $this->create('admin-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
         $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);
-
-        $this->attributes['status'] = new FixedAttribute('status', Attribute::REQUIRED, [
+        $this->fixed('status',       Attribute::REQUIRED, [
             'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',        'ALLOCATED PI', 
             'LIR-PARTITIONED PA',    'LIR-PARTITIONED PI',  'SUB-ALLOCATED PA', 
             'ASSIGNED PA',           'ASSIGNED PI',         'ASSIGNED ANYCAST', 
             'LEGACY',                'NOT_SET', 
         ]);
-
         $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('notify',      Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('mnt-by',      Attribute::REQUIRED, Attribute::MULTIPLE);

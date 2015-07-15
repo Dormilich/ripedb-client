@@ -31,12 +31,10 @@ class Organisation extends Object
     protected function init()
     {
         $this->create('organisation', Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('org-name', Attribute::REQUIRED, Attribute::SINGLE);
-
-        $this->attributes['org-type'] = new FixedAttribute('org-type', Attribute::REQUIRED, [
+        $this->create('org-name',     Attribute::REQUIRED, Attribute::SINGLE);
+        $this->fixed('org-type',      Attribute::REQUIRED, [
             'IANA', 'RIR', 'NIR', 'LIR', 'WHITEPAGES', 'DIRECT ASSIGNMENT', 'OTHER', 
         ]);
-
         $this->create('descr',    Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('remarks',  Attribute::OPTIONAL, Attribute::MULTIPLE);
         $this->create('address',  Attribute::REQUIRED, Attribute::MULTIPLE);

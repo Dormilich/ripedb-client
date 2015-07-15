@@ -138,6 +138,38 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
     }
 
     /**
+     * Shortcut for creating an attribute with fixed values. Fixed attributes 
+     * are usually single value attributes.
+     * 
+     * @param string $name Name of the attribute.
+     * @param boolean $required If the attribute is mandatory.
+     * @param array $constraint A string list of the allowed values.
+     * @return void
+     */
+    protected function fixed($name, $required, array $constraint)
+    {
+        $this->attributes[$name] = new FixedAttribute($name, $required, $constraint);
+    }
+
+    /**
+     * Shortcut for creating an attribute with values matching a given regular 
+     * expression. Fixed attributes are usually single value attributes.
+     * 
+     * @param string $name Name of the attribute.
+     * @param boolean $required If the attribute is mandatory.
+     * @param string $constraint A RegExp the values have to fulfill.
+     * @return void
+     * @throws InvalidAttributeException RegExp is invalid.
+     */
+    protected function matched($name, $required, $constraint)
+    {
+        if (preg_match($constraint, '') === FALSE) {
+            throw new InvalidAttributeException('Invalid regular expression.', preg_last_error());
+        }
+        $this->attributes[$name] = new FixedAttribute($name, $required, $constraint);
+    }
+
+    /**
      * Get an attribute specified by name.
      * 
      * @param string $name Name of the attribute.
