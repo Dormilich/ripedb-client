@@ -166,7 +166,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
         if (preg_match($constraint, '') === FALSE) {
             throw new InvalidAttributeException('Invalid regular expression.', preg_last_error());
         }
-        $this->attributes[$name] = new FixedAttribute($name, $required, $constraint);
+        $this->attributes[$name] = new MatchedAttribute($name, $required, $constraint);
     }
 
     /**
@@ -338,7 +338,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
     public function offsetUnset($offset)
     {
         if (isset($this->attributes[$offset])) {
-            $this->setAttribute($offset, []);
+            $this->setAttribute($offset, NULL);
         }
     }
 

@@ -139,8 +139,10 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Add value(s) to the attribute. If the attribute does not allow multiple values
-     * the value is replaced instead. The value(s) must be stringifiable.
+     * Add value(s) to the attribute. If the attribute does not allow multiple 
+     * values the value is replaced instead. The value(s) must be stringifiable.
+     * If NULL is passed, execution is skipped. That is, `setValue(NULL)` will 
+     * reset the Attribute while `addValue(NULL)` has no effect.
      * 
      * @param mixed $value A string or stringifyable object or an array thereof.
      * @return self
@@ -148,6 +150,10 @@ class Attribute implements AttributeInterface
      */
     public function addValue($value)
     {
+        if (NULL === $value) {
+            return $this;
+        }
+
         if (!$this->multiple) {
             $this->value = (array) $this->getStringValue($value);
             return $this;
@@ -173,10 +179,10 @@ class Attribute implements AttributeInterface
         if (true === $value) {
             return 'true';
         }
-        elseif (false === $value) {
+        if (false === $value) {
             return 'false';
         }
-        elseif (is_scalar($value) or (is_object($value) and method_exists($value, '__toString'))) {
+        if (is_scalar($value) or (is_object($value) and method_exists($value, '__toString'))) {
             return (string) $value;
         }
 

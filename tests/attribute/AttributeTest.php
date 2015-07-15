@@ -80,14 +80,12 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame('false', $attr->getValue());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
-	 * @expectedExceptionMessageRegExp # \[foo\] #
-	 */
-	public function testAttributeDoesNotAcceptNullValue()
+	public function testNullResetsAttributeValue()
 	{
 		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr->setValue('foo');
 		$attr->setValue(NULL);
+		$this->assertFalse($attr->isDefined());
 	}
 
 	/**
