@@ -1,6 +1,6 @@
 <?php
 
-use Dormilich\WebService\RIPE\Attribute as A;
+use Dormilich\WebService\RIPE\AttributeInterface as A;
 use Dormilich\WebService\RIPE\Object;
 
 class TestObject extends Object
@@ -27,10 +27,13 @@ class TestObject extends Object
 
 class ObjectTest extends PHPUnit_Framework_TestCase
 {
-	public function testObjectIsTraversable()
+	// testing the ObjectInterface implementation (1)
+	// these tests don’t need an attribute value set
+
+	public function testObjectInterfaceIsImplemented()
 	{
 		$obj = new TestObject;
-		$this->assertInstanceOf('\Traversable', $obj->getIterator());
+		$this->assertInstanceOf('\Dormilich\WebService\RIPE\ObjectInterface', $obj);
 	}
 
 	public function testObjectTypeIsCorrectlySet()
@@ -66,25 +69,21 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$obj->getAttribute('12345');
 	}
 
-	public function testSetAttributeValue()
+	public function testSetSingleAttributeValue()
 	{
 		$obj = new TestObject;
 		$obj->setAttribute('bar', 'buzz');
 		$this->assertSame('buzz', $obj->getAttribute('bar')->getValue());
 	}
 
+	// testing the ArrayAccess implementation
+	// these tests rely on getAttribute()
+
 	public function testSetAttributeValueAsArray()
 	{
 		$obj = new TestObject;
 		$obj['bar'] = 'buzz';
 		$this->assertSame('buzz', $obj->getAttribute('bar')->getValue());
-	}
-
-	public function testGetPrimaryAttributeValue()
-	{
-		$obj = new TestObject;
-		$obj['bar'] = 'buzz';
-		$this->assertSame('buzz', $obj->getPrimaryKey());
 	}
 
 	public function testGetAttributeValueAsArray()
@@ -102,6 +101,8 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($obj->getAttribute('bar')->isDefined());
 	}
 
+	// testing Countable implementation
+
 	public function testObjectIsCountable()
 	{
 		$obj = new TestObject;
@@ -111,14 +112,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(2, count($obj));
 	}
 
-	public function testObjectValidity()
-	{
-		$obj = new TestObject;
-		$this->assertFalse($obj->isValid());
-		$obj['bar'] = 'foo';
-		$obj['choice'] = 'c';
-		$this->assertTrue($obj->isValid());
-	}
+	// testing JsonSerialisable implementation
 
 	public function testObjectIsJsonSerialisable()
 	{
@@ -126,5 +120,32 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$obj['bar'] = 'foo';
 		$obj['choice'] = 'c';
 		$this->assertNotFalse(json_encode($obj));
+	}
+
+	// testing IteratorAggregate implementation
+
+	public function testObjectIsTraversable()
+	{
+		$obj = new TestObject;
+		$this->assertInstanceOf('\Traversable', $obj->getIterator());
+	}
+
+	// testing the ObjectInterface implementation (2)
+	// these tests require set attributes
+
+	public function testGetPrimaryAttributeValue()
+	{
+		$obj = new TestObject;
+		$obj['bar'] = 'buzz';
+		$this->assertSame('buzz', $obj->getPrimaryKey());
+	}
+
+	public function testObjectValidity()
+	{
+		$obj = new TestObject;
+		$this->assertFalse($obj->isValid());
+		$obj['bar'] = 'foo';
+		$obj['choice'] = 'c';
+		$this->assertTrue($obj->isValid());
 	}
 }
