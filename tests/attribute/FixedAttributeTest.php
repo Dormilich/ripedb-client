@@ -2,6 +2,7 @@
 
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\FixedAttribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class FixedAttributeTest extends PHPUnit_Framework_TestCase
 {
@@ -25,16 +26,16 @@ class FixedAttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testAttributeRequiredness()
 	{
-		$attr = new FixedAttribute('foo', Attribute::REQUIRED, []);
+		$attr = new FixedAttribute('foo', Attr::REQUIRED, []);
 		$this->assertTrue($attr->isRequired());
 
-		$attr = new FixedAttribute('foo', Attribute::OPTIONAL, []);
+		$attr = new FixedAttribute('foo', Attr::OPTIONAL, []);
 		$this->assertFalse($attr->isRequired());
 	}
 
 	public function testAttributeAcceptsDefinedValues()
 	{
-		$attr = new FixedAttribute('foo', Attribute::REQUIRED, ['a', 'b', 'c']);
+		$attr = new FixedAttribute('foo', Attr::REQUIRED, ['a', 'b', 'c']);
 
 		$attr->setValue('a');
 		$this->assertSame('a', $attr->getValue());
@@ -52,7 +53,7 @@ class FixedAttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAttributeDoesNotAcceptUndefinedValue()
 	{
-		$attr = new FixedAttribute('bar', Attribute::REQUIRED, ['a', 'b', 'c']);
+		$attr = new FixedAttribute('bar', Attr::REQUIRED, ['a', 'b', 'c']);
 		$attr->setValue('x');
 	}
 }

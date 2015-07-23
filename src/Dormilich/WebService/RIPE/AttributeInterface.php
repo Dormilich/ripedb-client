@@ -5,6 +5,14 @@ namespace Dormilich\WebService\RIPE;
 
 interface AttributeInterface
 {
+    const REQUIRED = true;
+
+    const OPTIONAL = false;
+
+    const MULTIPLE = true;
+
+    const SINGLE   = false;
+
     /**
      * Get the name of the attribute.
      * 

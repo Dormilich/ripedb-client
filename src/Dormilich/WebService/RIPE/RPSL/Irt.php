@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Irt extends Object
 {
@@ -29,27 +29,27 @@ class Irt extends Object
      */
     protected function init()
     {
-        $this->create('irt',        Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('address',    Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('phone',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('fax-no',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('e-mail',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('signature',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('encryption', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',        Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('admin-c',    Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('tech-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('auth',       Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('remarks',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('irt-nfy',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',     Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('irt',        Attr::REQUIRED, Attr::SINGLE);
+        $this->create('address',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('phone',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('fax-no',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('e-mail',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('signature',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('encryption', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',        Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('admin-c',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('tech-c',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('auth',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('remarks',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('irt-nfy',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');
         // deprecated
-        $this->generated('abuse-mailbox', Attribute::MULTIPLE);
+        $this->generated('abuse-mailbox', Attr::MULTIPLE);
     }
 }

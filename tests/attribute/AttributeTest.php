@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class StringObject
 {
@@ -39,8 +40,8 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 			[true,  true, true,  true], [true,  false, true,  false], 
 			[false, true, false, true], [false, false, false, false], 
 			[0,     1,    false, true], ['x',   NULL,  true,  false],
-			[Attribute::REQUIRED, Attribute::SINGLE,   true,  false],
-			[Attribute::OPTIONAL, Attribute::MULTIPLE, false, true],
+			[Attr::REQUIRED, Attr::SINGLE,   true,  false],
+			[Attr::OPTIONAL, Attr::MULTIPLE, false, true],
 		];
 	}
 
@@ -57,7 +58,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testAttributeConvertsInputToStrings()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 
 		$attr->setValue(1);
 		$this->assertSame('1', $attr->getValue());
@@ -82,7 +83,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testNullResetsAttributeValue()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue('foo');
 		$attr->setValue(NULL);
 		$this->assertFalse($attr->isDefined());
@@ -94,7 +95,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAttributeDoesNotAcceptResource()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(tmpfile());
 	}
 
@@ -104,13 +105,13 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAttributeDoesNotAcceptObject()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(new stdClass);
 	}
 
 	public function testSingleAttributeOnlyHasOneValue()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 
 		$attr->setValue('fizz');
 		$this->assertSame('fizz', $attr->getValue());
@@ -127,13 +128,13 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSingleAttributeDoesNotAllowArrayInput()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(['fizz', 'buzz']);
 	}
 
 	public function testMultipleAttributeReturnsList()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 
 		$attr->addValue('fizz');
 		$this->assertSame(['fizz'], $attr->getValue());
@@ -144,7 +145,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testSetValueResetsAttributeValue()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 
 		$attr->setValue('fizz');
 		$this->assertSame(['fizz'], $attr->getValue());
@@ -155,7 +156,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testMultipleAttributeAllowsStringArray()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 
 		$attr->setValue(['fizz', 'buzz']);
 		$this->assertSame(['fizz', 'buzz'], $attr->getValue());
@@ -166,7 +167,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMultipleAttributeDoesNotAllowNonScalarArray()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 		$attr->setValue([NULL]);
 	}
 
@@ -175,13 +176,13 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMultipleAttributeDoesNotAllowNestedArray()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 		$attr->setValue(['bar', [1,2,3]]);
 	}
 
 	public function testMultipleAttributeIgnoresArrayKeys()
 	{
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 
 		$attr->setValue(['fizz' => 'buzz']);
 		$this->assertSame(['buzz'], $attr->getValue());
@@ -193,7 +194,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 			['name' => 'foo', 'value' => 'bar']
 		];
 
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::SINGLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue('bar');
 
 		$this->assertSame($array, $attr->toArray());
@@ -206,7 +207,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 			['name' => 'foo', 'value' => 'baz'],
 		];
 
-		$attr = new Attribute('foo', Attribute::REQUIRED, Attribute::MULTIPLE);
+		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 		$attr->addValue('bar');
 		$attr->addValue('baz');
 

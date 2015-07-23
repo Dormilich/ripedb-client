@@ -19,7 +19,7 @@ class MatchedAttribute extends Attribute
      */
     public function __construct($name, $mandatory, $regexp)
     {
-        parent::__construct($name, $mandatory, Attribute::SINGLE);
+        parent::__construct($name, $mandatory, AttributeInterface::SINGLE);
         $this->setRegexp($regexp);
     }
 

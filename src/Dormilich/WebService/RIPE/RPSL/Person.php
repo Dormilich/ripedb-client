@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Person extends Object
 {
@@ -29,23 +29,23 @@ class Person extends Object
      */
     protected function init()
     {
-        $this->create('person',  Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('address', Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('phone',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('fax-no',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('e-mail',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',     Attribute::OPTIONAL, Attribute::MULTIPLE);
+        $this->create('person',  Attr::REQUIRED, Attr::SINGLE);
+        $this->create('address', Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('phone',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('fax-no',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('e-mail',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',     Attr::OPTIONAL, Attr::MULTIPLE);
         // auto: AUTO-1, AUTO-1{[A-Z]+}, manual: {[A-Z]+}, {[A-Z]+}-RIPE, {[A-Z]+}-{2-letter country code}
-        $this->create('nic-hdl', Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('remarks', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',  Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',  Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('nic-hdl', Attr::REQUIRED, Attr::SINGLE);
+        $this->create('remarks', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',  Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');
         // deprecated
-        $this->generated('abuse-mailbox', Attribute::MULTIPLE);
+        $this->generated('abuse-mailbox', Attr::MULTIPLE);
     }
 }

@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
  * Be aware that the 'sponsoring-org' and 'status' attributes 
@@ -33,27 +33,27 @@ class AutNum extends Object
      */
     protected function init()
     {
-        $this->create('aut-num',    Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('as-name',    Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',      Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('member-of',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('import-via', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('import',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mp-import',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('export-via', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('export',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mp-export',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('default',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('remarks',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',        Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('admin-c',    Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('tech-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('notify',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-lower',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-routes', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',     Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('aut-num',    Attr::REQUIRED, Attr::SINGLE);
+        $this->create('as-name',    Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('member-of',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('import-via', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('import',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-import',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('export-via', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('export',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-export',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('default',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('remarks',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',        Attr::REQUIRED, Attr::SINGLE);
+        $this->create('admin-c',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('tech-c',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-lower',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-routes', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('sponsoring-org');
         $this->generated('status');

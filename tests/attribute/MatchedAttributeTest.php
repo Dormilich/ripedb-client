@@ -2,6 +2,7 @@
 
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\MatchedAttribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class MatchedAttributeTest extends PHPUnit_Framework_TestCase
 {
@@ -25,22 +26,22 @@ class MatchedAttributeTest extends PHPUnit_Framework_TestCase
 
 	public function testAttributeRequiredness()
 	{
-		$attr = new MatchedAttribute('foo', Attribute::REQUIRED, '/x/');
+		$attr = new MatchedAttribute('foo', Attr::REQUIRED, '/x/');
 		$this->assertTrue($attr->isRequired());
 
-		$attr = new MatchedAttribute('foo', Attribute::OPTIONAL, '/x/');
+		$attr = new MatchedAttribute('foo', Attr::OPTIONAL, '/x/');
 		$this->assertFalse($attr->isRequired());
 	}
 
 	public function testGetRegexp()
 	{
-		$attr = new MatchedAttribute('foo', Attribute::REQUIRED, '/\bFizzBuzz\b/');
+		$attr = new MatchedAttribute('foo', Attr::REQUIRED, '/\bFizzBuzz\b/');
 		$this->assertSame('/\bFizzBuzz\b/', $attr->getRegExp());
 	}
 
 	public function testAttributeAcceptsMatchingValue()
 	{
-		$attr = new MatchedAttribute('foo', Attribute::REQUIRED, '/\bFizzBuzz\b/');
+		$attr = new MatchedAttribute('foo', Attr::REQUIRED, '/\bFizzBuzz\b/');
 
 		$attr->setValue('Hold onto the FizzBuzz!');
 		$this->assertSame('Hold onto the FizzBuzz!', $attr->getValue());
@@ -52,7 +53,7 @@ class MatchedAttributeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAttributeDoesNotAcceptUndefinedValue()
 	{
-		$attr = new MatchedAttribute('bar', Attribute::REQUIRED, '/\bFizzBuzz\b/');
+		$attr = new MatchedAttribute('bar', Attr::REQUIRED, '/\bFizzBuzz\b/');
 		$attr->setValue('get the fizz buzz');
 	}
 }

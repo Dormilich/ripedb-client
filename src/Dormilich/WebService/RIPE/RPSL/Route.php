@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Route extends Object
 {
@@ -30,26 +30,26 @@ class Route extends Object
      */
     protected function init()
     {
-        $this->create('route',        Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',        Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('origin',       Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('pingable',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('ping-hdl',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('holes',        Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',          Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('member-of',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('inject',       Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('aggr-mtd',     Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('aggr-bndry',   Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('export-comps', Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('components',   Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('remarks',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',       Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-lower',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-routes',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',       Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',       Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('route',        Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',        Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('origin',       Attr::REQUIRED, Attr::SINGLE);
+        $this->create('pingable',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('ping-hdl',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('holes',        Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',          Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('member-of',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('inject',       Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('aggr-mtd',     Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('aggr-bndry',   Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('export-comps', Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('components',   Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('remarks',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',       Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-lower',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-routes',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',       Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

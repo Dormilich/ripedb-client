@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class AsBlock extends Object
 {
@@ -29,15 +29,15 @@ class AsBlock extends Object
      */
     protected function init()
     {
-        $this->create('as-block',  Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('remarks',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',       Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-lower', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',    Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',    Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('as-block',  Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('remarks',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',       Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-lower', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',    Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

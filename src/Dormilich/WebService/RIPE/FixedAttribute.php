@@ -17,7 +17,7 @@ class FixedAttribute extends Attribute
      */
     public function __construct($name, $mandatory, array $allowedValues)
     {
-        parent::__construct($name, $mandatory, Attribute::SINGLE);
+        parent::__construct($name, $mandatory, AttributeInterface::SINGLE);
         $this->values = $allowedValues;
     }
 

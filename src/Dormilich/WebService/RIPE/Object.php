@@ -3,6 +3,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
+
 /**
  * The prototype for every RIPE object class. 
  * 
@@ -132,9 +134,9 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * @param boolean $multiple [false] If the attribute allows multiple values.
      * @return void
      */
-    protected function generated($name, $multiple = Attribute::SINGLE)
+    protected function generated($name, $multiple = Attr::SINGLE)
     {
-        $this->generated[$name]  = new Attribute($name, Attribute::OPTIONAL, $multiple);
+        $this->generated[$name]  = new Attribute($name, Attr::OPTIONAL, $multiple);
     }
 
     /**

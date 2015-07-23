@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
  * Be aware that the 'method', 'owner' and 'fingerpr' attributes 
@@ -33,19 +33,19 @@ class KeyCert extends Object
      */
     protected function init()
     {
-        $this->create('key-cert', Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('certif',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('org',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('remarks',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('admin-c',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('tech-c',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',   Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('key-cert', Attr::REQUIRED, Attr::SINGLE);
+        $this->create('certif',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('org',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('admin-c',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('tech-c',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('method');
-        $this->generated('owner', Attribute::MULTIPLE);
+        $this->generated('owner', Attr::MULTIPLE);
         $this->generated('fingerpr');
         $this->generated('created');
         $this->generated('last-modified');

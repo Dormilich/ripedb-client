@@ -4,8 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
-use Dormilich\WebService\RIPE\FixedAttribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Inetnum extends Object
 {
@@ -30,31 +29,31 @@ class Inetnum extends Object
      */
     protected function init()
     {
-        $this->create('inetnum',     Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('netname',     Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('country',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('geoloc',      Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('language',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',         Attribute::OPTIONAL, Attribute::SINGLE);
+        $this->create('inetnum',     Attr::REQUIRED, Attr::SINGLE);
+        $this->create('netname',     Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('country',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('geoloc',      Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('language',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',         Attr::OPTIONAL, Attr::SINGLE);
         $this->generated('sponsoring-org');
-        $this->create('admin-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->fixed('status',       Attribute::REQUIRED, [
+        $this->create('admin-c',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->fixed('status',       Attr::REQUIRED, [
             'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',        'ALLOCATED PI', 
             'LIR-PARTITIONED PA',    'LIR-PARTITIONED PI',  'SUB-ALLOCATED PA', 
             'ASSIGNED PA',           'ASSIGNED PI',         'ASSIGNED ANYCAST', 
             'LEGACY',                'NOT_SET', 
         ]);
-        $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',      Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('mnt-lower',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-routes',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-domains', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-irt',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('changed',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',      Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('mnt-lower',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-routes',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-domains', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-irt',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('changed',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',      Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

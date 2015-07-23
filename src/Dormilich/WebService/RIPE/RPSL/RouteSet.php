@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class RouteSet extends Object
 {
@@ -29,20 +29,20 @@ class RouteSet extends Object
      */
     protected function init()
     {
-        $this->create('route-set',   Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',       Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('members',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mp-members',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mbrs-by-ref', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('remarks',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',         Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('tech-c',      Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('admin-c',     Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('notify',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',      Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('mnt-lower',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('changed',     Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',      Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('route-set',   Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('members',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-members',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mbrs-by-ref', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',         Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('admin-c',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('notify',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('mnt-lower',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('changed',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',      Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

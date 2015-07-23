@@ -4,7 +4,7 @@
 namespace Dormilich\WebService\RIPE\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Domain extends Object
 {
@@ -29,19 +29,19 @@ class Domain extends Object
      */
     protected function init()
     {
-        $this->create('domain',   Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('descr',    Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('org',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('admin-c',  Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('tech-c',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('zone-c',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('nserver',  Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('ds-rdata', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('remarks',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('notify',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',   Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('domain',   Attr::REQUIRED, Attr::SINGLE);
+        $this->create('descr',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('org',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('admin-c',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('tech-c',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('zone-c',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('nserver',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('ds-rdata', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

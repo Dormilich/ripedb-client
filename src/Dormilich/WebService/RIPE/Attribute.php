@@ -5,14 +5,6 @@ namespace Dormilich\WebService\RIPE;
 
 class Attribute implements AttributeInterface
 {
-    const REQUIRED = true;
-
-    const OPTIONAL = false;
-
-    const MULTIPLE = true;
-
-    const SINGLE   = false;
-
     /**
      * @var string
      */

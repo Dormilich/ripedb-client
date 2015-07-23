@@ -4,8 +4,7 @@
 namespace Dormilich\WebService\RIPE\DB\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
-use Dormilich\WebService\RIPE\Attribute;
-use Dormilich\WebService\RIPE\FixedAttribute;
+use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 class Organisation extends Object
 {
@@ -30,29 +29,29 @@ class Organisation extends Object
      */
     protected function init()
     {
-        $this->create('organisation', Attribute::REQUIRED, Attribute::SINGLE);
-        $this->create('org-name',     Attribute::REQUIRED, Attribute::SINGLE);
-        $this->fixed('org-type',      Attribute::REQUIRED, [
+        $this->create('organisation', Attr::REQUIRED, Attr::SINGLE);
+        $this->create('org-name',     Attr::REQUIRED, Attr::SINGLE);
+        $this->fixed('org-type',      Attr::REQUIRED, [
             'IANA', 'RIR', 'NIR', 'LIR', 'WHITEPAGES', 'DIRECT ASSIGNMENT', 'OTHER', 
         ]);
-        $this->create('descr',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('remarks',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('address',  Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('phone',    Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('fax-no',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('e-mail',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('geoloc',   Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('language', Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('org',      Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('admin-c',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('tech-c',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('abuse-c',  Attribute::OPTIONAL, Attribute::SINGLE);
-        $this->create('ref-nfy',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-ref',  Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('notify',   Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('mnt-by',   Attribute::REQUIRED, Attribute::MULTIPLE);
-        $this->create('changed',  Attribute::OPTIONAL, Attribute::MULTIPLE);
-        $this->create('source',   Attribute::REQUIRED, Attribute::SINGLE);
+        $this->create('descr',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('address',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('phone',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('fax-no',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('e-mail',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('geoloc',   Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('language', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('org',      Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('admin-c',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('tech-c',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('abuse-c',  Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('ref-nfy',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-ref',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('changed',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');
