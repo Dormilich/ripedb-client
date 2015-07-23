@@ -85,7 +85,7 @@ abstract class WebService
     }
 
     /**
-     * Get the RIPE source variable according to the current settings.
+     * Get the RPSL source variable according to the current settings.
      * 
      * @param integer $case One of the PHP constants CASE_UPPER and CASE_LOWER. Defaults to lower-case.
      * @return string
@@ -101,7 +101,7 @@ abstract class WebService
     }
 
     /**
-     * Parse the received response into RIPE objects.
+     * Parse the received response into RPSL objects.
      * 
      * @param array $data The 
      * @return boolean
@@ -122,9 +122,9 @@ abstract class WebService
     }
 
     /**
-     * Get the RIPE object returned from the request.
+     * Get the RPSL object returned from the request.
      * 
-     * @return Object|false
+     * @return ObjectInterface|false
      */
     public function getResult()
     {
@@ -132,9 +132,9 @@ abstract class WebService
     }
 
     /**
-     * Get all the RIPE objects returned from the request.
+     * Get all the RPSL objects returned from the request.
      * 
-     * @return Object|false
+     * @return ObjectInterface|false
      */
     public function getAllResults()
     {
@@ -142,10 +142,10 @@ abstract class WebService
     }
 
     /**
-     * Convert the JSON response into a RIPE object.
+     * Convert the JSON response into a RPSL object.
      * 
      * @param array $item The "object" array from the the response.
-     * @return Object
+     * @return ObjectInterface
      */
     protected function createObject($item)
     {
@@ -169,24 +169,24 @@ abstract class WebService
         }
 
         foreach ($item['attributes']['attribute'] as $value) {
-            $object->addAttribute($value['name'], $value['value']);
+            $object->getAttribute($value['name'])->addValue($value['value']);
         }
 
         return $object;
     }
 
     /**
-     * Convert the RIPE objects into its JSON representation.
+     * Convert the RPSL objects into its JSON representation.
      * 
-     * @param Object $object RIPE object.
+     * @param ObjectInterface $object RPSL object.
      * @return string
      */
-    public function createJSON(Object $object)
+    public function createJSON(ObjectInterface $object)
     {
-        $object->setAttribute('source', $this->getSource(\CASE_UPPER));
+        $object->getAttribute('source')->addValue( $this->getSource(\CASE_UPPER) );
 
         // otherwise the intended exception won’t make it through
-        return json_encode($object->jsonSerialize());
+        return json_encode($object->toArray());
     }
 
     /**
@@ -194,10 +194,10 @@ abstract class WebService
      * 
      * @param string $type An HTTP verb.
      * @param string $path The path identifying the RIPE DB object.
-     * @param Object $object RIPE object.
+     * @param ObjectInterface $object RPSL object.
      * @return void
      */
-    abstract protected function send($type, $path, Object $object = NULL);
+    abstract protected function send($type, $path, ObjectInterface $object = NULL);
 
     /**
      * Method to read the error messages from a failed request. 

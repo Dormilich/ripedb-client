@@ -14,7 +14,7 @@ namespace Dormilich\WebService\RIPE;
  * A child class should
  *  - set the primary key on instantiation
  */
-abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
+abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * The type of the object as found in the WHOIS response object’s 'type' parameter.
@@ -241,18 +241,71 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
     /**
      * Convert object to a RIPE REST JSON compatible array.
      * 
-     * @return type
+     * @return array
      */
     public function toArray()
     {
         return [
-            "source" => [
-                "id" => $this->getAttribute('source')->getValue(), 
-            ],
-            "attributes" => [
-                "attribute" => $this->getAttributes(), 
+            "objects" => [
+                "object" => [
+                    "source" => [
+                        "id" => $this->getAttribute('source')->getValue(), 
+                    ],
+                    "attributes" => [
+                        "attribute" => $this->getAttributes(), 
+                    ], 
+                ], 
             ], 
         ];
+    }
+
+    /**
+     * Add attribute nodes containing the name-value pairs.
+     * 
+     * @param SimpleXMLElement $node The <attributes> element.
+     * @return SimpleXMLElement $node The <attributes> element containing the 
+     *          attribute values.
+     * @throws IncompleteRIPEObjectException A required attribute is empty.
+     */
+    protected function addXMLAttributes(\SimpleXMLElement $node)
+    {
+        foreach ($this->attributes as $name => $attr) {
+            if ($attr->isRequired() and !$attr->isDefined()) {
+                throw new IncompleteRIPEObjectException('Required attribute ' . $attr->getName() . ' is not set.');
+            }
+            if ($attr->isDefined()) {
+                $name = $attr->getName();
+                foreach ((array) $attr->getValue() as $value) {
+                    $attribute = $node->addChild('attribute');
+                    $attribute->addAttribute('name',  $name);
+                    $attribute->addAttribute('value', $value);
+                }
+            }
+        }
+        return $node;
+    }
+
+    /**
+     * Convert object to a SimpleXML object.
+     * 
+     * @return SimpleXMLElement
+     * @throws IncompleteRIPEObjectException A required attribute is empty.
+     */
+    public function toXML()
+    {
+        $xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'
+             . '<whois-resources></whois-resources>';
+
+        $root    = new \SimpleXMLElement($xml);
+        $objects = $root->addChild('objects');
+        $object  = $objects->addChild('object');
+
+        $object->addChild('source')->addAttribute('id', $this->getAttribute('source')->getValue());
+        $attributes = $object->addChild('attributes');
+
+        $this->addXMLAttributes($attributes);
+
+        return $root;
     }
 
     /**
@@ -268,6 +321,8 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
             $this->getPrimaryKey()
         );
 
+        // using $this because of the applied filter 
+        // (no empty attributes displayed)
         foreach ($this as $name => $attr)  {
             foreach ((array) $attr->getValue() as $value) {
                 $output .= sprintf('   %-20s %s'.\PHP_EOL, $name, $value);
@@ -284,11 +339,7 @@ abstract class Object implements \ArrayAccess, \IteratorAggregate, \Countable, \
      */
     public function jsonSerialize()
     {
-        return [
-            "objects" => [
-                "object" => [ $this->toArray() ], 
-            ], 
-        ];
+        return $this->toArray();
     }
 
     /**
