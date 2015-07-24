@@ -28,7 +28,7 @@ class WhoisWebService extends WebService
     /**
      * {@inheritDoc}
      */
-    protected function send($type, $path, Object $object = NULL)
+    protected function send($type, $path, ObjectInterface $object = NULL)
     {
         $json = $this->client->request($type, $path);
 
