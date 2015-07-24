@@ -24,12 +24,13 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectDefaultRequestParameters()
 	{
-		$client = $this->getClient('person');
+		$client = new Test\MockClient([]);
 		$ripe   = new WhoisWebService($client);
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
 
+		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
 		$this->assertEquals('/TEST/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
@@ -37,7 +38,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectCustomRequestParameters()
 	{
-		$client = $this->getClient('person');
+		$client = new Test\MockClient([]);
 		$ripe   = new WhoisWebService($client, [
 			'ssl'         => false,
 			'environment' => WebService::PRODUCTION,
@@ -46,10 +47,13 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
 
+		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('http://rest.db.ripe.net', $client->uri);
 		$this->assertEquals('/RIPE/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
 	}
+
+	// test other parameters
 
 	public function testParseReturnedSingleObject()
 	{

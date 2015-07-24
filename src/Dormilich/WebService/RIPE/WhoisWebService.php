@@ -42,7 +42,7 @@ class WhoisWebService extends WebService
      * 
      * @param Object $object RIPE Object.
      * @param array $params Additional options: unfiltered, unformatted. Default: unfiltered.
-     * @return boolean Success.
+     * @return Object The requested object.
      */
     public function read(Object $object, array $params = array('unfiltered'))
     {
@@ -66,7 +66,7 @@ class WhoisWebService extends WebService
      * 
      * @param Object $object RIPE object.
      * @param integer $version The version of this object in the RIPE DB.
-     * @return boolean Success.
+     * @return Object The requested object.
      */
     public function version(Object $object, $version)
     {
@@ -188,7 +188,7 @@ class WhoisWebService extends WebService
      * Create a RIPE object according to the current definitions in the RIPE DB.
      * 
      * @param string|Object $name Either a RIPE object or a RIPE object type.
-     * @return Object The RIPE object from the latest definitions.
+     * @return Object The RPSL object from the latest definitions.
      */
     public function getObjectFromTemplate($name)
     {
