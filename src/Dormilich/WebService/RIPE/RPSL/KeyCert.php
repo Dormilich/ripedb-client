@@ -1,7 +1,7 @@
 <?php
 // KeyCert.php
 
-namespace Dormilich\WebService\RIPE\DB\RPSL;
+namespace Dormilich\WebService\RIPE\RPSL;
 
 use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
