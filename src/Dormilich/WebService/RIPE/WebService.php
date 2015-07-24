@@ -41,7 +41,7 @@ abstract class WebService
             'environment' => self::SANDBOX,
             'password'    => 'emptypassword', // pw of the test db
         ];
-        $this->config = $defaults + $options;
+        $this->config = $options + $defaults;
     }
 
     /**

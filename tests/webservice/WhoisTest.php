@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\RPSL\Person;
+use Dormilich\WebService\RIPE\WebService;
 use Dormilich\WebService\RIPE\WhoisWebService;
 
 class WhoisTest extends PHPUnit_Framework_TestCase
@@ -31,6 +32,22 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
 		$this->assertEquals('/TEST/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testClientGetsCorrectCustomRequestParameters()
+	{
+		$client = $this->getClient('person');
+		$ripe   = new WhoisWebService($client, [
+			'ssl'         => false,
+			'environment' => WebService::PRODUCTION,
+		]);
+
+		$person = new Person('FOO-TEST');
+		$ripe->read($person);
+
+		$this->assertEquals('http://rest.db.ripe.net', $client->uri);
+		$this->assertEquals('/RIPE/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
 	}
 
