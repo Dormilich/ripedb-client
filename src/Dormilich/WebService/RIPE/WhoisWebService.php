@@ -51,7 +51,7 @@ class WhoisWebService extends WebService
         } else {
             $path = '/%s/%s/%s';
         }
-        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey());
+        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
 
         $this->send('GET', $path);
 
@@ -71,7 +71,7 @@ class WhoisWebService extends WebService
     public function version(Object $object, $version)
     {
         $path = '/%s/%s/%s/versions/%d?unfiltered';
-        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey(), $version);
+        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey(), $version);
 
         $this->send('GET', $path);
 
@@ -88,7 +88,7 @@ class WhoisWebService extends WebService
     public function versions(Object $object)
     {
         $path = '/%s/%s/%s/versions';
-        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey());
+        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
 
         $body = $this->client->get($path)->getBody();
         $json = json_decode($body, true);
