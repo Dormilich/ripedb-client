@@ -3,14 +3,6 @@
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class StringObject
-{
-	public function __toString()
-	{
-		return 'test';
-	}
-}
-
 class AttributeTest extends PHPUnit_Framework_TestCase
 {
 	public function testAttributeInterfaceIsImplemented()
@@ -69,7 +61,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$attr->setValue('bar');
 		$this->assertSame('bar', $attr->getValue());
 
-		$test = new StringObject;
+		$test = new Test\StringObject;
 		$attr->setValue($test);
 		$this->assertSame('test', $attr->getValue());
 
