@@ -1,0 +1,70 @@
+{"objects":{"object":[ {
+  "type" : "person",
+  "link" : {
+    "type" : "locator",
+    "href" : "http://rest.db.ripe.net/ripe/person/FOO-TEST"
+  },
+  "source" : {
+    "id" : "ripe"
+  },
+  "primary-key" : {
+    "attribute" : [ {
+      "name" : "nic-hdl",
+      "value" : "FOO-TEST"
+    } ]
+  },
+  "attributes" : {
+    "attribute" : [ {
+      "name" : "person",
+      "value" : "John Smith"
+    }, {
+      "name" : "address",
+      "value" : "Example, Ltd."
+    }, {
+      "name" : "address",
+      "value" : "Road to Mandalay 1"
+    }, {
+      "name" : "address",
+      "value" : "1234 Gareth"
+    }, {
+      "name" : "address",
+      "value" : "Aventuria"
+    }, {
+      "name" : "phone",
+      "value" : "+0 1234 123456"
+    }, {
+      "name" : "fax-no",
+      "value" : "+0 1234 123457"
+    }, {
+      "name" : "e-mail",
+      "value" : "john.smith@example.com"
+    }, {
+      "name" : "nic-hdl",
+      "value" : "FOO-TEST"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/mntner/FOO-MNT"
+      },
+      "name" : "mnt-by",
+      "value" : "FOO-MNT",
+      "referenced-type" : "mntner"
+    }, {
+      "name" : "created",
+      "value" : "1970-01-01T00:00:00Z"
+    }, {
+      "name" : "last-modified",
+      "value" : "1970-01-01T00:00:00Z"
+    }, {
+      "name" : "source",
+      "value" : "RIPE",
+      "comment" : "Filtered"
+    } ]
+  }
+} ]
+},
+"terms-and-conditions" : {
+"type" : "locator",
+"href" : "http://www.ripe.net/db/support/db-terms-conditions.pdf"
+}
+}
