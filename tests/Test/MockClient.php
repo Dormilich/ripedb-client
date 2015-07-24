@@ -4,7 +4,12 @@ namespace Test;
 
 use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
 
-class StubClient implements ClientAdapter
+/**
+ * This class is a mock object for the connection client allowing us to inspect 
+ * the parameters passed to the object. It is instantiated with the result of 
+ * the request() method.
+ */
+class MockClient implements ClientAdapter
 {
 	public $uri;
 	public $method;

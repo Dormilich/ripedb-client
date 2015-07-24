@@ -18,10 +18,23 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function getClient($name)
 	{
-		return new Test\StubClient($this->load($name));
+		return new Test\MockClient($this->load($name));
 	}
 
-	public function testReadPersonObject()
+	public function testClientGetsCorrectDefaultRequestParameters()
+	{
+		$client = $this->getClient('person');
+		$ripe   = new WhoisWebService($client);
+
+		$person = new Person('FOO-TEST');
+		$ripe->read($person);
+
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/TEST/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testParseReturnedSingleObject()
 	{
 		$client = $this->getClient('person');
 		$ripe   = new WhoisWebService($client);
