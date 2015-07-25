@@ -32,7 +32,7 @@ class Poem extends Object
         $this->create('poem',    Attr::REQUIRED, Attr::SINGLE);
         $this->create('descr',   Attr::OPTIONAL, Attr::MULTIPLE);
         // FORM-HAIKU, FORM-LIMERICK, FORM-SONNET-ENGLISH, FORM-PROSE
-        $this->matched('form',   Attr::REQUIRED, '/^FORM-/')
+        $this->matched('form',   Attr::REQUIRED, '/^FORM-/');
         $this->create('text',    Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('author',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks', Attr::OPTIONAL, Attr::MULTIPLE);

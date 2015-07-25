@@ -29,7 +29,7 @@ class PoeticForm extends Object
      */
     protected function init()
     {
-        $this->matched('poetic-form', Attr::REQUIRED, '/^FORM-/')
+        $this->matched('poetic-form', Attr::REQUIRED, '/^FORM-/');
         $this->create('descr',        Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('admin-c',      Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('remarks',      Attr::OPTIONAL, Attr::MULTIPLE);
