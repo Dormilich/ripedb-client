@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\RPSL\Person;
+use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use Dormilich\WebService\RIPE\WhoisWebService;
 
@@ -58,12 +59,26 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$client = new Test\MockClient([]);
 		$ripe   = new WhoisWebService($client);
 
-		$person = new Person('FOO-TEST');
-		$ripe->version($person, 5);
+		$ip = new Inetnum('127.0.0.1');
+		$ripe->version($ip, 5);
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/person/FOO-TEST/versions/5?unfiltered', $client->path);
+		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testClientGetsCorrectVersionsRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.1');
+		$ripe->versions($ip);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions', $client->path);
 		$this->assertNull($client->body);
 	}
 
