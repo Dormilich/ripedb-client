@@ -30,9 +30,7 @@ class WhoisWebService extends WebService
      */
     protected function send($type, $path, ObjectInterface $object = NULL)
     {
-        $json = $this->client->request($type, $path);
-
-        $this->setResult($json);
+        return $this->client->request($type, $path);
     }
 
     /**
@@ -52,8 +50,8 @@ class WhoisWebService extends WebService
             $path = '/%s/%s/%s';
         }
         $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
-
-        $this->send('GET', $path);
+        $json = $this->send('GET', $path);
+        $this->setResult($json);
 
         return $this->getResult();
     }
@@ -72,8 +70,8 @@ class WhoisWebService extends WebService
     {
         $path = '/%s/%s/%s/versions/%d?unfiltered';
         $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey(), $version);
-
-        $this->send('GET', $path);
+        $json = $this->send('GET', $path);
+        $this->setResult($json);
 
         return $this->getResult();
     }
@@ -89,14 +87,16 @@ class WhoisWebService extends WebService
     {
         $path = '/%s/%s/%s/versions';
         $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
-
-        $body = $this->client->get($path)->getBody();
-        $json = json_decode($body, true);
+        $json = $this->send('GET', $path);
 
         $versions = [];
-        foreach ($json['versions']['version'] as $version) {
-            $versions[$version['revision']] = $version['date'] . '(' . $version['operation'] . ')';
+
+        if (isset($json['versions']['version'])) {
+            foreach ($json['versions']['version'] as $version) {
+                $versions[$version['revision']] = $version['date'] . '(' . $version['operation'] . ')';
+            }
         }
+
         return $versions;
     }
 
@@ -129,7 +129,8 @@ class WhoisWebService extends WebService
             $path = '/search?' . http_build_query($params);
         }
 
-        $this->send('GET', $path);
+        $json = $this->send('GET', $path);
+        $this->setResult($json);
 
         return count($this->results);
     }
@@ -143,8 +144,7 @@ class WhoisWebService extends WebService
     public function abuseContact(Object $object)
     {
         $path = '/abuse-contact/' . $object->getPrimaryKey();
-        $body = $this->client->get($path)->getBody();
-        $json = json_decode($body, true);
+        $json = $this->send('GET', $path);
 
         if (isset($json['abuse-contacts'])) {
             return $json['abuse-contacts']['email'];
@@ -165,8 +165,7 @@ class WhoisWebService extends WebService
             throw new \UnexpectedValueException('Value is not an IP address.');
         }
         $path = '/geolocation?ipkey=' . $ip;
-        $body = $this->client->get($path)->getBody();
-        $json = json_decode($body, true);
+        $json = $this->send('GET', $path);
 
         $data = [];
 
@@ -199,8 +198,7 @@ class WhoisWebService extends WebService
             $type = strtolower($name);
         }
         $path = '/metadata/templates/' . $type;
-        $body = $this->client->get($path)->getBody();
-        $json = json_decode($body, true);
+        $json = $this->send('GET', $path);
 
         $attributes = $json['templates']['template'][1]['attributes']['attribute'];
 

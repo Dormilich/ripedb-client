@@ -103,7 +103,7 @@ abstract class WebService
     /**
      * Parse the received response into RPSL objects.
      * 
-     * @param array $data The 
+     * @param array $data The decoded data.
      * @return boolean
      */
     protected function setResult(array $data)
