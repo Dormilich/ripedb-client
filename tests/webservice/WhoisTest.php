@@ -53,9 +53,23 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($client->body);
 	}
 
+	public function testClientGetsCorrectVersionRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$person = new Person('FOO-TEST');
+		$ripe->version($person, 5);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/TEST/person/FOO-TEST/versions/5?unfiltered', $client->path);
+		$this->assertNull($client->body);
+	}
+
 	// test other parameters
 
-	public function testParseReturnedSingleObject()
+	public function testReadSingleObject()
 	{
 		$client = $this->getClient('person');
 		$ripe   = new WhoisWebService($client);
