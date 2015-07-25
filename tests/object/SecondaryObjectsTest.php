@@ -39,8 +39,8 @@ class SecondaryObjectsTest extends PHPUnit_Framework_TestCase
 
 	public function testPoeticformTypeAndKey()
 	{
-		$obj = new Role('FORM-HAIKU');
-		$this->assertEquals('role', $obj->getType());
+		$obj = new PoeticForm('FORM-HAIKU');
+		$this->assertEquals('poetic-form', $obj->getType());
 		$this->assertEquals('FORM-HAIKU', $obj->getPrimaryKey());
 	}
 
