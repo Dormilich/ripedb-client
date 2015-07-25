@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class Organisation extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create an ORGANISATION RIPE object.
      * 
      * @param string $value A letter combination appended to the Auto-ID.

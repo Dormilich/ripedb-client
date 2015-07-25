@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class InetRtr extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create a router (INET-RTR) RIPE object.
      * 
      * @param string $value The DNS name.

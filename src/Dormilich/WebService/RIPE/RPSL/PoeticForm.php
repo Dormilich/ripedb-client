@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class PoeticForm extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create a POETIC-FORM RIPE object.
      * 
      * @param string $value The name of the genre.

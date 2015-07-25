@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class Inetnum extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create a INETNUM RIPE object
      * 
      * @param string $value A range of or a single IPv4 address.

@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class Route extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create a ROUTE RIPE object.
      * 
      * @param string $value The IPv4 address prefix of the route.

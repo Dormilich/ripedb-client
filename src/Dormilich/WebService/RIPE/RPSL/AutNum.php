@@ -13,6 +13,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class AutNum extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.
      * 
      * @param string $value The ASN.

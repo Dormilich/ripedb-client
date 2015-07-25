@@ -9,6 +9,11 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 class Mntner extends Object
 {
     /**
+     * The version of the RIPE DB used for attribute definitions.
+     */
+    const VERSION = '1.80';
+
+    /**
      * Create a maintainer (MNTNER) RIPE object.
      * 
      * @param string $value Handle of the maintainer that is represented by this object.
