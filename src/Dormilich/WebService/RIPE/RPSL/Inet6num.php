@@ -11,10 +11,10 @@ class Inet6num extends Object
     /**
      * Create a INET6NUM RIPE object
      * 
-     * @param string $netnum A block of or a single IPv6 address.
+     * @param string $value A block of or a single IPv6 address.
      * @return self
      */
-    public function __construct($netnum)
+    public function __construct($value)
     {
         $this->setType('inet6num');
         $this->setKey('inet6num');

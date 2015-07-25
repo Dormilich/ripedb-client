@@ -11,10 +11,10 @@ class Inetnum extends Object
     /**
      * Create a INETNUM RIPE object
      * 
-     * @param string $netnum A range of or a single IPv4 address.
+     * @param string $value A range of or a single IPv4 address.
      * @return self
      */
-    public function __construct($netnum)
+    public function __construct($value)
     {
         $this->setType('inetnum');
         $this->setKey('inetnum');

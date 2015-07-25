@@ -11,10 +11,10 @@ class Mntner extends Object
     /**
      * Create a maintainer (MNTNER) RIPE object.
      * 
-     * @param string $mntner Handle of the maintainer that is represented by this object.
+     * @param string $value Handle of the maintainer that is represented by this object.
      * @return self
      */
-    public function __construct($mntner)
+    public function __construct($value)
     {
         $this->setType('mntner');
         $this->setKey('mntner');

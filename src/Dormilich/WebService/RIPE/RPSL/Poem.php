@@ -11,10 +11,10 @@ class Poem extends Object
     /**
      * Create a POEM RIPE object.
      * 
-     * @param string $title Title of the poem that is represented by this object.
+     * @param string $value Title of the poem that is represented by this object.
      * @return self
      */
-    public function __construct($title)
+    public function __construct($value)
     {
         $this->setType('poem');
         $this->setKey('poem');
