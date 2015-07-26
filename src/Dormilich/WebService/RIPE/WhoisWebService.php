@@ -200,7 +200,11 @@ class WhoisWebService extends WebService
         $path = '/metadata/templates/' . $type;
         $json = $this->send('GET', $path);
 
-        $attributes = $json['templates']['template'][1]['attributes']['attribute'];
+        if (!isset($json['templates']['template'])) {
+            return NULL;
+        }
+
+        $attributes = $json['templates']['template'][0]['attributes']['attribute'];
 
         $object = Object::factory($type, $attributes);
         $object['source'] = $json['templates']['template'][0]['source']['id'];

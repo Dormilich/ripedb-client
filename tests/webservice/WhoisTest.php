@@ -160,5 +160,64 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	// geolocation
 
-	// template
+	public function testClientGetsCorrectTemplateRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$poem = $ripe->getObjectFromTemplate('poem');
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/metadata/templates/poem', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testGetCorrectTemplateInfo()
+	{
+		$client = $this->getClient('template');
+		$ripe   = new WhoisWebService($client);
+
+		$poem = $ripe->getObjectFromTemplate('poem');
+
+		$this->assertEquals('poem', $poem->getType());
+		$this->assertEquals('poem', $poem->getPrimaryKeyName());
+
+		$this->assertTrue($poem->getAttribute('poem')->isRequired());
+		$this->assertFalse($poem->getAttribute('poem')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('descr')->isRequired());
+		$this->assertTrue($poem->getAttribute('descr')->isMultiple());
+
+		$this->assertTrue($poem->getAttribute('form')->isRequired());
+		$this->assertFalse($poem->getAttribute('form')->isMultiple());
+
+		$this->assertTrue($poem->getAttribute('text')->isRequired());
+		$this->assertTrue($poem->getAttribute('text')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('author')->isRequired());
+		$this->assertTrue($poem->getAttribute('author')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('remarks')->isRequired());
+		$this->assertTrue($poem->getAttribute('remarks')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('notify')->isRequired());
+		$this->assertTrue($poem->getAttribute('notify')->isMultiple());
+
+		$this->assertTrue($poem->getAttribute('mnt-by')->isRequired());
+		$this->assertFalse($poem->getAttribute('mnt-by')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('changed')->isRequired());
+		$this->assertTrue($poem->getAttribute('changed')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('created')->isRequired());
+		$this->assertFalse($poem->getAttribute('created')->isMultiple());
+
+		$this->assertFalse($poem->getAttribute('last-modified')->isRequired());
+		$this->assertFalse($poem->getAttribute('last-modified')->isMultiple());
+
+		$this->assertTrue($poem->getAttribute('source')->isRequired());
+		$this->assertFalse($poem->getAttribute('source')->isMultiple());
+		$this->assertEquals('ripe', $poem['source']);
+	}
 }
