@@ -23,6 +23,8 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		return new Test\MockClient($this->load($name));
 	}
 
+	// read
+
 	public function testClientGetsCorrectDefaultRequestParameters()
 	{
 		$client = new Test\MockClient([]);
@@ -54,37 +56,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testClientGetsCorrectVersionRequest()
-	{
-		$client = new Test\MockClient([]);
-		$ripe   = new WhoisWebService($client);
-
-		$ip = new Inetnum('127.0.0.1');
-		$ripe->version($ip, 5);
-
-		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
-		$this->assertNull($client->body);
-	}
-
-	public function testClientGetsCorrectVersionsRequest()
-	{
-		$client = new Test\MockClient([]);
-		$ripe   = new WhoisWebService($client);
-
-		$ip = new Inetnum('127.0.0.1');
-		$ripe->versions($ip);
-
-		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions', $client->path);
-		$this->assertNull($client->body);
-	}
-
-	// test other parameters
-
-	public function testReadSingleObject()
+	public function testGetReadResultObject()
 	{
 		$client = $this->getClient('person');
 		$ripe   = new WhoisWebService($client);
@@ -111,4 +83,59 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("1970-01-01T00:00:00Z", $person['last-modified']);
 		$this->assertEquals("RIPE", $person['source']);
 	}
+
+	// version
+
+	public function testClientGetsCorrectVersionRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.1');
+		$ripe->version($ip, 5);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	// versions
+
+	public function testClientGetsCorrectVersionsRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.1');
+		$ripe->versions($ip);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testGetCorrectVersionsInfo()
+	{
+		$client = $this->getClient('versions');
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.0 - 127.0.0.127');
+		$versions = $ripe->versions($ip);
+
+		$expected = [
+			'1' => '1970-01-04 09:48 (ADD/UPD)',
+			'2' => '1971-04-01 19:44 (ADD/UPD)',
+		];
+		$this->assertEquals($expected, $versions);
+	}
+
+	// search
+
+	// abuse
+
+	// geolocation
+
+	// template
 }

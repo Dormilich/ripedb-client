@@ -93,7 +93,7 @@ class WhoisWebService extends WebService
 
         if (isset($json['versions']['version'])) {
             foreach ($json['versions']['version'] as $version) {
-                $versions[$version['revision']] = $version['date'] . '(' . $version['operation'] . ')';
+                $versions[$version['revision']] = $version['date'] . ' (' . $version['operation'] . ')';
             }
         }
 
