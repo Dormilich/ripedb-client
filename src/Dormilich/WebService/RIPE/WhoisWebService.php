@@ -126,7 +126,7 @@ class WhoisWebService extends WebService
                 "source"       => $this->getSource(), 
                 "query-string" => (string) $value, 
             ]);
-            $path = '/search?' . http_build_query($params);
+            $path = '/search?' . $this->url_create($params);
         }
 
         $json = $this->send('GET', $path);

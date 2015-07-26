@@ -131,7 +131,22 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $versions);
 	}
 
-	// search
+	public function testClientGetsCorrectSearchRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$ripe->search('FOO', [
+			'type-filter' 		=> 'role', 
+			'inverse-attribute' => ['tech-c', 'admin-c'], 
+		]);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/search?type-filter=role&inverse-attribute=tech-c'.
+			'&inverse-attribute=admin-c&source=test&query-string=FOO', $client->path);
+		$this->assertNull($client->body);
+	}
 
 	public function testClientGetsCorrectAbuseRequest()
 	{

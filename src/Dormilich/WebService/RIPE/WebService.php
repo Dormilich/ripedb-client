@@ -227,4 +227,26 @@ abstract class WebService
 
         return $list;
     }
+
+    /**
+     * Transform an array into an URL query string. The query string is not 
+     * comatible to PHP (i.e. not using bracket syntax).
+     * 
+     * @param array $value The query parameters.
+     * @param string $name The retained name of the key for recursion.
+     * @return string The URL-encoded query string.
+     */
+    public function url_create(array $params, $name = NULL) {
+        array_walk($params, function (&$value, $key, $name) {
+            if (is_array($value)) {
+                $value = $this->url_create($value, $key);
+            } elseif ($name) {
+                $value = $name . '=' . urlencode($value);
+            } else {
+                $value = $key . '=' . urlencode($value);
+            }
+        }, $name);
+
+        return implode('&', $params); 
+    }
 }
