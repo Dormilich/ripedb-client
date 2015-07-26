@@ -133,7 +133,30 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	// search
 
-	// abuse
+	public function testClientGetsCorrectAbuseRequest()
+	{
+		$client = new Test\MockClient([]);
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.1');
+		$ripe->abuseContact($ip);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/abuse-contact/127.0.0.1', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testGetCorrectAbuseInfo()
+	{
+		$client = $this->getClient('abuse');
+		$ripe   = new WhoisWebService($client);
+
+		$ip = new Inetnum('127.0.0.0 - 127.0.0.127');
+		$email = $ripe->abuseContact($ip);
+
+		$this->assertEquals('abuse@example.com', $email);
+	}
 
 	// geolocation
 

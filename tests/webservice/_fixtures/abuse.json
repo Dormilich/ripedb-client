@@ -2,11 +2,11 @@
   "service" : "abuse-contact",
   "link" : {
     "type" : "locator",
-    "href" : "http://rest.db.ripe.net/abuse-contact/127.0.0.1 - 127.0.0.127"
+    "href" : "http://rest.db.ripe.net/abuse-contact/127.0.0.0 - 127.0.0.127"
   },
   "parameters" : {
     "primary-key" : {
-      "value" : "127.0.0.1 - 127.0.0.127"
+      "value" : "127.0.0.0 - 127.0.0.127"
     }
   },
   "abuse-contacts" : {
