@@ -1,0 +1,73 @@
+{
+  "link" : {
+    "type" : "locator",
+    "href" : "http://rest.db.ripe.net/metadata/templates/poem"
+  },
+  "service" : {
+    "name" : "getObjectTemplate"
+  },
+  "templates" : {
+    "template" : [ {
+      "type" : "poem",
+      "source" : {
+        "id" : "ripe"
+      },
+      "attributes" : {
+        "attribute" : [ {
+          "name" : "poem",
+          "requirement" : "MANDATORY",
+          "cardinality" : "SINGLE",
+          "keys" : [ "PRIMARY_KEY", "LOOKUP_KEY" ]
+        }, {
+          "name" : "descr",
+          "requirement" : "OPTIONAL",
+          "cardinality" : "MULTIPLE"
+        }, {
+          "name" : "form",
+          "requirement" : "MANDATORY",
+          "cardinality" : "SINGLE",
+          "keys" : [ "INVERSE_KEY" ]
+        }, {
+          "name" : "text",
+          "requirement" : "MANDATORY",
+          "cardinality" : "MULTIPLE"
+        }, {
+          "name" : "author",
+          "requirement" : "OPTIONAL",
+          "cardinality" : "MULTIPLE",
+          "keys" : [ "INVERSE_KEY" ]
+        }, {
+          "name" : "remarks",
+          "requirement" : "OPTIONAL",
+          "cardinality" : "MULTIPLE"
+        }, {
+          "name" : "notify",
+          "requirement" : "OPTIONAL",
+          "cardinality" : "MULTIPLE",
+          "keys" : [ "INVERSE_KEY" ]
+        }, {
+          "name" : "mnt-by",
+          "requirement" : "MANDATORY",
+          "cardinality" : "SINGLE",
+          "keys" : [ "INVERSE_KEY" ]
+        }, {
+          "name" : "changed",
+          "requirement" : "OPTIONAL",
+          "cardinality" : "MULTIPLE"
+        }, {
+          "name" : "created",
+          "requirement" : "GENERATED",
+          "cardinality" : "SINGLE"
+        }, {
+          "name" : "last-modified",
+          "requirement" : "GENERATED",
+          "cardinality" : "SINGLE"
+        }, {
+          "name" : "source",
+          "requirement" : "MANDATORY",
+          "cardinality" : "SINGLE"
+        } ]
+      }
+    } ]
+  }
+}
