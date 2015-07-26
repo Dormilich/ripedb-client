@@ -1,0 +1,99 @@
+{"objects":{"object":[ {
+  "type" : "inetnum",
+  "link" : {
+    "type" : "locator",
+    "href" : "http://rest.db.ripe.net/ripe/inetnum/127.0.0.1 - 127.0.0.127"
+  },
+  "source" : {
+    "id" : "ripe"
+  },
+  "primary-key" : {
+    "attribute" : [ {
+      "name" : "inetnum",
+      "value" : "127.0.0.1 - 127.0.0.127"
+    } ]
+  },
+  "attributes" : {
+    "attribute" : [ {
+      "name" : "inetnum",
+      "value" : "127.0.0.1 - 127.0.0.127"
+    }, {
+      "name" : "netname",
+      "value" : "EXAMPLE-COM"
+    }, {
+      "name" : "descr",
+      "value" : "LOCAL-NETWORK-RANGE"
+    }, {
+      "name" : "country",
+      "value" : "AV"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/role/ADMIN-RIPE"
+      },
+      "name" : "admin-c",
+      "value" : "ADMIN-RIPE",
+      "referenced-type" : "role"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/role/TECH-RIPE"
+      },
+      "name" : "tech-c",
+      "value" : "TECH-RIPE",
+      "referenced-type" : "role"
+    }, {
+      "name" : "status",
+      "value" : "ASSIGNED PA"
+    }, {
+      "name" : "remarks",
+      "value" : "this is a made up address range for testing purposes"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/mntner/TEST-MNT"
+      },
+      "name" : "mnt-by",
+      "value" : "TEST-MNT",
+      "referenced-type" : "mntner"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/mntner/TEST-MNT"
+      },
+      "name" : "mnt-lower",
+      "value" : "TEST-MNT",
+      "referenced-type" : "mntner"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/mntner/TEST-MNT"
+      },
+      "name" : "mnt-routes",
+      "value" : "TEST-MNT",
+      "referenced-type" : "mntner"
+    }, {
+      "name" : "created",
+      "value" : "1970-01-02T08:48:19Z"
+    }, {
+      "name" : "last-modified",
+      "value" : "1970-04-01T18:44:45Z"
+    }, {
+      "name" : "source",
+      "value" : "RIPE",
+      "comment" : "Filtered"
+    } ]
+  },
+  "tags" : {
+    "tag" : [ {
+      "id" : "RIPE-USER-RESOURCE",
+      "data" : null
+    } ]
+  }
+} ]
+},
+"terms-and-conditions" : {
+"type" : "locator",
+"href" : "http://www.ripe.net/db/support/db-terms-conditions.pdf"
+}
+}
