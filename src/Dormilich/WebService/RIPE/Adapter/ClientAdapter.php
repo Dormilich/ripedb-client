@@ -18,8 +18,7 @@ interface ClientAdapter
      * @param string $method HTTP method.
      * @param string $path Request path.
      * @param string $body Request body.
-     * @param array $options Additional request options.
      * @return array JSON parsed response body.
      */
-    public function request($method, $path, $body = NULL, array $options = array());
+    public function request($method, $path, $body = NULL);
 }

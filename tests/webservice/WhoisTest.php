@@ -35,7 +35,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertEquals('/test/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
 	}
 
@@ -52,7 +52,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('http://rest.db.ripe.net', $client->uri);
-		$this->assertEquals('/RIPE/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertEquals('/ripe/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
 	}
 
@@ -96,7 +96,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
+		$this->assertEquals('/test/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
 		$this->assertNull($client->body);
 	}
 
@@ -112,7 +112,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/TEST/inetnum/127.0.0.1/versions', $client->path);
+		$this->assertEquals('/test/inetnum/127.0.0.1/versions', $client->path);
 		$this->assertNull($client->body);
 	}
 
@@ -131,6 +131,8 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $versions);
 	}
 
+	// search
+
 	public function testClientGetsCorrectSearchRequest()
 	{
 		$client = new Test\MockClient([]);
@@ -147,6 +149,8 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 			'&inverse-attribute=admin-c&source=test&query-string=FOO', $client->path);
 		$this->assertNull($client->body);
 	}
+
+	// abuse
 
 	public function testClientGetsCorrectAbuseRequest()
 	{
@@ -174,6 +178,8 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	}
 
 	// geolocation
+
+	// template
 
 	public function testClientGetsCorrectTemplateRequest()
 	{

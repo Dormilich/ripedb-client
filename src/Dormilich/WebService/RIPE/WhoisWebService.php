@@ -26,7 +26,12 @@ class WhoisWebService extends WebService
     }
 
     /**
-     * {@inheritDoc}
+     * Make a query to the RIPE DB and parse the response.
+     * 
+     * @param string $type An HTTP verb.
+     * @param string $path The path identifying the RIPE DB object.
+     * @param ObjectInterface $object RPSL object.
+     * @return JSON decoded response body
      */
     protected function send($type, $path, ObjectInterface $object = NULL)
     {
@@ -49,7 +54,7 @@ class WhoisWebService extends WebService
         } else {
             $path = '/%s/%s/%s';
         }
-        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
+        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey());
         $json = $this->send('GET', $path);
         $this->setResult($json);
 
@@ -69,7 +74,7 @@ class WhoisWebService extends WebService
     public function version(Object $object, $version)
     {
         $path = '/%s/%s/%s/versions/%d?unfiltered';
-        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey(), $version);
+        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey(), $version);
         $json = $this->send('GET', $path);
         $this->setResult($json);
 
@@ -86,7 +91,7 @@ class WhoisWebService extends WebService
     public function versions(Object $object)
     {
         $path = '/%s/%s/%s/versions';
-        $path = sprintf($path, $this->getSource(\CASE_UPPER), $object->getType(), $object->getPrimaryKey());
+        $path = sprintf($path, $this->getSource(), $object->getType(), $object->getPrimaryKey());
         $json = $this->send('GET', $path);
 
         $versions = [];
@@ -126,7 +131,7 @@ class WhoisWebService extends WebService
                 "source"       => $this->getSource(), 
                 "query-string" => (string) $value, 
             ]);
-            $path = '/search?' . $this->url_create($params);
+            $path = '/search?' . $this->createQueryString($params);
         }
 
         $json = $this->send('GET', $path);

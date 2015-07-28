@@ -2,6 +2,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
+
 class RegWebService extends WhoisWebService
 {
     /**
@@ -24,21 +26,29 @@ class RegWebService extends WhoisWebService
     }
 
     /**
-     * {@inheritDoc}
+     * Make a query to the RIPE DB and parse the response.
+     * 
+     * @param string $type An HTTP verb.
+     * @param string $path The path identifying the RIPE DB object.
+     * @param ObjectInterface $object RPSL object.
+     * @return ObjectInterface Response RPSL object.
      */
-    protected function send($type, $path, Object $object = NULL)
+    protected function send($type, $path, ObjectInterface $object = NULL)
     {
         if (NULL === $object) {
-            return parent::send($type, $path);
+            $body = NULL;
+        } 
+        else {
+            $body = $this->createJSON($object);
         }
 
-        $json = $this->client->request($type, $path, $this->createJSON($object), [
-            'query' => [
-                'password' => $this->getPassword(), 
-            ],
-        ]);
+        $path .= '?' . http_build_query(['password' => $this->getPassword()]);
+
+        $json = $this->client->request($type, $path, $body);
 
         $this->setResult($json);
+
+        return $json;
     }
 
     /**
@@ -51,7 +61,7 @@ class RegWebService extends WhoisWebService
     {
         $path = sprintf('/%s/%s', $this->getSource(), $object->getType());
 
-        $this->send('POST', $path, ['body' => $this->createJSON($object)]);
+        $this->send('POST', $path, $object);
 
         return $this->getResult();
     }
@@ -69,7 +79,7 @@ class RegWebService extends WhoisWebService
             $this->getSource(), $object->getType(), $object->getPrimaryKey()
         );
 
-        $this->send('PUT', $path, ['body' => $this->createJSON($object)]);
+        $this->send('PUT', $path, $object);
 
         return $this->getResult();
     }
@@ -89,7 +99,7 @@ class RegWebService extends WhoisWebService
             $this->getSource(), $object->getType(), $object->getPrimaryKey()
         );
 
-        $this->send('DELETE', $path, $object);
+        $this->send('DELETE', $path);
 
         return $this->getResult();
     }

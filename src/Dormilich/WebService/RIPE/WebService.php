@@ -195,7 +195,7 @@ abstract class WebService
      * @param string $type An HTTP verb.
      * @param string $path The path identifying the RIPE DB object.
      * @param ObjectInterface $object RPSL object.
-     * @return void
+     * @return mixed Response data.
      */
     abstract protected function send($type, $path, ObjectInterface $object = NULL);
 
@@ -236,10 +236,10 @@ abstract class WebService
      * @param string $name The retained name of the key for recursion.
      * @return string The URL-encoded query string.
      */
-    public function url_create(array $params, $name = NULL) {
+    public function createQueryString(array $params, $name = NULL) {
         array_walk($params, function (&$value, $key, $name) {
             if (is_array($value)) {
-                $value = $this->url_create($value, $key);
+                $value = $this->createQueryString($value, $key);
             } elseif ($name) {
                 $value = $name . '=' . urlencode($value);
             } else {
