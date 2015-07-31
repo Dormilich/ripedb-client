@@ -169,7 +169,14 @@ abstract class WebService
         }
 
         foreach ($item['attributes']['attribute'] as $value) {
-            $object->getAttribute($value['name'])->addValue($value['value']);
+            try {
+                // skip over attributes that are present in the response but do 
+                // not conform to the current definitions
+                $object->getAttribute($value['name'])->addValue($value['value']);
+            }
+            catch (\Exception $e) {
+                continue;
+            }
         }
 
         return $object;

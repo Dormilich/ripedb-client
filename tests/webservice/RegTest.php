@@ -1,6 +1,6 @@
 <?php
 
-use Dormilich\WebService\RIPE\RPSL\Person;
+use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use Dormilich\WebService\RIPE\RegWebService;
@@ -26,6 +26,28 @@ class RegTest extends PHPUnit_Framework_TestCase
 	public function getClient($name = NULL)
 	{
 		return new Test\MockClient($this->load($name));
+	}
+
+	public function testConvertResponse()
+	{
+		$client = $this->getClient('haiku');
+		$ripe   = new RegWebService($client);
+
+		$haiku  = new Poem('POEM-HAIKU-OBJECT');
+		$haiku['form'] = 'FORM-HAIKU';
+		$haiku['text'] = '...';
+		$haiku['mnt-by'] = 'CROSSLINE-MNT';
+		$haiku  = $ripe->create($haiku);
+
+		$this->assertEquals('POEM-HAIKU-OBJECT', $haiku['poem']);
+		$this->assertEquals('FORM-HAIKU', $haiku['form']);
+		$this->assertEquals('CROSSLINE-MNT', $haiku['mnt-by']);
+		$this->assertEquals([
+			"The haiku object", "Never came to life as such", "It's now generic"
+		], $haiku['text']);
+		$this->assertEquals(['RSP-RIPE'], $haiku['author']);
+		$this->assertEquals('2005-06-14T11:27:26Z', $haiku['created']);
+		$this->assertEquals('2005-06-14T14:38:27Z', $haiku['last-modified']);
 	}
 
 	// create
@@ -71,12 +93,12 @@ class RegTest extends PHPUnit_Framework_TestCase
 		$client = $this->getClient();
 		$ripe   = new RegWebService($client);
 
-		$person = new Person('FOO');
+		$person = new RegObject('FOO');
 		$ripe->delete($person);
 
 		$this->assertEquals('DELETE', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/test/person/FOO?password=emptypassword', $client->path);
+		$this->assertEquals('/test/register/FOO?password=emptypassword', $client->path);
 		$this->assertNull($client->body);
 	}
 }

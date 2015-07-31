@@ -1,0 +1,91 @@
+{"objects":{"object":[ {
+  "type" : "poem",
+  "link" : {
+    "type" : "locator",
+    "href" : "http://rest.db.ripe.net/ripe/poem/POEM-HAIKU-OBJECT"
+  },
+  "source" : {
+    "id" : "ripe"
+  },
+  "primary-key" : {
+    "attribute" : [ {
+      "name" : "poem",
+      "value" : "POEM-HAIKU-OBJECT"
+    } ]
+  },
+  "attributes" : {
+    "attribute" : [ {
+      "name" : "poem",
+      "value" : "POEM-HAIKU-OBJECT"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/poetic-form/FORM-HAIKU"
+      },
+      "name" : "form",
+      "value" : "FORM-HAIKU",
+      "referenced-type" : "poetic-form"
+    }, {
+      "name" : "text",
+      "value" : "The haiku object"
+    }, {
+      "name" : "text",
+      "value" : "Never came to life as such"
+    }, {
+      "name" : "text",
+      "value" : "It's now generic"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/person/RSP-RIPE"
+      },
+      "name" : "admin-c",
+      "value" : "RSP-RIPE",
+      "referenced-type" : "person"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/person/RSP-RIPE"
+      },
+      "name" : "author",
+      "value" : "RSP-RIPE",
+      "referenced-type" : "person"
+    }, {
+      "name" : "remarks",
+      "value" : "The haiku object proposal:"
+    }, {
+      "name" : "remarks",
+      "value" : "http://www.ripe.net/ripe/maillists/archives/db-wg/2004/msg00223.html"
+    }, {
+      "name" : "remarks",
+      "value" : "Implementation of the generic poem object:"
+    }, {
+      "name" : "remarks",
+      "value" : "http://www.ripe.net/ripe/maillists/archives/db-wg/2005/msg00073.html"
+    }, {
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest.db.ripe.net/ripe/mntner/CROSSLINE-MNT"
+      },
+      "name" : "mnt-by",
+      "value" : "CROSSLINE-MNT",
+      "referenced-type" : "mntner"
+    }, {
+      "name" : "created",
+      "value" : "2005-06-14T11:27:26Z"
+    }, {
+      "name" : "last-modified",
+      "value" : "2005-06-14T14:38:27Z"
+    }, {
+      "name" : "source",
+      "value" : "RIPE",
+      "comment" : "Filtered"
+    } ]
+  }
+} ]
+},
+"terms-and-conditions" : {
+"type" : "locator",
+"href" : "http://www.ripe.net/db/support/db-terms-conditions.pdf"
+}
+}
