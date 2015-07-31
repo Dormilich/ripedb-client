@@ -158,37 +158,6 @@ class WhoisWebService extends WebService
     }
 
     /**
-     * get the geolocation info for an IP address.
-     * 
-     * @param string $ip A valid IP address.
-     * @return array When found it contains the latitude, longitude and the 
-     *          corresponding object data (as type an primary key).
-     */
-    public function geolocation($ip)
-    {
-        if (!filter_var($ip, \FILTER_VALIDATE_IP)) {
-            throw new \UnexpectedValueException('Value is not an IP address.');
-        }
-        $path = '/geolocation?ipkey=' . $ip;
-        $json = $this->send('GET', $path);
-
-        $data = [];
-
-        if (isset($json['geolocation-attributes'])) {
-            $geo  = explode(' ', $json['geolocation-attributes']['location'][0]['value']);
-            $data['latitude']  = $geo[0];
-            $data['longitude'] = $geo[1];
-
-            $inet = explode('/', $json['geolocation-attributes']['location'][0]['link']['xlink:href']);
-            $key  = array_pop($inet);
-            $type = array_pop($inet);
-            $data[$type] = $key;
-        }
-
-        return $data;
-    }
-
-    /**
      * Create a RIPE object according to the current definitions in the RIPE DB.
      * 
      * @param string|Object $name Either a RIPE object or a RIPE object type.

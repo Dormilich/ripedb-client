@@ -9,6 +9,10 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 {
 	public function load($name)
 	{
+		if (!$name) {
+			return [];
+		}
+
 		$file = __DIR__ . '/_fixtures/' . $name . '.json';
 
 		if (!is_readable($file)) {
@@ -18,7 +22,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		return json_decode(file_get_contents($file), true);
 	}
 
-	public function getClient($name)
+	public function getClient($name = NULL)
 	{
 		return new Test\MockClient($this->load($name));
 	}
@@ -27,7 +31,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectDefaultRequestParameters()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$person = new Person('FOO-TEST');
@@ -41,7 +45,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectCustomRequestParameters()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client, [
 			'ssl'         => false,
 			'environment' => WebService::PRODUCTION,
@@ -88,7 +92,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectVersionRequest()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
@@ -104,7 +108,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectVersionsRequest()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
@@ -135,7 +139,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectSearchRequest()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$ripe->search('FOO', [
@@ -154,7 +158,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	public function testClientGetsCorrectAbuseRequest()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
@@ -177,13 +181,11 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('abuse@example.com', $email);
 	}
 
-	// geolocation
-
 	// template
 
 	public function testClientGetsCorrectTemplateRequest()
 	{
-		$client = new Test\MockClient([]);
+		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
 		$poem = $ripe->getObjectFromTemplate('poem');
