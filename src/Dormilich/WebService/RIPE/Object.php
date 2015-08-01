@@ -76,6 +76,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * 
      * @param string $value The name of the primary key.
      * @return void
+     * @throws LogicException Value is empty
      */
     protected function setKey($value)
     {
@@ -102,6 +103,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * 
      * @param string $value The name of the primary key.
      * @return void
+     * @throws LogicException Value is empty
      */
     protected function setType($value)
     {

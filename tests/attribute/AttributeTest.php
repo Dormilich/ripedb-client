@@ -24,6 +24,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	{
 		$attr = new Attribute('foo', true, true);
 		$this->assertFalse($attr->isDefined());
+		$this->assertNull($attr->getValue());
 	}
 
 	public function constructorPropertyProvider()

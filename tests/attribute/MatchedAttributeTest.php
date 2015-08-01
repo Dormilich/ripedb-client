@@ -56,4 +56,12 @@ class MatchedAttributeTest extends PHPUnit_Framework_TestCase
 		$attr = new MatchedAttribute('bar', Attr::REQUIRED, '/\bFizzBuzz\b/');
 		$attr->setValue('get the fizz buzz');
 	}
+
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testInvalidRegexpThrowsException()
+	{
+		$attr = new MatchedAttribute('bar', Attr::REQUIRED, 'string');
+	}
 }

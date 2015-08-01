@@ -44,9 +44,12 @@ class MatchedAttribute extends Attribute
     {
         $this->regexp = (string) $regexp;
 
+        // suppress any regexp warnings and rely on the return value
+        set_error_handler(function () {});
         if (false === preg_match($this->regexp, uniqid())) {
             throw new \LogicException('Invalid regular expression', preg_last_error());
         }
+        restore_error_handler();
     }
 
     /**
