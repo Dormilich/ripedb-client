@@ -7,10 +7,10 @@ use Dormilich\WebService\RIPE\AttributeInterface as A;
 
 class TestObject extends Object
 {
-	public function __construct()
+	public function __construct($type = 'foo', $key = 'bar')
 	{
-		$this->setType('foo');
-		$this->setKey('bar');
+		$this->setType($type);
+		$this->setKey($key);
 		$this->init();
 		$this->setAttribute('source', 'test');
 	}

@@ -167,9 +167,6 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      */
     protected function matched($name, $required, $constraint)
     {
-        if (preg_match($constraint, '') === FALSE) {
-            throw new InvalidAttributeException('Invalid regular expression.', preg_last_error());
-        }
         $this->attributes[$name] = new MatchedAttribute($name, $required, $constraint);
     }
 

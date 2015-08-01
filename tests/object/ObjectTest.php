@@ -20,10 +20,26 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertSame('foo', $obj->getType());
 	}
 
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testSetEmptyObjectTypeFails()
+	{
+		new TestObject(NULL);
+	}
+
 	public function testPrimaryKeyIsCorrectlySet()
 	{
 		$obj = new TestObject;
 		$this->assertSame('bar', $obj->getPrimaryKeyName());
+	}
+
+	/**
+	 * @expectedException LogicException
+	 */
+	public function testSetEmptyObjectKeyFails()
+	{
+		new TestObject('foo', NULL);
 	}
 
 	public function testGetExistingAttribute()
@@ -79,6 +95,13 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($obj->getAttribute('bar')->isDefined());
 	}
 
+	public function testAttributeExistence()
+	{
+		$obj = new TestObject;
+		$this->assertTrue(isset($obj['bar']));
+		$this->assertFalse(isset($obj['xyz']));
+	}
+
 	// testing Countable implementation
 
 	public function testObjectIsCountable()
@@ -126,4 +149,27 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$obj['choice'] = 'c';
 		$this->assertTrue($obj->isValid());
 	}
+
+	/**
+	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
+	 */
+	public function testIncompleteObjectSerialisationFails()
+	{
+		$obj = new TestObject;
+		$this->assertFalse($obj->isValid());
+		$obj->toArray();
+	}
+
+	public function testObjectAddAttributeValues()
+	{
+		$obj = new TestObject;
+		$obj->setAttribute('abc', 'x');
+		$this->assertEquals(['x'], $obj['abc']);
+		$obj->addAttribute('abc', 'y');
+		$this->assertEquals(['x', 'y'], $obj['abc']);
+	}
+
+	// to array
+
+	// to xml
 }
