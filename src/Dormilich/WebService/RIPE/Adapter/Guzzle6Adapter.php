@@ -5,6 +5,9 @@ namespace Dormilich\WebService\RIPE\Adapter;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Guzzle6Adapter implements ClientAdapter
 {
     protected $client;

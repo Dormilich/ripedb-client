@@ -216,4 +216,37 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($obj->isValid());
 		$obj->toXML();
 	}
+
+	public function testObjectToString()
+	{
+		$obj = new TestObject;
+		$obj
+			->addAttribute('bar', 'bar')
+			->addAttribute('abc', 'x')
+			->addAttribute('abc', 'y')
+			->addAttribute('abc', 'z')
+			->addAttribute('num', 1)
+			->addAttribute('source', 'test')
+		;
+		$string = trim((string) $obj);
+		$lines  = explode(\PHP_EOL, $string);
+
+		$this->assertCount(7, $lines);
+
+		$title  = array_shift($lines);
+		$this->assertNotFalse(strpos($title, 'TestObject'));
+
+		$getData = function ($str) {
+			preg_match('/^\s+(\S+)\s+(.+)$/', $str, $match);
+			array_shift($match);
+			return $match;
+		};
+
+		$this->assertEquals(['bar', 'bar'], call_user_func($getData, $lines[0]));
+		$this->assertEquals(['abc', 'x'], call_user_func($getData, $lines[1]));
+		$this->assertEquals(['abc', 'y'], call_user_func($getData, $lines[2]));
+		$this->assertEquals(['abc', 'z'], call_user_func($getData, $lines[3]));
+		$this->assertEquals(['num', '1'], call_user_func($getData, $lines[4]));
+		$this->assertEquals(['source', 'test'], call_user_func($getData, $lines[5]));
+	}
 }
