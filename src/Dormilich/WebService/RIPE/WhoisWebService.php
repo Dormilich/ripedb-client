@@ -119,12 +119,11 @@ class WhoisWebService extends WebService
     public function search($value, $params = array())
     {
         if (is_string($params) and strpos($params, '=')) {
-            $params .= '&query-string=' . (string) $value;
-            // add source if missing
             if (false === strpos($params, 'source=')) {
                 $params .= '&source=' . $this->getSource();
             }
-            $path = '/search?' . $params;
+            $params .= '&query-string=' . (string) $value;
+            $path    = '/search?' . $params;
         } 
         else {
             $params = array_merge($params, [

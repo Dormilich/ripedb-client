@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\RPSL\Person;
+use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use Dormilich\WebService\RIPE\WhoisWebService;
@@ -45,6 +46,17 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
 		$this->assertEquals('/test/person/FOO-TEST?unfiltered', $client->path);
 		$this->assertNull($client->body);
+	}
+
+	public function testClientGetsCorrectUrlForNoOptions()
+	{
+		$client = $this->getClient();
+		$ripe   = new WhoisWebService($client);
+
+		$person = new Person('FOO-TEST');
+		$ripe->read($person, []);
+
+		$this->assertEquals('/test/person/FOO-TEST', $client->path);
 	}
 
 	public function testClientGetsCorrectCustomRequestParameters()
@@ -160,7 +172,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 	// search
 
-	public function testClientGetsCorrectSearchRequest()
+	public function testClientGetsCorrectSearchRequestFromArray()
 	{
 		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
@@ -169,6 +181,20 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 			'type-filter' 		=> 'role', 
 			'inverse-attribute' => ['tech-c', 'admin-c'], 
 		]);
+
+		$this->assertEquals('GET', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
+		$this->assertEquals('/search?type-filter=role&inverse-attribute=tech-c'.
+			'&inverse-attribute=admin-c&source=test&query-string=FOO', $client->path);
+		$this->assertNull($client->body);
+	}
+
+	public function testClientGetsCorrectSearchRequestFromString()
+	{
+		$client = $this->getClient();
+		$ripe   = new WhoisWebService($client);
+
+		$ripe->search('FOO', 'type-filter=role&inverse-attribute=tech-c&inverse-attribute=admin-c');
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
@@ -265,6 +291,18 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($poem->getAttribute('source')->isRequired());
 		$this->assertFalse($poem->getAttribute('source')->isMultiple());
 		$this->assertEquals('ripe', $poem['source']);
+	}
+
+	public function testGetCorrectTemplateInfoFromObject()
+	{
+		$client = $this->getClient('template');
+		$ripe   = new WhoisWebService($client);
+
+		$poem = new Poem('test');
+		$poem = $ripe->getObjectFromTemplate($poem);
+
+		$this->assertEquals('poem', $poem->getType());
+		$this->assertEquals('poem', $poem->getPrimaryKeyName());
 	}
 
 	public function testReadErrorsFromInvalidRequest()
