@@ -1,0 +1,19 @@
+{
+	"objects":{
+		"object":[ {
+			"type":"register",
+			"source":{
+				"id":"TEST"
+			},
+			"attributes":{
+				"attribute":[ {
+					"name":"register",
+					"value":"ripe"
+				}, {
+					"name":"source",
+					"value":"TEST"
+				} ]
+			}
+		} ]
+	}
+}

@@ -1,0 +1,98 @@
+{
+  "link" : {
+    "type" : "locator",
+    "href" : "http://rest-test.db.ripe.net/test/person"
+  },
+  "objects" : {
+    "object" : [ {
+      "type" : "person",
+      "link" : {
+        "type" : "locator",
+        "href" : "http://rest-test.db.ripe.net/test/person/AUTO-1"
+      },
+      "source" : {
+        "id" : "test"
+      },
+      "primary-key" : {
+        "attribute" : [ {
+          "name" : "nic-hdl",
+          "value" : "AUTO-1"
+        } ]
+      },
+      "attributes" : {
+        "attribute" : [ {
+          "name" : "person",
+          "value" : "Pauleth Palthen"
+        }, {
+          "name" : "address",
+          "value" : "Singel 258"
+        }, {
+          "name" : "phone",
+          "value" : "+31-1234567890"
+        }, {
+          "link" : {
+            "type" : "locator",
+            "href" : "http://rest-test.db.ripe.net/test/mntner/OWNER-MNT"
+          },
+          "name" : "mnt-by",
+          "value" : "OWNER-MNT",
+          "referenced-type" : "mntner"
+        }, {
+          "name" : "nic-hdl",
+          "value" : "AUTO-1"
+        }, {
+          "name" : "remarks",
+          "value" : "remark"
+        }, {
+          "name" : "changed",
+          "value" : "noreply@ripe.net 20120101"
+        }, {
+          "name" : "source",
+          "value" : "TEST"
+        } ]
+      }
+    } ]
+  },
+  "errormessages" : {
+    "errormessage" : [ {
+      "severity" : "Error",
+      "text" : "Authorisation for [%s] %s failed\nusing \"%s:\"\nno valid maintainer found\n",
+      "args" : [ {
+        "value" : "person"
+      }, {
+        "value" : "PP1-TEST"
+      }, {
+        "value" : "mnt-by"
+      }, { } ]
+    }, {
+      "severity" : "Error",
+      "text" : "The maintainer '%s' was not found in the database",
+      "args" : [ {
+        "value" : "OWNER-MNT"
+      } ]
+    }, {
+      "severity" : "Error",
+      "attribute" : {
+        "name" : "mnt-by",
+        "value" : "OWNER-MNT"
+      },
+      "text" : "Unknown object referenced %s",
+      "args" : [ {
+        "value" : "OWNER-MNT"
+      } ]
+    }, {
+      "severity" : "Warning",
+      "text" : "Deprecated attribute \"%s\". This attribute will be removed in the future.",
+      "args" : [ {
+        "value" : "changed"
+      } ]
+    }, {
+      "severity" : "Info",
+      "text" : "To create the first person/mntner pair of objects for an organisation see https://apps.db.ripe.net/startup/"
+    } ]
+  },
+  "terms-and-conditions" : {
+    "type" : "locator",
+    "href" : "http://www.ripe.net/db/support/db-terms-conditions.pdf"
+  }
+}

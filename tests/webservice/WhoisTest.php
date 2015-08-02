@@ -34,6 +34,10 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$client = $this->getClient();
 		$ripe   = new WhoisWebService($client);
 
+		$this->assertSame('sandbox', $ripe->getEnvironment());
+		$this->assertFalse($ripe->isProduction());
+		$this->assertTrue($ripe->isSSL());
+
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
 
@@ -50,6 +54,10 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 			'ssl'         => false,
 			'environment' => WebService::PRODUCTION,
 		]);
+
+		$this->assertSame('production', $ripe->getEnvironment());
+		$this->assertTrue($ripe->isProduction());
+		$this->assertFalse($ripe->isSSL());
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
@@ -70,6 +78,8 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('Dormilich\\WebService\\RIPE\\RPSL\\Person', $person);
 
+		$this->assertCount(1, $ripe->getAllResults());
+
 		$this->assertEquals('FOO-TEST', $person->getPrimaryKey());
 		$this->assertEquals('John Smith', $person['person']);
 		$this->assertEquals([
@@ -86,6 +96,19 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("1970-01-01T00:00:00Z", $person['created']);
 		$this->assertEquals("1970-01-01T00:00:00Z", $person['last-modified']);
 		$this->assertEquals("RIPE", $person['source']);
+	}
+
+	public function testUndefinedObjectResponseUsesDummyObject()
+	{
+		$client = $this->getClient('test');
+		$ripe   = new WhoisWebService($client);
+
+		$person = new Person('FOO-TEST');
+		$object = $ripe->read($person);
+
+		$this->assertInstanceOf('Dormilich\\WebService\\RIPE\\Dummy', $object);
+		$this->assertEquals('register', $object->getType());
+		$this->assertEquals('ripe', $object->getPrimaryKey());
 	}
 
 	// version
@@ -242,5 +265,25 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($poem->getAttribute('source')->isRequired());
 		$this->assertFalse($poem->getAttribute('source')->isMultiple());
 		$this->assertEquals('ripe', $poem['source']);
+	}
+
+	public function testReadErrorsFromInvalidRequest()
+	{
+		$res  = file_get_contents(__DIR__  . '/_fixtures/error-response.json');
+		$list = Webservice::getErrors($res);
+
+		$this->assertCount(5, $list);
+		$this->assertEquals("Error: Authorisation for [person] PP1-TEST failed\nusing \"mnt-by:\"\nno valid maintainer found\n", $list[0]);
+		$this->assertEquals("Error: The maintainer 'OWNER-MNT' was not found in the database", $list[1]);
+		$this->assertEquals("Error: Unknown object referenced OWNER-MNT (mnt-by)", $list[2]);
+		$this->assertEquals("Warning: Deprecated attribute \"changed\". This attribute will be removed in the future.", $list[3]);
+		$this->assertEquals("Info: To create the first person/mntner pair of objects for an organisation see https://apps.db.ripe.net/startup/", $list[4]);
+	}
+
+	public function testReadErrorReturnsEmptyArrayOnInvalidErrorBody()
+	{
+		$list = Webservice::getErrors('foo');
+
+		$this->assertCount(0, $list);
 	}
 }

@@ -149,10 +149,6 @@ abstract class WebService
      */
     protected function createObject($item)
     {
-        // no object without attributes
-        if (!isset($item['attributes'])) {
-            return null;
-        }
         $type  = $item['type'];
         $class = __NAMESPACE__ . '\\RPSL\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $type)) );
 
@@ -221,15 +217,25 @@ abstract class WebService
             return $list;
         }
 
+        $filter = function ($item) {
+            return array_key_exists('value', $item);
+        };
+        $map    = function ($item) {
+            return $item['value'];
+        };
+
         // @see https://github.com/RIPE-NCC/whois/wiki/WHOIS-REST-API-WhoisResources
         foreach ($json['errormessages']['errormessage'] as $error) {
             $text = $error['severity'] . ': ' . $error['text'];
             if (isset($error['attribute'])) {
                 $text .= ' (' . $error['attribute']['name'] . ')';
             }
-            $list[] = vsprintf($text, array_map(function ($item) {
-                return $item['value'];
-            }, (array) $error['args']));
+            if (!isset($error['args'])) {
+                $list[] = $text;
+                continue;
+            }
+            $args   = array_filter($error['args'], $filter);
+            $list[] = vsprintf($text, array_map($map, $args));
         }
 
         return $list;
