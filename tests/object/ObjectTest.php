@@ -150,16 +150,6 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($obj->isValid());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
-	 */
-	public function testIncompleteObjectSerialisationFails()
-	{
-		$obj = new TestObject;
-		$this->assertFalse($obj->isValid());
-		$obj->toArray();
-	}
-
 	public function testObjectAddAttributeValues()
 	{
 		$obj = new TestObject;
@@ -169,7 +159,61 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(['x', 'y'], $obj['abc']);
 	}
 
-	// to array
+	public function testObjectToArray()
+	{
+		$obj = new TestObject;
+		$obj
+			->addAttribute('bar', 'bar')
+			->addAttribute('abc', 'x')
+			->addAttribute('abc', 'y')
+			->addAttribute('abc', 'z')
+			->addAttribute('num', 1)
+			->addAttribute('choice', 'c')
+			->addAttribute('source', 'test')
+		;
+		$array = $obj->toArray();
 
-	// to xml
+		$ref = json_decode(file_get_contents(__DIR__ . '/_fixtures/test.json'), true);
+		$this->assertEquals($ref, $array);
+	}
+
+	/**
+	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
+	 */
+	public function testIncompleteObjectToArrayFails()
+	{
+		$obj = new TestObject;
+		$this->assertFalse($obj->isValid());
+		$obj->toArray();
+	}
+
+	public function testObjectToXML()
+	{
+		$obj = new TestObject;
+		$obj
+			->addAttribute('bar', 'bar')
+			->addAttribute('abc', 'x')
+			->addAttribute('abc', 'y')
+			->addAttribute('abc', 'z')
+			->addAttribute('num', 1)
+			->addAttribute('choice', 'c')
+			->addAttribute('source', 'test')
+		;
+		$xml = $obj->toXML();
+
+		$this->assertSame('test', (string) $xml->objects->object->source['id']);
+
+		$ref = simplexml_load_file(__DIR__ . '/_fixtures/test.xml');
+		$this->assertEquals($ref, $xml);
+	}
+
+	/**
+	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
+	 */
+	public function testIncompleteObjectToXMLFails()
+	{
+		$obj = new TestObject;
+		$this->assertFalse($obj->isValid());
+		$obj->toXML();
+	}
 }

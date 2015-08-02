@@ -248,14 +248,14 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
     {
         return [
             "objects" => [
-                "object" => [
+                "object" => [ [
                     "source" => [
                         "id" => $this->getAttribute('source')->getValue(), 
                     ],
                     "attributes" => [
                         "attribute" => $this->getAttributes(), 
                     ], 
-                ], 
+                ] ], 
             ], 
         ];
     }
@@ -300,6 +300,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
         $root    = new \SimpleXMLElement($xml);
         $objects = $root->addChild('objects');
         $object  = $objects->addChild('object');
+        $object->addAttribute('type', $this->getType());
 
         $object->addChild('source')->addAttribute('id', $this->getAttribute('source')->getValue());
         $attributes = $object->addChild('attributes');

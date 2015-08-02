@@ -28,6 +28,8 @@ class RegTest extends PHPUnit_Framework_TestCase
 		return new Test\MockClient($this->load($name));
 	}
 
+	// response parsing is handled inside the send() method 
+	// hence no need to test it for each method separately. 
 	public function testConvertResponse()
 	{
 		$client = $this->getClient('haiku');
@@ -37,6 +39,7 @@ class RegTest extends PHPUnit_Framework_TestCase
 		$haiku['form'] = 'FORM-HAIKU';
 		$haiku['text'] = '...';
 		$haiku['mnt-by'] = 'CROSSLINE-MNT';
+
 		$haiku  = $ripe->create($haiku);
 
 		$this->assertEquals('POEM-HAIKU-OBJECT', $haiku['poem']);
@@ -60,7 +63,7 @@ class RegTest extends PHPUnit_Framework_TestCase
 
 		$ripe->create($obj);
 
-		$expected = '{"objects":{"object":{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"create"},{"name":"source","value":"TEST"}]}}}}';
+		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"create"},{"name":"source","value":"TEST"}]}}]}}';
 
 		$this->assertEquals('POST', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
@@ -78,7 +81,7 @@ class RegTest extends PHPUnit_Framework_TestCase
 
 		$ripe->update($obj);
 
-		$expected = '{"objects":{"object":{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"update"},{"name":"source","value":"TEST"}]}}}}';
+		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"update"},{"name":"source","value":"TEST"}]}}]}}';
 
 		$this->assertEquals('PUT', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);

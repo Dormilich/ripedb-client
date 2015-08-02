@@ -1,0 +1,33 @@
+{
+  "objects":{
+    "object":[ {
+      "source" : {
+        "id" : "test"
+      },
+      "attributes" : {
+        "attribute" : [ {
+          "name" : "bar",
+          "value" : "bar"
+        }, {
+          "name" : "abc",
+          "value" : "x"
+        }, {
+          "name" : "abc",
+          "value" : "y"
+        }, {
+          "name" : "abc",
+          "value" : "z"
+        }, {
+          "name" : "choice",
+          "value" : "c"
+        }, {
+          "name" : "num",
+          "value" : "1"
+        }, {
+          "name" : "source",
+          "value" : "test"
+        } ]
+      }
+    } ]
+  }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<whois-resources>
+    <objects>
+        <object type="foo">
+            <source id="test"/>
+            <attributes>
+                <attribute name="bar" value="bar"/>
+                <attribute name="abc" value="x"/>
+                <attribute name="abc" value="y"/>
+                <attribute name="abc" value="z"/>
+                <attribute name="choice" value="c"/>
+                <attribute name="num" value="1"/>
+                <attribute name="source" value="test"/>
+            </attributes>
+        </object>
+    </objects>
+</whois-resources>
