@@ -9,12 +9,13 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
  * The prototype for every RIPE object class. 
  * 
  * A child class must
- *  1) define a constant named "PRIMARYKEY"
- *  2) set the class name to thats name (using camel case, e.g. domain => Domain, aut-num => AutNum)
+ *  1) define a primary key and type (which are usually the same)
+ *  2) set the class name to thats name using camel case (e.g. domain => Domain, aut-num => AutNum)
  *  3) define the attributes for this RIPE object
  * 
  * A child class should
  *  - set the primary key on instantiation
+ *  - set a "VERSION" constant
  */
 abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
