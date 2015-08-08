@@ -12,7 +12,17 @@
 >
    <testsuites>
       <testsuite name="RIPE DB Client Test Suite">
-         <directory suffix="Test.php" phpVersion="5.5.0" phpVersionOperator=">=">./tests/</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0" phpVersionOperator=">=">./tests</directory>
       </testsuite>
    </testsuites>
+   <groups>
+      <exclude>
+         <group>live</group>
+      </exclude>
+   </groups>
+   <filter>
+      <whitelist processUncoveredFilesFromWhitelist="true">
+         <directory suffix=".php">./src</directory>
+      </whitelist>
+   </filter>
 </phpunit>
