@@ -1,13 +1,11 @@
 <?php
 
-namespace Dormilich\WebService\RIPE\Adapter;
+namespace Test;
 
+use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * @codeCoverageIgnore
- */
 class Guzzle6Adapter implements ClientAdapter
 {
     protected $client;
@@ -79,7 +77,7 @@ class Guzzle6Adapter implements ClientAdapter
             $option['json'] = $body;
         }
 
-        $response = $this->client->request($type, $path, $options);
+        $response = $this->client->request($method, $path, $options);
 
         return json_decode($response->getBody(), true);
     }

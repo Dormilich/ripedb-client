@@ -12,7 +12,11 @@
 >
    <testsuites>
       <testsuite name="RIPE DB Client Test Suite">
-         <directory suffix="Test.php" phpVersion="5.4.0" phpVersionOperator=">=">./tests</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0">./tests</directory>
+         <exclude>./tests/live</exclude>
+      </testsuite>
+      <testsuite name="RIPE DB Live Test">
+         <directory suffix="Test.php" phpVersion="5.5.0">./tests/live</directory>
       </testsuite>
    </testsuites>
    <groups>
