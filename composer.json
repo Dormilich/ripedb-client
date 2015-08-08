@@ -21,10 +21,8 @@
             "Test\\": "tests/Test/"
         }
     },
-    "require": {
-        "guzzlehttp/guzzle": "~6.0"
-    },
     "require-dev": {
+        "guzzlehttp/guzzle": "~6.0",
         "phpunit/phpunit": "~4.7"
     }
 }
