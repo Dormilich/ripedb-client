@@ -178,7 +178,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
+	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRPSLObjectException
 	 */
 	public function testIncompleteObjectToArrayFails()
 	{
@@ -208,7 +208,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRIPEObjectException
+	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRPSLObjectException
 	 */
 	public function testIncompleteObjectToXMLFails()
 	{

@@ -221,7 +221,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * Get the array representation of all attributes that are populated with values.
      * 
      * @return array RIPE REST JSON compatible array.
-     * @throws IncompleteRIPEObjectException A required attribute is empty.
+     * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
     protected function getAttributes()
     {
@@ -229,7 +229,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
 
         foreach ($this->attributes as $name => $attr) {
             if ($attr->isRequired() and !$attr->isDefined()) {
-                throw new IncompleteRIPEObjectException('Required attribute ' . $attr->getName() . ' is not set.');
+                throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
                 // multiple attributes are serialised into separate entries 

@@ -3,25 +3,38 @@
 
 namespace Dormilich\WebService\RIPE;
 
-abstract class WebService
+class WebService
 {
     const SANDBOX           = 'sandbox';
 
     const PRODUCTION        = 'production';
 
-    const SANDBOX_HOST      = 'rest-test.db.ripe.net';
+    const SANDBOX_HOST      = 'https://rest-test.db.ripe.net/test/';
 
-    const PRODUCTION_HOST   = 'rest.db.ripe.net';
-
-    const SANDBOX_SOURCE    = 'test';
-
-    const PRODUCTION_SOURCE = 'ripe';
+    const PRODUCTION_HOST   = 'https://rest.db.ripe.net/ripe/';
 
     private $config         = [];
 
     protected $results      = [];
 
     protected $client;
+
+    /**
+     * Create a webservice to request WHOIS data. 
+     * 
+     * @param ClientAdapter $client A connection adapter.
+     * @param array $config Webservice config options 
+     * @return self
+     */
+    public function __construct(ClientAdapter $client, array $config = array())
+    {
+        $this->setOptions($config);
+
+        $base = $this->isProduction() ? parent::PRODUCTION_HOST : parent::SANDBOX_HOST;
+
+        $this->client = $client;
+        $this->client->setBaseUri($base);
+    }
 
     /**
      * Set the RIPE connection options.
@@ -37,7 +50,6 @@ abstract class WebService
     protected function setOptions(array $options)
     {
         $defaults = [
-            'ssl'         => true,
             'environment' => self::SANDBOX,
             'password'    => 'emptypassword', // pw of the test db
         ];
@@ -52,16 +64,6 @@ abstract class WebService
     public function isProduction()
     {
         return strtolower($this->config['environment']) === self::PRODUCTION;
-    }
-
-    /**
-     * Whether SSL is used for the connection.
-     * 
-     * @return boolean
-     */
-    public function isSSL()
-    {
-        return $this->config['ssl'];
     }
 
     /**
@@ -92,7 +94,7 @@ abstract class WebService
      */
     protected function getSource($case = \CASE_LOWER)
     {
-        $source = $this->isProduction() ? self::PRODUCTION_SOURCE : self::SANDBOX_SOURCE;
+        $source = $this->isProduction() ? 'ripe' : 'test';
 
         if (\CASE_UPPER === $case) {
             return strtoupper($source);
@@ -106,7 +108,7 @@ abstract class WebService
      * @param array $data The decoded data.
      * @return boolean
      */
-    protected function setResult(array $data)
+    protected function setObjects(array $data)
     {
         $this->results = [];
 
@@ -116,6 +118,28 @@ abstract class WebService
 
         foreach ($data['objects']['object'] as $object) {
             $this->results[] = $this->createObject($object);
+        }
+
+        return true;
+    }
+
+    /**
+     * Simplify the versions info. The resulting array is transformed into a 
+     * version => date array.
+     * 
+     * @param array $data The decoded data.
+     * @return boolean
+     */
+    protected function setVersions(array $data)
+    {
+        $this->results = [];
+
+        if (!isset($data['versions'])) {
+            return false;
+        }
+
+        foreach ($data['versions']['version'] as $version) {
+            $this->results[$version['revision']] = $version['date'] . ' (' . $version['operation'] . ')';
         }
 
         return true;
@@ -166,9 +190,13 @@ abstract class WebService
 
         foreach ($item['attributes']['attribute'] as $value) {
             try {
+                $string = $value['value'];
+                if (isset($value['comment'])) {
+                    $string .= ' # ' . $value['comment'];
+                }
                 // skip over attributes that are present in the response but do 
                 // not conform to the current definitions
-                $object->getAttribute($value['name'])->addValue($value['value']);
+                $object->getAttribute($value['name'])->addValue($string);
             }
             catch (\Exception $e) {
                 continue;
@@ -191,16 +219,6 @@ abstract class WebService
         // otherwise the intended exception won’t make it through
         return json_encode($object->toArray());
     }
-
-    /**
-     * Make a query to the RIPE DB and parse the response.
-     * 
-     * @param string $type An HTTP verb.
-     * @param string $path The path identifying the RIPE DB object.
-     * @param ObjectInterface $object RPSL object.
-     * @return mixed Response data.
-     */
-    abstract protected function send($type, $path, ObjectInterface $object = NULL);
 
     /**
      * Method to read the error messages from a failed request. 
@@ -261,5 +279,227 @@ abstract class WebService
         }, $name);
 
         return implode('&', $params); 
+    }
+
+    /**
+     * Search for a resource.
+     * 
+     * @param string $value The search string.
+     * @param array|string $params Optional search parameters: inverse-attribute, include-tag, 
+     *          exclude-tag, type-filter, flags. You may pass a valid query string if that 
+     *          can’t be expressed as array.
+     * @return integer The number of results.
+     */
+    public function search($value, $params = array())
+    {
+        if (is_string($params) and strpos($params, '=')) {
+            if (false === strpos($params, 'source=')) {
+                $params .= '&source=' . $this->getSource();
+            }
+            $params .= '&query-string=' . (string) $value;
+            $path    = '/search?' . $params;
+        } 
+        elseif (is_array($params)) {
+            $params = array_merge($params, [
+                "source"       => $this->getSource(), 
+                "query-string" => (string) $value, 
+            ]);
+            $path = '/search?' . $this->createQueryString($params);
+        }
+        else {
+            throw new InvalidValueException('Input value is not a query string.');
+        }
+
+        $json = $this->client->request('GET', $path);
+        $this->setObjects($json);
+
+        return count($this->results);
+    }
+
+    /**
+     * Get the abuse contact for an Inet[6]num or AutNum object.
+     * 
+     * Note: for an IPv4 range use the Inetnum object.
+     * 
+     * @param mixed $value An IPv4 address, range or prefix, IPv6 address or prefix, AS number
+     * @return string Abuse email or FALSE.
+     */
+    public function abuseContact($value)
+    {
+        if ($value instanceof Object) {
+            $key = $object->getPrimaryKey();
+        }
+        elseif (filter_var($value, \FILTER_VALIDATE_IP)) {
+            $key = $value;
+        }
+        else {
+            throw new InvalidValueException('Input value is not an IP or RPSL object.');
+        }
+        $path = '/abuse-contact/' . $key;
+        $json = $this->client->request('GET', $path);
+
+        if (isset($json['abuse-contacts'])) {
+            return $json['abuse-contacts']['email'];
+        }
+        return false;
+    }
+
+    /**
+     * Create a RIPE object according to the current definitions in the RIPE DB.
+     * This object’s attributes do not have value constraints.
+     * 
+     * @param string|Object $name Either a RIPE object or a RIPE object type.
+     * @return Object The RPSL object from the latest definitions.
+     */
+    public function getObjectFromTemplate($name)
+    {
+        if ($name instanceof Object) {
+            $type = $name->getType();
+        }
+        else {
+            $type = strtolower($name);
+        }
+        $path = '/metadata/templates/' . $type;
+        $json = $this->client->request('GET', $path);
+
+        if (!isset($json['templates']['template'])) {
+            return NULL;
+        }
+
+        $template = $json['templates']['template'][0];
+
+        $object   = Object::factory($type, $template['attributes']['attribute']);
+        $object['source'] = $template['source']['id'];
+
+        return $object;
+    }
+
+    /**
+     * Get the available versions of a RIPE resource.
+     * 
+     * @param Object $object The RIPE object of interest.
+     * @return array An array containing the revision number as key and the 
+     *          date and operation type as value.
+     */
+    public function versions(Object $object)
+    {
+        $path = sprintf('%s/%s/versions', $object->getType(), $object->getPrimaryKey());
+        $json = $this->client->request('GET', $path);
+        $this->setVersions($json);
+
+        return $this->getAllResults();
+    }
+
+    /**
+     * Get a specific version of a RIPE object. This object will always be filtered as
+     * changes may only occur in filtered attributes.
+     * 
+     * Note: some objects do not support versions (esp. role/person).
+     * 
+     * @param Object $object RIPE object.
+     * @param integer $version The version of this object in the RIPE DB.
+     * @return Object The requested object.
+     */
+    public function version(Object $object, $version)
+    {
+        $path = sprintf('%s/%s/versions/%d?unfiltered', 
+            $object->getType(), $object->getPrimaryKey(), $version
+        );
+        $json = $this->client->request('GET', $path);
+        $this->setResult($json);
+
+        return $this->getResult();
+    }
+
+    /**
+     * Get a RIPE object from the DB by its primary key.
+     * 
+     * Note: This request does not require a password.
+     * 
+     * @param Object $object RIPE Object.
+     * @param array $params Additional options: unfiltered, unformatted. Default: unfiltered.
+     * @return Object The requested object.
+     */
+    public function read(Object $object, array $params = array('unfiltered'))
+    {
+        $path = $object->getType() . '/' . $object->getPrimaryKey();
+
+        if (count($params)) {
+            $path .= '?' . implode('&', $params);
+        }
+
+        $json = $this->client->request('GET', $path);
+        $this->setResult($json);
+
+        return $this->getResult();
+    }
+
+    /**
+     * Make a query to the RIPE DB using the password and parse the response.
+     * 
+     * @param string $method An HTTP verb.
+     * @param string $path The path identifying the RIPE DB object.
+     * @param ObjectInterface $object RPSL object.
+     * @return void
+     */
+    protected function send($method, ObjectInterface $object = NULL)
+    {
+        if (NULL === $object) {
+            $body = NULL;
+            $path = $object->getType();
+        } 
+        else {
+            $body = $this->createJSON($object);
+            $path = $object->getType() . '/' . $object->getPrimaryKey();
+        }
+
+        $path .= '?' . http_build_query(['password' => $this->getPassword()]);
+
+        $json = $this->client->request($method, $path, $body);
+
+        $this->setResult($json);
+    }
+
+    /**
+     * Create a new RIPE object in the RIPE database.
+     * 
+     * @param Object $object RIPE object.
+     * @return Object The created object.
+     */
+    public function create(Object $object)
+    {
+        $this->send('POST', $object);
+
+        return $this->getResult();
+    }
+
+    /**
+     * Modify a RIPE object in the RIPE database.
+     * 
+     * @param Object $object RIPE object.
+     * @param array $params Optional params to pass to the query.
+     * @return Object Parsed response.
+     */
+    public function update(Object $object)
+    {
+        $this->send('PUT', $object);
+
+        return $this->getResult();
+    }
+
+    /**
+     * Delete a RIPE object from the RIPE database.
+     * 
+     * Note: the API also accepts a reason string,
+     * but it is omitted for simplicity.
+     * 
+     * @param Object $object RIPE object.
+     * @return Object The deleted object.
+     */
+    public function delete(Object $object)
+    {
+        $this->send('DELETE', $object);
+
+        return $this->getResult();
     }
 }
