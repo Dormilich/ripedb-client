@@ -4,6 +4,10 @@
 namespace Dormilich\WebService\RIPE;
 
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
+use Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException;
+use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
+use Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException;
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 
 /**
  * The prototype for every RIPE object class. 
@@ -267,13 +271,13 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * @param SimpleXMLElement $node The <attributes> element.
      * @return SimpleXMLElement $node The <attributes> element containing the 
      *          attribute values.
-     * @throws IncompleteRIPEObjectException A required attribute is empty.
+     * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
     protected function addXMLAttributes(\SimpleXMLElement $node)
     {
         foreach ($this->attributes as $name => $attr) {
             if ($attr->isRequired() and !$attr->isDefined()) {
-                throw new IncompleteRIPEObjectException('Required attribute ' . $attr->getName() . ' is not set.');
+                throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
                 $name = $attr->getName();
@@ -291,7 +295,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * Convert object to a SimpleXML object.
      * 
      * @return SimpleXMLElement
-     * @throws IncompleteRIPEObjectException A required attribute is empty.
+     * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
     public function toXML()
     {

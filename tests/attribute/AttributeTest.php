@@ -83,7 +83,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
 	 * @expectedExceptionMessageRegExp # \[foo\] #
 	 */
 	public function testAttributeDoesNotAcceptResource()
@@ -93,7 +93,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
 	 * @expectedExceptionMessageRegExp # \[foo\] #
 	 */
 	public function testAttributeDoesNotAcceptObject()
@@ -117,7 +117,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
 	 */
 	public function testSingleAttributeDoesNotAllowArrayInput()
 	{
@@ -156,7 +156,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
 	 */
 	public function testMultipleAttributeDoesNotAllowNonScalarArray()
 	{
@@ -165,7 +165,7 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidDataTypeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
 	 */
 	public function testMultipleAttributeDoesNotAllowNestedArray()
 	{

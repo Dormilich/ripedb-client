@@ -48,7 +48,7 @@ class MatchedAttributeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidValueException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidValueException
 	 * @expectedExceptionMessageRegExp # \[bar\] #
 	 */
 	public function testAttributeDoesNotAcceptUndefinedValue()

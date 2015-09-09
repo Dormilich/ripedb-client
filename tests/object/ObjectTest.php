@@ -55,7 +55,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\InvalidAttributeException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException
 	 */
 	public function testGetUnknownAttributeFails()
 	{
@@ -178,7 +178,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRPSLObjectException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException
 	 */
 	public function testIncompleteObjectToArrayFails()
 	{
@@ -208,7 +208,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException \Dormilich\WebService\RIPE\IncompleteRPSLObjectException
+	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException
 	 */
 	public function testIncompleteObjectToXMLFails()
 	{
