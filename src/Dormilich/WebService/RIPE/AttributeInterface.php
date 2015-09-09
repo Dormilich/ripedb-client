@@ -35,11 +35,19 @@ interface AttributeInterface
     public function isRequired();
 
     /**
-     * Convert attribute into a RIPE REST JSON compatible array.
+     * Whether the attribute allows multiple values.
      * 
-     * @return array
+     * @return boolean
      */
-    public function toArray();
+    public function isMultiple();
+
+    /**
+     * Get the value(s) of the attribute. Depending on the cardinality of the 
+     * attribute this may be either an array of values or a single value.
+     * 
+     * @return mixed
+     */
+    public function getValue();
 
     /**
      * Set the value(s) of the attribute.

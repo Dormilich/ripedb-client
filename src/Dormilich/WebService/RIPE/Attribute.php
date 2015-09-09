@@ -45,7 +45,9 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * @inheritDoc
+     * Get the name of the attribute.
+     * 
+     * @return string
      */
     public function getName()
     {
@@ -53,7 +55,9 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * @inheritDoc
+     * Whether the attribute is populated with data (i.e. not empty).
+     * 
+     * @return boolean
      */
     public function isDefined()
     {
@@ -61,7 +65,9 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * @inheritDoc
+     * Whether the attribute is required/mandatory.
+     * 
+     * @return boolean
      */
     public function isRequired()
     {
@@ -79,22 +85,6 @@ class Attribute implements AttributeInterface
     }
 
     /**
-     * Convert attribute into a RIPE REST JSON compatible array.
-     * At this place each attribute value is converted into a string.
-     * 
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_map(function($value) {
-            return [
-                "name"  => $this->name, 
-                "value" => $value, 
-            ];
-        }, $this->value);
-    }
-
-    /**
      * Get the current value(s) of the attribute.
      * If the value is unset NULL is returned, if the attribute
      * only allows a single value, that value is returned, otherwise an array.
@@ -104,7 +94,7 @@ class Attribute implements AttributeInterface
     public function getValue()
     {
         if (count($this->value) === 0) {
-            return null;
+            return NULL;
         }
 
         if (!$this->multiple) {

@@ -227,7 +227,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
      * @return array RIPE REST JSON compatible array.
      * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
-    protected function getAttributes()
+    protected function addJSONAttributes()
     {
         $attributes = [];
 
@@ -236,8 +236,12 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
-                // multiple attributes are serialised into separate entries 
-                $attributes = array_merge($attributes, $attr->toArray());
+                foreach ((array) $attr->getValue() as $value) {
+                    $attributes[] = [
+                        "name"  => $attr->getName(), 
+                        "value" => $value, 
+                    ];
+                }
             }
         }
 
@@ -258,7 +262,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                         "id" => $this->getAttribute('source')->getValue(), 
                     ],
                     "attributes" => [
-                        "attribute" => $this->getAttributes(), 
+                        "attribute" => $this->addJSONAttributes(), 
                     ], 
                 ] ], 
             ], 
