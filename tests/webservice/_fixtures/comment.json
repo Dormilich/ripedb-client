@@ -1,0 +1,20 @@
+{
+	"objects":{
+		"object":[ {
+			"type":"register",
+			"source":{
+				"id":"TEST"
+			},
+			"attributes":{
+				"attribute":[ {
+					"name":"register",
+					"value":"ripe",
+					"comment":"a comment"
+				}, {
+					"name":"source",
+					"value":"TEST"
+				} ]
+			}
+		} ]
+	}
+}

@@ -118,6 +118,17 @@ class URLTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('ripe', $object->getPrimaryKey());
 	}
 
+	public function testObjectResponseWithComment()
+	{
+		$client = $this->getClient('comment');
+		$ripe   = new WebService($client);
+
+		$person = new RegObject('ripe');
+		$object = $ripe->read($person);
+
+		$this->assertEquals('ripe # a comment', $object['register']);
+	}
+
 	// version
 
 	public function testClientGetsCorrectVersionRequest()
@@ -198,9 +209,18 @@ class URLTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($client->body);
 	}
 
-	// abuse
+	/**
+	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
+	 */
+	public function testSearchRequestFailsOnNonQuery()
+	{
+		$client = $this->getClient();
+		$ripe   = new WebService($client);
 
-// test IP & Inetnum
+		$ripe->search('FOO', new stdClass);
+	}
+
+	// abuse
 
 	public function testClientGetsCorrectAbuseRequest()
 	{
@@ -215,15 +235,36 @@ class URLTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testGetCorrectAbuseInfo()
+	public function testGetCorrectAbuseInfoFromObject()
 	{
 		$client = $this->getClient('abuse');
 		$ripe   = new WebService($client);
 
-		$ip = new Inetnum('127.0.0.0 - 127.0.0.127');
-		$email = $ripe->abuseContact($ip);
+		$ip     = new Inetnum('127.0.0.0 - 127.0.0.127');
+		$email  = $ripe->abuseContact($ip);
 
 		$this->assertEquals('abuse@example.com', $email);
+	}
+
+	public function testGetCorrectAbuseInfoFromIP()
+	{
+		$client = $this->getClient('abuse');
+		$ripe   = new WebService($client);
+
+		$email  = $ripe->abuseContact('2001:db8:0815::');
+
+		$this->assertEquals('abuse@example.com', $email);
+	}
+
+	/**
+	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
+	 */
+	public function testAbuseInfoFromInvalidIPFails()
+	{
+		$client = $this->getClient('abuse');
+		$ripe   = new WebService($client);
+
+		$ripe->abuseContact('2001:db8:0815');
 	}
 
 	// template

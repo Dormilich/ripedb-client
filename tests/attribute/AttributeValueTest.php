@@ -14,6 +14,8 @@ class AttributeValueTest extends PHPUnit_Framework_TestCase
 		$reg   = new RegObject;
 		$value = new AttributeValue('something');
 
+		$this->assertSame('something', $value->getValue());
+
 		$reg['register'] = $value;
 
 		$this->assertEquals('something',  $reg['register']);
@@ -25,6 +27,8 @@ class AttributeValueTest extends PHPUnit_Framework_TestCase
 		$reg   = new RegObject;
 		$value = new AttributeValue('something');
 		$value->setComment('else');
+
+		$this->assertSame('else', $value->getComment());
 
 		$reg['register'] = $value;
 
@@ -44,6 +48,24 @@ class AttributeValueTest extends PHPUnit_Framework_TestCase
 		$poem = $reg['register']->getObject();
 		$this->assertInstanceOf('Dormilich\WebService\RIPE\RPSL\Poem', $poem);
 		$this->assertSame('something', $poem->getPrimaryKey());
+	}
+
+	/**
+	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
+	 */
+	public function testGetObjectWithoutTypeFails()
+	{
+		$value = new AttributeValue('something');
+		$value->getObject();
+	}
+
+	/**
+	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
+	 */
+	public function testGetObjectWithUnknownTypeFails()
+	{
+		$value = new AttributeValue('something');
+		$value->setType('foo')->getObject();
 	}
 
 	public function testAttributeValueWithLink()

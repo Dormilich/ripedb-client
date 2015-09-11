@@ -3,6 +3,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
+
 class WebService
 {
     const SANDBOX           = 'sandbox';
@@ -192,10 +194,13 @@ class WebService
 
         foreach ($item['attributes']['attribute'] as $value) {
             try {
-                if ($value['name'] === 'source') {
+                if (count($value) < 3) {
                     $attr_val = $value['value'];
                 }
-                elseif (count($value) > 2) {
+                elseif ($value['name'] === 'source') {
+                    $attr_val = $value['value'];
+                }
+                else {
                     $attr_val = new AttributeValue($value['value']);
                     if (isset($value['comment'])) {
                         $attr_val->setComment($value['comment']);
@@ -206,9 +211,6 @@ class WebService
                     if (isset($value['link']) and $value['link']['type'] === 'locator') {
                         $attr_val->setLink($value['link']['href']);
                     }
-                }
-                else {
-                    $attr_val = $value['value'];
                 }
 
                 $object->getAttribute($value['name'])->addValue($attr_val);
