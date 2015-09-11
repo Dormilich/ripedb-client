@@ -139,7 +139,9 @@ class WebService
         }
 
         foreach ($data['versions']['version'] as $version) {
-            $this->results[$version['revision']] = $version['date'] . ' (' . $version['operation'] . ')';
+            if (isset($version['revision'])) {
+                $this->results[$version['revision']] = $version['date'] . ' (' . $version['operation'] . ')';
+            }
         }
 
         return true;

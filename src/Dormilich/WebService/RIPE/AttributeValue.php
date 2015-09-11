@@ -29,6 +29,11 @@ class AttributeValue
         return $this->value;
     }
 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
     public function setComment($value)
     {
         $this->comment = (string) $value;
