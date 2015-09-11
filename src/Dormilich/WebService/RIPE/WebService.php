@@ -190,15 +190,30 @@ class WebService
 
         foreach ($item['attributes']['attribute'] as $value) {
             try {
-                $string = $value['value'];
-                if (isset($value['comment']) and $value['name'] !== 'source') {
-                    $string .= ' # ' . $value['comment'];
+                if ($value['name'] === 'source') {
+                    $attr_val = $value['value'];
                 }
-                // skip over attributes that are present in the response but do 
-                // not conform to the current definitions
-                $object->getAttribute($value['name'])->addValue($string);
+                elseif (count($value) > 2) {
+                    $attr_val = new AttributeValue($value['value']);
+                    if (isset($value['comment'])) {
+                        $attr_val->setComment($value['comment']);
+                    }
+                    if (isset($value['referenced-type'])) {
+                        $attr_val->setType($value['referenced-type']);
+                    }
+                    if (isset($value['link']) and $value['link']['type'] === 'locator') {
+                        $attr_val->setLink($value['link']['href']);
+                    }
+                }
+                else {
+                    $attr_val = $value['value'];
+                }
+
+                $object->getAttribute($value['name'])->addValue($attr_val);
             }
             catch (\Exception $e) {
+                // skip over attributes that are present in the response but do 
+                // not conform to the current definitions
                 continue;
             }
         }

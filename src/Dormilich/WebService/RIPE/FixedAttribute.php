@@ -30,9 +30,9 @@ class FixedAttribute extends Attribute
      * @return string Validated string value.
      * @throws InvalidValueException Value not allowed.
      */
-    protected function getStringValue($value)
+    protected function convert($value)
     {
-        $value = parent::getStringValue($value);
+        $value = (string) parent::convert($value);
 
         if (!in_array($value, $this->values, true)) {
             $msg = sprintf('Value "%s" is not allowed for the [%s] attribute.', $value, $this->name);

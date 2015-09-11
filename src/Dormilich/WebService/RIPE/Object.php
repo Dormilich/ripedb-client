@@ -288,7 +288,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 foreach ((array) $attr->getValue() as $value) {
                     $attribute = $node->addChild('attribute');
                     $attribute->addAttribute('name',  $name);
-                    $attribute->addAttribute('value', $value);
+                    $attribute->addAttribute('value', (string) $value);
                 }
             }
         }

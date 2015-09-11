@@ -61,9 +61,9 @@ class MatchedAttribute extends Attribute
      * @return string Validated string value.
      * @throws InvalidValueException Value does not match pattern.
      */
-    protected function getStringValue($value)
+    protected function convert($value)
     {
-        $value = parent::getStringValue($value);
+        $value = (string) parent::convert($value);
 
         if (!preg_match($this->regexp, $value)) {
             $msg = sprintf('Invalid value for the [%s] attribute.', $this->name);

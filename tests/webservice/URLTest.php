@@ -336,13 +336,18 @@ class URLTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('POEM-HAIKU-OBJECT', $haiku['poem']);
 		$this->assertEquals('FORM-HAIKU', $haiku['form']);
-		$this->assertEquals('CROSSLINE-MNT', $haiku['mnt-by']);
+		$this->assertEquals('CROSSLINE-MNT', $haiku['mnt-by']); // object => string conversion!
 		$this->assertEquals([
 			"The haiku object", "Never came to life as such", "It's now generic"
 		], $haiku['text']);
 		$this->assertEquals(['RSP-RIPE'], $haiku['author']);
 		$this->assertEquals('2005-06-14T11:27:26Z', $haiku['created']);
 		$this->assertEquals('2005-06-14T14:38:27Z', $haiku['last-modified']);
+
+		$mntner = $haiku['mnt-by'];
+		$this->assertEquals('mntner', $mntner->getType());
+		$this->assertInstanceOf('\Dormilich\WebService\RIPE\RPSL\Mntner', $mntner->getObject());
+		$this->assertEquals('http://rest.db.ripe.net/ripe/mntner/CROSSLINE-MNT', $mntner->getLink());
 	}
 
 	// create

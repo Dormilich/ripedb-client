@@ -139,12 +139,12 @@ class Attribute implements AttributeInterface
         }
 
         if (!$this->multiple) {
-            $this->value = (array) $this->getStringValue($value);
+            $this->value = [ $this->convert($value) ];
             return $this;
         }
 
         foreach ((array) $value as $v) {
-            $this->value[] = $this->getStringValue($v);
+            $this->value[] = $this->convert($v);
         }
  
         return $this;
@@ -158,13 +158,16 @@ class Attribute implements AttributeInterface
      * @return string Converted value.
      * @throws InvalidDataTypeException Invalid data type of the value(s).
      */
-    protected function getStringValue($value)
+    protected function convert($value)
     {
         if (true === $value) {
             return 'true';
         }
         if (false === $value) {
             return 'false';
+        }
+        if ($value instanceof AttributeValue) {
+            return $value;
         }
         if (is_scalar($value) or (is_object($value) and method_exists($value, '__toString'))) {
             return (string) $value;
