@@ -4,9 +4,9 @@ use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
-use Dormilich\WebService\RIPE\WhoisWebService;
+use Test\RegObject;
 
-class WhoisTest extends PHPUnit_Framework_TestCase
+class URLTest extends PHPUnit_Framework_TestCase
 {
 	public function load($name)
 	{
@@ -33,57 +33,52 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testClientGetsCorrectDefaultRequestParameters()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$this->assertSame('sandbox', $ripe->getEnvironment());
 		$this->assertFalse($ripe->isProduction());
-		$this->assertTrue($ripe->isSSL());
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/test/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST?unfiltered', $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testClientGetsCorrectUrlForNoOptions()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person, []);
 
-		$this->assertEquals('/test/person/FOO-TEST', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST', $client->url);
 	}
 
 	public function testClientGetsCorrectCustomRequestParameters()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client, [
-			'ssl'         => false,
+		$ripe   = new WebService($client, [
 			'environment' => WebService::PRODUCTION,
 		]);
 
 		$this->assertSame('production', $ripe->getEnvironment());
 		$this->assertTrue($ripe->isProduction());
-		$this->assertFalse($ripe->isSSL());
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person);
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('http://rest.db.ripe.net', $client->uri);
-		$this->assertEquals('/ripe/person/FOO-TEST?unfiltered', $client->path);
+		$this->assertEquals('https://rest.db.ripe.net/ripe/person/FOO-TEST?unfiltered', $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testGetReadResultObject()
 	{
 		$client = $this->getClient('person');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$person = new Person('FOO-TEST');
 		$person = $ripe->read($person);
@@ -113,7 +108,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testUndefinedObjectResponseUsesDummyObject()
 	{
 		$client = $this->getClient('test');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$person = new Person('FOO-TEST');
 		$object = $ripe->read($person);
@@ -128,14 +123,13 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testClientGetsCorrectVersionRequest()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->version($ip, 5);
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/test/inetnum/127.0.0.1/versions/5?unfiltered', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/inetnum/127.0.0.1/versions/5?unfiltered', $client->url);
 		$this->assertNull($client->body);
 	}
 
@@ -144,21 +138,20 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testClientGetsCorrectVersionsRequest()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->versions($ip);
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/test/inetnum/127.0.0.1/versions', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/inetnum/127.0.0.1/versions', $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testGetCorrectVersionsInfo()
 	{
 		$client = $this->getClient('versions');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ip = new Inetnum('127.0.0.0 - 127.0.0.127');
 		$versions = $ripe->versions($ip);
@@ -175,54 +168,57 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testClientGetsCorrectSearchRequestFromArray()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ripe->search('FOO', [
 			'type-filter' 		=> 'role', 
 			'inverse-attribute' => ['tech-c', 'admin-c'], 
 		]);
 
+		$url = 'https://rest-test.db.ripe.net/search?type-filter=role&inverse-attribute=tech-c'
+			 . '&inverse-attribute=admin-c&source=test&query-string=FOO';
+
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/search?type-filter=role&inverse-attribute=tech-c'.
-			'&inverse-attribute=admin-c&source=test&query-string=FOO', $client->path);
+		$this->assertEquals($url, $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testClientGetsCorrectSearchRequestFromString()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ripe->search('FOO', 'type-filter=role&inverse-attribute=tech-c&inverse-attribute=admin-c');
 
+		$url = 'https://rest-test.db.ripe.net/search?type-filter=role&inverse-attribute=tech-c'
+			 . '&inverse-attribute=admin-c&source=test&query-string=FOO';
+
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/search?type-filter=role&inverse-attribute=tech-c'.
-			'&inverse-attribute=admin-c&source=test&query-string=FOO', $client->path);
+		$this->assertEquals($url, $client->url);
 		$this->assertNull($client->body);
 	}
 
 	// abuse
 
+// test IP & Inetnum
+
 	public function testClientGetsCorrectAbuseRequest()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->abuseContact($ip);
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/abuse-contact/127.0.0.1', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/abuse-contact/127.0.0.1', $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testGetCorrectAbuseInfo()
 	{
 		$client = $this->getClient('abuse');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$ip = new Inetnum('127.0.0.0 - 127.0.0.127');
 		$email = $ripe->abuseContact($ip);
@@ -235,20 +231,19 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testClientGetsCorrectTemplateRequest()
 	{
 		$client = $this->getClient();
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$poem = $ripe->getObjectFromTemplate('poem');
 
 		$this->assertEquals('GET', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net', $client->uri);
-		$this->assertEquals('/metadata/templates/poem', $client->path);
+		$this->assertEquals('https://rest-test.db.ripe.net/metadata/templates/poem', $client->url);
 		$this->assertNull($client->body);
 	}
 
 	public function testGetCorrectTemplateInfo()
 	{
 		$client = $this->getClient('template');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$poem = $ripe->getObjectFromTemplate('poem');
 
@@ -296,7 +291,7 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 	public function testGetCorrectTemplateInfoFromObject()
 	{
 		$client = $this->getClient('template');
-		$ripe   = new WhoisWebService($client);
+		$ripe   = new WebService($client);
 
 		$poem = new Poem('test');
 		$poem = $ripe->getObjectFromTemplate($poem);
@@ -323,5 +318,79 @@ class WhoisTest extends PHPUnit_Framework_TestCase
 		$list = Webservice::getErrors('foo');
 
 		$this->assertCount(0, $list);
+	}
+
+	// response parsing is handled inside the send() method 
+	// hence no need to test it for each method separately. 
+	public function testConvertResponse()
+	{
+		$client = $this->getClient('haiku');
+		$ripe   = new WebService($client);
+
+		$haiku  = new Poem('POEM-HAIKU-OBJECT');
+		$haiku['form'] = 'FORM-HAIKU';
+		$haiku['text'] = '...';
+		$haiku['mnt-by'] = 'CROSSLINE-MNT';
+
+		$haiku  = $ripe->create($haiku);
+
+		$this->assertEquals('POEM-HAIKU-OBJECT', $haiku['poem']);
+		$this->assertEquals('FORM-HAIKU', $haiku['form']);
+		$this->assertEquals('CROSSLINE-MNT', $haiku['mnt-by']);
+		$this->assertEquals([
+			"The haiku object", "Never came to life as such", "It's now generic"
+		], $haiku['text']);
+		$this->assertEquals(['RSP-RIPE'], $haiku['author']);
+		$this->assertEquals('2005-06-14T11:27:26Z', $haiku['created']);
+		$this->assertEquals('2005-06-14T14:38:27Z', $haiku['last-modified']);
+	}
+
+	// create
+
+	public function testClientGetsCorrectCreateRequest()
+	{
+		$client = $this->getClient();
+		$ripe   = new WebService($client);
+		$obj    = new RegObject('create');
+
+		$ripe->create($obj);
+
+		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"create"},{"name":"source","value":"TEST"}]}}]}}';
+
+		$this->assertEquals('POST', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/register?password=emptypassword', $client->url);
+		$this->assertEquals($expected, $client->body);
+	}
+
+	// update
+
+	public function testClientGetsCorrectUpdateRequest()
+	{
+		$client = $this->getClient();
+		$ripe   = new WebService($client);
+		$obj    = new RegObject('update');
+
+		$ripe->update($obj);
+
+		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"update"},{"name":"source","value":"TEST"}]}}]}}';
+
+		$this->assertEquals('PUT', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/register/update?password=emptypassword', $client->url);
+		$this->assertEquals($expected, $client->body);
+	}
+
+	// delete
+
+	public function testClientGetsCorrectDeleteRequest()
+	{
+		$client = $this->getClient();
+		$ripe   = new WebService($client);
+
+		$person = new RegObject('FOO');
+		$ripe->delete($person);
+
+		$this->assertEquals('DELETE', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/register/FOO?password=emptypassword', $client->url);
+		$this->assertNull($client->body);
 	}
 }

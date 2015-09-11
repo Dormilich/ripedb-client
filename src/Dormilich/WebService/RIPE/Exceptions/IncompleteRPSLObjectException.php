@@ -3,4 +3,4 @@
 
 namespace Dormilich\WebService\RIPE\Exceptions;
 
-class IncompleteRPSLObjectException extends \LogicException {}
+class IncompleteRPSLObjectException extends \LogicException implements RPSLException {}

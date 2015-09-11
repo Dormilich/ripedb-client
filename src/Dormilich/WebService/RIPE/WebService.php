@@ -26,11 +26,11 @@ class WebService
      * @param array $config Webservice config options 
      * @return self
      */
-    public function __construct(ClientAdapter $client, array $config = array())
+    public function __construct(Adapter\ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
 
-        $base = $this->isProduction() ? parent::PRODUCTION_HOST : parent::SANDBOX_HOST;
+        $base = $this->isProduction() ? self::PRODUCTION_HOST : self::SANDBOX_HOST;
 
         $this->client = $client;
         $this->client->setBaseUri($base);
@@ -191,7 +191,7 @@ class WebService
         foreach ($item['attributes']['attribute'] as $value) {
             try {
                 $string = $value['value'];
-                if (isset($value['comment'])) {
+                if (isset($value['comment']) and $value['name'] !== 'source') {
                     $string .= ' # ' . $value['comment'];
                 }
                 // skip over attributes that are present in the response but do 
@@ -327,7 +327,7 @@ class WebService
     public function abuseContact($value)
     {
         if ($value instanceof Object) {
-            $key = $object->getPrimaryKey();
+            $key = $value->getPrimaryKey();
         }
         elseif (filter_var($value, \FILTER_VALIDATE_IP)) {
             $key = $value;
@@ -406,7 +406,7 @@ class WebService
             $object->getType(), $object->getPrimaryKey(), $version
         );
         $json = $this->client->request('GET', $path);
-        $this->setResult($json);
+        $this->setObjects($json);
 
         return $this->getResult();
     }
@@ -429,7 +429,7 @@ class WebService
         }
 
         $json = $this->client->request('GET', $path);
-        $this->setResult($json);
+        $this->setObjects($json);
 
         return $this->getResult();
     }
@@ -442,22 +442,20 @@ class WebService
      * @param ObjectInterface $object RPSL object.
      * @return void
      */
-    protected function send($method, ObjectInterface $object = NULL)
+    protected function send($method, $path, ObjectInterface $object = NULL)
     {
         if (NULL === $object) {
             $body = NULL;
-            $path = $object->getType();
         } 
         else {
             $body = $this->createJSON($object);
-            $path = $object->getType() . '/' . $object->getPrimaryKey();
         }
 
         $path .= '?' . http_build_query(['password' => $this->getPassword()]);
 
         $json = $this->client->request($method, $path, $body);
 
-        $this->setResult($json);
+        $this->setObjects($json);
     }
 
     /**
@@ -468,7 +466,7 @@ class WebService
      */
     public function create(Object $object)
     {
-        $this->send('POST', $object);
+        $this->send('POST', $object->getType(), $object);
 
         return $this->getResult();
     }
@@ -482,7 +480,8 @@ class WebService
      */
     public function update(Object $object)
     {
-        $this->send('PUT', $object);
+        $path = $object->getType() . '/' . $object->getPrimaryKey();
+        $this->send('PUT', $path, $object);
 
         return $this->getResult();
     }
@@ -498,7 +497,8 @@ class WebService
      */
     public function delete(Object $object)
     {
-        $this->send('DELETE', $object);
+        $path = $object->getType() . '/' . $object->getPrimaryKey();
+        $this->send('DELETE', $path);
 
         return $this->getResult();
     }

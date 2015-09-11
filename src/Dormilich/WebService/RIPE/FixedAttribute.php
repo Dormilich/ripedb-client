@@ -3,6 +3,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
+
 class FixedAttribute extends Attribute
 {
     private $values = [];

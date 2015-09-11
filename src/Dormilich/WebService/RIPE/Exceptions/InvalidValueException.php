@@ -3,4 +3,4 @@
 
 namespace Dormilich\WebService\RIPE\Exceptions;
 
-class InvalidValueException extends \UnexpectedValueException {}
+class InvalidValueException extends \UnexpectedValueException implements RPSLException {}

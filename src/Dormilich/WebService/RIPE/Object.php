@@ -239,7 +239,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 foreach ((array) $attr->getValue() as $value) {
                     $attributes[] = [
                         "name"  => $attr->getName(), 
-                        "value" => $value, 
+                        "value" => (string) $value, 
                     ];
                 }
             }

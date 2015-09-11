@@ -3,4 +3,4 @@
 
 namespace Dormilich\WebService\RIPE\Exceptions;
 
-class InvalidDataTypeException extends \InvalidArgumentException {}
+class InvalidDataTypeException extends \InvalidArgumentException implements RPSLException {}

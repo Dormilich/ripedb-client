@@ -180,30 +180,4 @@ class AttributeTest extends PHPUnit_Framework_TestCase
 		$attr->setValue(['fizz' => 'buzz']);
 		$this->assertSame(['buzz'], $attr->getValue());
 	}
-
-	public function testSingleAttributeConvertsToArray()
-	{
-		$array = [
-			['name' => 'foo', 'value' => 'bar']
-		];
-
-		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
-		$attr->setValue('bar');
-
-		$this->assertSame($array, $attr->toArray());
-	}
-
-	public function testMultipleAttributeConvertsToArray()
-	{
-		$array = [
-			['name' => 'foo', 'value' => 'bar'],
-			['name' => 'foo', 'value' => 'baz'],
-		];
-
-		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
-		$attr->addValue('bar');
-		$attr->addValue('baz');
-
-		$this->assertSame($array, $attr->toArray());
-	}
 }

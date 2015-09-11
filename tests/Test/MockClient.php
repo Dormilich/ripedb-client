@@ -11,12 +11,11 @@ use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
  */
 class MockClient implements ClientAdapter
 {
-	public $uri;
 	public $method;
-	public $path;
+	public $url;
 	public $body;
-	public $options;
 
+	protected $base;
 	protected $response;
 
 	public function __construct(array $response)
@@ -26,15 +25,27 @@ class MockClient implements ClientAdapter
 
 	public function setBaseUri($uri)
 	{
-		$this->uri = $uri;
+		$this->base = $uri;
 	}
 
-	public function request($method, $path, $body = NULL, array $options = array())
+	public function request($method, $path, $body = NULL)
 	{
+		$host   = parse_url($this->base, \PHP_URL_HOST);
+		$scheme = parse_url($this->base, \PHP_URL_SCHEME);
+		$dir	= substr($this->base, 0, strrpos($this->base, '/')+1);
+
+		if (strpos($path, '//') === 0) {
+			$this->url = $scheme . '://' . $path;
+		}
+		elseif (strpos($path, '/') === 0) {
+			$this->url = $scheme . '://' . $host . $path;
+		}
+		else {
+			$this->url = $dir . $path;
+		}
+
 		$this->method  = $method;
-		$this->path    = $path;
 		$this->body    = $body;
-		$this->options = $options;
 
 		return $this->response;
 	}

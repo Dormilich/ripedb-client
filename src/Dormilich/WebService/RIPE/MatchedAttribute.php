@@ -3,6 +3,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
+
 class MatchedAttribute extends Attribute
 {
     private $regexp;

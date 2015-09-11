@@ -3,6 +3,8 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException;
+
 class Attribute implements AttributeInterface
 {
     /**

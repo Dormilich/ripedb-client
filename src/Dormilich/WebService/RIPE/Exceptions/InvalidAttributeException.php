@@ -3,4 +3,4 @@
 
 namespace Dormilich\WebService\RIPE\Exceptions;
 
-class InvalidAttributeException extends \OutOfBoundsException {}
+class InvalidAttributeException extends \OutOfBoundsException implements RPSLException {}
