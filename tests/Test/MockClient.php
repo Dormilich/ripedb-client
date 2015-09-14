@@ -32,7 +32,7 @@ class MockClient implements ClientAdapter
 	{
 		$host   = parse_url($this->base, \PHP_URL_HOST);
 		$scheme = parse_url($this->base, \PHP_URL_SCHEME);
-		$dir	= substr($this->base, 0, strrpos($this->base, '/')+1);
+		$dir	= substr($this->base, 0, strrpos($this->base, '/', strlen($host))+1);
 
 		if (strpos($path, '//') === 0) {
 			$this->url = $scheme . '://' . $path;

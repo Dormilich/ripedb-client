@@ -14,6 +14,9 @@ interface ClientAdapter
 
     /**
      * Send a request to the targeted API URI and return the JSON parsed response body.
+     * If a request error occurrs, the implementation SHOULD throw an appropriate 
+     * exception to prevent further response processing. If exceptions are not used, 
+     * the return value should then be an empty array.
      * 
      * @param string $method HTTP method.
      * @param string $path Request path.

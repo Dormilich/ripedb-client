@@ -7,17 +7,17 @@ use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 
 class WebService
 {
-    const SANDBOX           = 'sandbox';
+    const SANDBOX         = 'sandbox';
 
-    const PRODUCTION        = 'production';
+    const PRODUCTION      = 'production';
 
-    const SANDBOX_HOST      = 'https://rest-test.db.ripe.net/test/';
+    const SANDBOX_HOST    = 'https://rest-test.db.ripe.net/test/';
 
-    const PRODUCTION_HOST   = 'https://rest.db.ripe.net/ripe/';
+    const PRODUCTION_HOST = 'https://rest.db.ripe.net/ripe/';
 
-    private $config         = [];
+    private $config       = [];
 
-    protected $results      = [];
+    protected $results    = [];
 
     protected $client;
 
@@ -79,6 +79,19 @@ class WebService
     }
 
     /**
+     * Set the password.
+     * 
+     * @param string $value New password.
+     * @return self
+     */
+    public function setPassword($value)
+    {
+        $this->config['password'] = (string) $value;
+
+        return $this;
+    }
+
+    /**
      * Get the current environment.
      * 
      * @return string
@@ -86,6 +99,23 @@ class WebService
     public function getEnvironment()
     {
         return $this->config['environment'];
+    }
+
+    /**
+     * Set the environment mode.
+     * 
+     * @param string $value Environment name.
+     * @return self
+     */
+    public function setEnvironment($value)
+    {
+        if ($value === self::PRODUCTION) {
+            $this->config['environment'] = self::PRODUCTION;
+        } else {
+            $this->config['environment'] = self::SANDBOX;
+        }
+
+        return $this;
     }
 
     /**
@@ -432,8 +462,6 @@ class WebService
 
     /**
      * Get a RIPE object from the DB by its primary key.
-     * 
-     * Note: This request does not require a password.
      * 
      * @param Object $object RIPE Object.
      * @param array $params Additional options: unfiltered, unformatted. Default: unfiltered.
