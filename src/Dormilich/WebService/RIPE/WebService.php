@@ -81,12 +81,12 @@ class WebService
     /**
      * Set the password.
      * 
-     * @param string $value New password.
+     * @param string $password New password.
      * @return self
      */
-    public function setPassword($value)
+    public function setPassword($password)
     {
-        $this->config['password'] = (string) $value;
+        $this->config['password'] = (string) $password;
 
         return $this;
     }
@@ -104,12 +104,12 @@ class WebService
     /**
      * Set the environment mode.
      * 
-     * @param string $value Environment name.
+     * @param string $environment Environment name.
      * @return self
      */
-    public function setEnvironment($value)
+    public function setEnvironment($environment)
     {
-        if ($value === self::PRODUCTION) {
+        if ($environment === self::PRODUCTION) {
             $this->config['environment'] = self::PRODUCTION;
         } else {
             $this->config['environment'] = self::SANDBOX;

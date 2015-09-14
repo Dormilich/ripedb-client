@@ -232,7 +232,7 @@ string public function WebService::getPassword ()
 Get the currently set password.
 
 ```php
-WebService public function WebService::setPassword ()
+WebService public function WebService::setPassword ( $password )
 ```
 Set the password. Only required for the `create()`, `update()`, and `delete()` methods.
 
@@ -242,7 +242,7 @@ string public function WebService::getEnvironment ()
 Get the current environment name.
 
 ```php
-WebService public function WebService::setEnvironment ()
+WebService public function WebService::setEnvironment ( $environment )
 ```
 Set the current environment by name. Safest way is to use the class constants 
 `WebService::PRODUCTION` and `WebService::SANDBOX`.
