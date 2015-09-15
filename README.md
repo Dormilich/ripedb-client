@@ -9,7 +9,7 @@ preconditions.
 
 ## Installation
 
-Install the RIPE client via composer
+ToDo: Install the RIPE client via composer
 
     composer install dormilich/ripe-client
 
@@ -219,6 +219,7 @@ Dummy public function WebService::getObjectFromTemplate ( mixed $name )
 Create an empty RIPE object (without type contraints) according the the definitions as 
 retrieved from the database. 
 
+
 ### Web service methods
 
 ```php
@@ -232,7 +233,7 @@ string public function WebService::getPassword ()
 Get the currently set password.
 
 ```php
-WebService public function WebService::setPassword ( $password )
+WebService public function WebService::setPassword ( string $password )
 ```
 Set the password. Only required for the `create()`, `update()`, and `delete()` methods.
 
@@ -242,7 +243,7 @@ string public function WebService::getEnvironment ()
 Get the current environment name.
 
 ```php
-WebService public function WebService::setEnvironment ( $environment )
+WebService public function WebService::setEnvironment ( string $environment )
 ```
 Set the current environment by name. Safest way is to use the class constants 
 `WebService::PRODUCTION` and `WebService::SANDBOX`.
@@ -262,6 +263,20 @@ array public static function WebService::getErrors ( string $body )
 ```
 Parse a response body for RIPE error messages.
 
+
+### RIPE references
+
+Some attributes contain references to other RIPE objects (e.g. *tech-c*, *admin-c*, _mnt-*_). 
+When you fetch an object from the RIPE database, for these attributes a special value object 
+(`AttributeValue`) is created that can provide you the type and lookup object (an object with 
+the primary key set to be used in the `read()` method) of the referenced object.
+
+
+### RIPE comments
+
+The RIPE DB uses the hash sign (`#`) for denoting comments. When fetching an attribute with comments, 
+these are transmitted separately from the attribute value. For these case the `AttributeValue` object 
+will be used as well. When accessing the attribute value as string, the comment will be appended.
 
 ## Notes
 

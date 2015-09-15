@@ -111,8 +111,10 @@ class WebService
     {
         if ($environment === self::PRODUCTION) {
             $this->config['environment'] = self::PRODUCTION;
+            $this->client->setBaseUri(self::PRODUCTION_HOST);
         } else {
             $this->config['environment'] = self::SANDBOX;
+            $this->client->setBaseUri(self::SANDBOX_HOST);
         }
 
         return $this;
