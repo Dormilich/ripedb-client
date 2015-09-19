@@ -1,6 +1,6 @@
 <?php
 
-namespace Dormilich\WebService\RIPE\Adapter;
+namespace Dormilich\WebService\Adapter;
 
 interface ClientAdapter
 {

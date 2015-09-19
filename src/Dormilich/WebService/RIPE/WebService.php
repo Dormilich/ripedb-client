@@ -3,6 +3,7 @@
 
 namespace Dormilich\WebService\RIPE;
 
+use Dormilich\WebService\Adapter\ClientAdapter;
 use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 
 class WebService
@@ -28,7 +29,7 @@ class WebService
      * @param array $config Webservice config options 
      * @return self
      */
-    public function __construct(Adapter\ClientAdapter $client, array $config = array())
+    public function __construct(ClientAdapter $client, array $config = array())
     {
         $this->setOptions($config);
 

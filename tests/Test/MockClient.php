@@ -2,7 +2,7 @@
 
 namespace Test;
 
-use Dormilich\WebService\RIPE\Adapter\ClientAdapter;
+use Dormilich\WebService\Adapter\ClientAdapter;
 
 /**
  * This class is a mock object for the connection client allowing us to inspect 
