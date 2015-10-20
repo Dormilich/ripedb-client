@@ -11,7 +11,7 @@ class Inetnum extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.80';
+    const VERSION = '1.82';
 
     /**
      * Create a INETNUM RIPE object
@@ -57,7 +57,6 @@ class Inetnum extends Object
         $this->create('mnt-routes',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-domains', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-irt',     Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('changed',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('source',      Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');

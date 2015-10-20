@@ -11,7 +11,7 @@ class InetRtr extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.80';
+    const VERSION = '1.82';
 
     /**
      * Create a router (INET-RTR) RIPE object.
@@ -49,7 +49,6 @@ class InetRtr extends Object
         $this->create('tech-c',    Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('notify',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',    Attr::REQUIRED, Attr::MULTIPLE);
-        $this->create('changed',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('source',    Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
