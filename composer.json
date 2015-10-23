@@ -24,5 +24,7 @@
     "require-dev": {
         "guzzlehttp/guzzle": "~6.0",
         "phpunit/phpunit": "~4.7"
-    }
+    },
+	"minimum-stability": "dev",
+	"version": "dev-master",
 }
