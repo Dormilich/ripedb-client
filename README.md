@@ -280,4 +280,4 @@ will be used as well. When accessing the attribute value as string, the comment 
 
 ## Notes
 
-* Object validation uses RIPE DB version 1.80
+* Object validation uses RIPE DB version 1.82
