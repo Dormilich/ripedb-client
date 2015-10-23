@@ -11,7 +11,7 @@ preconditions.
 
 ToDo: Install the RIPE client via composer
 
-    composer install dormilich/ripe-client
+    composer require "dormilich/ripe-client": "dev-master"
 
 or by cloning this repository.
 
