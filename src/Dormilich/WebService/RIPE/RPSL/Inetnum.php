@@ -19,12 +19,51 @@ class Inetnum extends Object
      * @param string $value A range of or a single IPv4 address.
      * @return self
      */
-    public function __construct($value)
+    public function __construct($address, $value = null)
     {
         $this->setType('inetnum');
         $this->setKey('inetnum');
         $this->init();
-        $this->setAttribute('inetnum', $value);
+        $this->setAttribute('inetnum', $this->getIPRange($address, $value));
+    }
+
+    private function getIPRange($address, $value)
+    {
+        // check for range
+        if (strpos($address, '-') !== false) {
+            return $address;
+        }
+        // check for CIDR
+        if (strpos($address, '/') !== false)  {
+            $cidr = explode('/', $address);
+            $range = $this->convertCIDR($cidr[0], $cidr[1]);
+            if (!$range) {
+                return $address;
+            }
+            return $range;
+        }
+        return $address;
+    }
+
+    private function convertCIDR($ip, $prefix)
+    {
+        $ipnum = ip2long($ip);
+        $prefix = filter_var($prefix, \FILTER_VALIDATE_INT, [
+            'options' => ['min_range' => 0, 'max_range' => 32]
+        ]);
+
+        if (false === $ipnum or false === $prefix) {
+            return false;
+        }
+
+        $netsize = 1 << (32 - $prefix);
+        $end_num = $ipnum + $netsize - 1;
+
+        if ($end_num >= (1 << 32)) {
+            return false;
+        }
+
+        return long2ip($ipnum) . ' - ' . long2ip($end_num);
     }
 
     /**
