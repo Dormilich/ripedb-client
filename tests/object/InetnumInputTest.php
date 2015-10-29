@@ -56,8 +56,10 @@ class InetnumInputTest extends PHPUnit_Framework_TestCase
     public function testInvalidInputIsRetained()
     {
         $bogus = 'example.com';
-        $net = new Inetnum($bogus);
+        $net1 = new Inetnum($bogus);
+        $net2 = new Inetnum($bogus, '127.0.0.1');
 
-        $this->assertSame($bogus, $net->getPrimaryKey());
+        $this->assertSame($bogus, $net1->getPrimaryKey());
+        $this->assertSame($bogus, $net2->getPrimaryKey());
     }
 }
