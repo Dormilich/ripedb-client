@@ -42,12 +42,20 @@ class Inetnum extends Object
             }
             return $range;
         }
+        // check for separated CIDR
+        if (is_numeric($value)) {
+            $range = $this->convertCIDR($address, $value);
+            if (!$range) {
+                return $address;
+            }
+            return $range;
+        }
         return $address;
     }
 
     private function convertCIDR($ip, $prefix)
     {
-        $ipnum = ip2long($ip);
+        $ipnum = ip2long((string) $ip);
         $prefix = filter_var($prefix, \FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 0, 'max_range' => 32]
         ]);
