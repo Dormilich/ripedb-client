@@ -14,9 +14,17 @@ class Inetnum extends Object
     const VERSION = '1.82';
 
     /**
-     * Create a INETNUM RIPE object
+     * Create a INETNUM RIPE object.
      * 
-     * @param string $value A range of or a single IPv4 address.
+     * Supported input formats:
+     *  - IP range string (IP address - [space] hyphen [space] - IP address)
+     *  - single IP address/object
+     *  - IP address/object & IP address/object
+     *  - CIDR
+     *  - IP address/object & CIDR prefix
+     * 
+     * @param mixed $address IP range, CIDR, or IP string/object.
+     * @param mixed $value CIDR prefix or IP string/object.
      * @return self
      */
     public function __construct($address, $value = null)
@@ -27,6 +35,14 @@ class Inetnum extends Object
         $this->setAttribute('inetnum', $this->getIPRange($address, $value));
     }
 
+    /**
+     * Convert the various input formats to an IP range string. If the input 
+     * fails any validation, the address parameter is returned unchanged.
+     * 
+     * @param mixed $address IP range, CIDR, or IP string/object.
+     * @param mixed $value CIDR prefix or IP string/object.
+     * @return string IP range string.
+     */
     private function getIPRange($address, $value)
     {
         // check for range
@@ -58,11 +74,29 @@ class Inetnum extends Object
             if (false === $start_num or false === $end_num) {
                 return $address;
             }
-            return long2ip($start_num) . ' - ' . long2ip($end_num);
+
+            if ($start_num < $end_num) {
+                return long2ip($start_num) . ' - ' . long2ip($end_num);
+            } 
+            elseif ($start_num > $end_num) {
+                return long2ip($end_num) . ' - ' . long2ip($start_num);
+            }
+            else {
+                return long2ip($start_num);
+            }
         }
-        return $address;
+
+        return (string) $address;
     }
 
+    /**
+     * Convert IP and CIDR prefix into an IP range. Returns FALSE if either 
+     * input is invalid or the end IP would exceed the IPv4 range.
+     * 
+     * @param mixed $ip IP address.
+     * @param integer $prefix CIDR prefix.
+     * @return string IP range or FALSE.
+     */
     private function convertCIDR($ip, $prefix)
     {
         $ipnum = ip2long((string) $ip);
