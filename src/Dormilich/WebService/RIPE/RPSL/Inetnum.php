@@ -50,6 +50,16 @@ class Inetnum extends Object
             }
             return $range;
         }
+        // try input as IP
+        if ($value) {
+            $start_num = ip2long((string) $address);
+            $end_num   = ip2long((string) $value);
+
+            if (false === $start_num or false === $end_num) {
+                return $address;
+            }
+            return long2ip($start_num) . ' - ' . long2ip($end_num);
+        }
         return $address;
     }
 
