@@ -324,9 +324,9 @@ class WebService
             if (is_array($value)) {
                 $value = $this->createQueryString($value, $key);
             } elseif ($name) {
-                $value = $name . '=' . urlencode($value);
+                $value = $name . '=' . rawurlencode($value);
             } else {
-                $value = $key . '=' . urlencode($value);
+                $value = $key . '=' . rawurlencode($value);
             }
         }, $name);
 
@@ -492,7 +492,7 @@ class WebService
      * @param ObjectInterface $object RPSL object.
      * @return void
      */
-    protected function send($method, $path, ObjectInterface $object = NULL)
+    protected function send($method, $path, $query = array(), ObjectInterface $object = NULL)
     {
         if (NULL === $object) {
             $body = NULL;
@@ -501,7 +501,8 @@ class WebService
             $body = $this->createJSON($object);
         }
 
-        $path .= '?' . http_build_query(['password' => $this->getPassword()]);
+        $query += ['password' => $this->getPassword()];
+        $path  .= '?' . $this->createQueryString($query);
 
         $json = $this->client->request($method, $path, $body);
 
@@ -516,7 +517,7 @@ class WebService
      */
     public function create(Object $object)
     {
-        $this->send('POST', $object->getType(), $object);
+        $this->send('POST', $object->getType(), [], $object);
 
         return $this->getResult();
     }
@@ -531,7 +532,7 @@ class WebService
     public function update(Object $object)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
-        $this->send('PUT', $path, $object);
+        $this->send('PUT', $path, [], $object);
 
         return $this->getResult();
     }
@@ -545,10 +546,16 @@ class WebService
      * @param Object $object RIPE object.
      * @return Object The deleted object.
      */
-    public function delete(Object $object)
+    public function delete(Object $object, $reason = NULL)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
-        $this->send('DELETE', $path);
+
+        if ($reason) {
+            $this->send('DELETE', $path, ['reason' => $reason]);
+        }
+        else {
+            $this->send('DELETE', $path);
+        }
 
         return $this->getResult();
     }

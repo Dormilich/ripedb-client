@@ -259,4 +259,17 @@ class URLTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('https://rest-test.db.ripe.net/test/register/FOO?password=emptypassword', $client->url);
 		$this->assertNull($client->body);
 	}
+
+	public function testClientGetsCorrectDeleteRequestWithReason()
+	{
+		$client = $this->getClient();
+		$ripe   = new WebService($client);
+
+		$person = new RegObject('FOO');
+		$ripe->delete($person, 'because I can!');
+
+		$this->assertEquals('DELETE', $client->method);
+		$this->assertEquals('https://rest-test.db.ripe.net/test/register/FOO?reason=because%20I%20can%21&password=emptypassword', $client->url);
+		$this->assertNull($client->body);
+	}
 }
