@@ -28,7 +28,7 @@ class MockClient implements ClientAdapter
 		$this->base = $uri;
 	}
 
-	public function request($method, $path, $body = NULL)
+	public function request($method, $path, array $headers = NULL, $body = NULL)
 	{
 		$host   = parse_url($this->base, \PHP_URL_HOST);
 		$scheme = parse_url($this->base, \PHP_URL_SCHEME);
