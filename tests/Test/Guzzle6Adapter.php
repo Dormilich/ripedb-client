@@ -83,6 +83,6 @@ class Guzzle6Adapter implements ClientAdapter
 
         $response = $this->client->request($method, $path, $options);
 
-        return json_decode($response->getBody(), true);
+        return $response->getBody();
     }
 }

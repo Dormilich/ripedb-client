@@ -334,6 +334,22 @@ class WebService
     }
 
     /**
+     * Make a GET request for the given resource and return its result as 
+     * parsed JSON.
+     * 
+     * @param string $path String denoting the requested REST resource.
+     * @return array JSON parsed response.
+     */
+    protected function query($path)
+    {
+        $body = $this->client->request('GET', $path, [
+            'Accept' => 'application/json',
+        ]);
+
+        return json_decode($body, true);
+    }
+
+    /**
      * Search for a resource.
      * 
      * @param string $value The search string.
@@ -362,7 +378,7 @@ class WebService
             throw new InvalidValueException('Input value is not a query string.');
         }
 
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
         $this->setObjects($json);
 
         return count($this->results);
@@ -388,7 +404,7 @@ class WebService
             throw new InvalidValueException('Input value is not an IP or RPSL object.');
         }
         $path = '/abuse-contact/' . $key;
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
 
         if (isset($json['abuse-contacts'])) {
             return $json['abuse-contacts']['email'];
@@ -412,7 +428,7 @@ class WebService
             $type = strtolower($name);
         }
         $path = '/metadata/templates/' . $type;
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
 
         if (!isset($json['templates']['template'])) {
             return NULL;
@@ -436,7 +452,7 @@ class WebService
     public function versions(Object $object)
     {
         $path = sprintf('%s/%s/versions', $object->getType(), $object->getPrimaryKey());
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
         $this->setVersions($json);
 
         return $this->getAllResults();
@@ -457,7 +473,7 @@ class WebService
         $path = sprintf('%s/%s/versions/%d?unfiltered', 
             $object->getType(), $object->getPrimaryKey(), $version
         );
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
         $this->setObjects($json);
 
         return $this->getResult();
@@ -478,7 +494,7 @@ class WebService
             $path .= '?' . implode('&', $params);
         }
 
-        $json = $this->client->request('GET', $path);
+        $json = $this->query($path);
         $this->setObjects($json);
 
         return $this->getResult();
@@ -494,17 +510,21 @@ class WebService
      */
     protected function send($method, $path, $query = array(), ObjectInterface $object = NULL)
     {
+        $headers = ['Accept' => 'application/json'];
+
         if (NULL === $object) {
             $body = NULL;
         } 
         else {
             $body = $this->createJSON($object);
+            $headers['Content-Type'] = 'application/json';
         }
 
         $query += ['password' => $this->getPassword()];
         $path  .= '?' . $this->createQueryString($query);
 
-        $json = $this->client->request($method, $path, $body);
+        $body = $this->client->request($method, $path, $headers, $body);
+        $json = json_decode($body, true);
 
         $this->setObjects($json);
     }

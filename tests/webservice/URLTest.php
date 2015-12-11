@@ -10,7 +10,7 @@ class URLTest extends PHPUnit_Framework_TestCase
 {
 	public function getClient($name = NULL)
 	{
-		return new Test\MockClient([]);
+		return new Test\MockClient('[]');
 	}
 
 	// read

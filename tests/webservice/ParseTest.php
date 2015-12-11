@@ -11,7 +11,7 @@ class ParseTest extends PHPUnit_Framework_TestCase
 	public function load($name)
 	{
 		if (!$name) {
-			return [];
+			return '[]';
 		}
 
 		$file = __DIR__ . '/_fixtures/' . $name . '.json';
@@ -20,7 +20,7 @@ class ParseTest extends PHPUnit_Framework_TestCase
 			throw new RuntimeException("File $name.json not found.");
 		}
 
-		return json_decode(file_get_contents($file), true);
+		return file_get_contents($file);
 	}
 
 	public function getClient($name = NULL)

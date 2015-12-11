@@ -18,7 +18,7 @@ class MockClient implements ClientAdapter
 	protected $base;
 	protected $response;
 
-	public function __construct(array $response)
+	public function __construct($response)
 	{
 		$this->response = $response;
 	}
