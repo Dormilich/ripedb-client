@@ -20,31 +20,7 @@ class Guzzle6Adapter implements ClientAdapter
      */
     public function __construct(array $options)
     {
-        $options = $this->addDefaults($options);
         $this->client = new Client($options);
-    }
-
-    /**
-     * Add default options (type headers) to Guzzle.
-     * 
-     * @param array $options User provided options.
-     * @return array $options Options with added JSON headers.
-     */
-    private function addDefaults(array $options)
-    {
-        $headers = [
-            "Accept"       => "application/json", 
-            "Content-Type" => "application/json", 
-        ];
-
-        if (!isset($options['headers'])) {
-            $options['headers'] = $headers;
-        }
-        else {
-            $option['headers'] = $headers + $option['headers'];
-        }
-
-        return $options;
     }
 
     /**
