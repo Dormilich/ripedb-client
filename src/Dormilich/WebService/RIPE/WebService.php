@@ -305,6 +305,13 @@ class WebService
                 continue;
             }
             $args   = array_filter($error['args'], $filter);
+
+            // ripe may return not enough args (eg empty netname)
+            if(substr_count($text, '%') > count($args)) {
+                $list[] = $text;
+                continue;
+            }
+
             $list[] = vsprintf($text, array_map($map, $args));
         }
 
