@@ -236,11 +236,19 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
-                foreach ((array) $attr->getValue() as $value) {
+                if($attr->getValue() instanceof AttributeValue) {
                     $attributes[] = [
-                        "name"  => $attr->getName(), 
-                        "value" => (string) $value, 
+                        "name"  => $attr->getName(),
+                        "value" => (string) $attr->getValue(),
                     ];
+                }
+                else {
+                    foreach ((array) $attr->getValue() as $value) {
+                        $attributes[] = [
+                            "name"  => $attr->getName(),
+                            "value" => (string) $value,
+                        ];
+                    }
                 }
             }
         }
