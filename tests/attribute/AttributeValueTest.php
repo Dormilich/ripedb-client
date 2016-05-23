@@ -97,4 +97,18 @@ class AttributeValueTest extends PHPUnit_Framework_TestCase
 		$attr->setValue($value);
 		$this->assertSame('xyz', $attr->getValue());
 	}
+
+	public function testAttributeValueToArray() {
+		$reg   = new RegObject;
+		$value = new AttributeValue('something');
+		$value->setLink('http://www.example.com/something');
+
+		$reg['source'] = 'TEST';
+		$reg['register'] = $value;
+
+		$this->assertEquals($reg->toArray()['objects']['object'][0]['attributes']['attribute'], [
+				['name' => 'register', 'value' => 'something'],
+				['name' => 'source', 'value' => 'TEST']
+			]);
+	}
 }
