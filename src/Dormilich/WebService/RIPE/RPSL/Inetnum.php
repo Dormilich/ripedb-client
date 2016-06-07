@@ -11,7 +11,7 @@ class Inetnum extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.82';
+    const VERSION = '1.86';
 
     /**
      * Create a INETNUM RIPE object.
