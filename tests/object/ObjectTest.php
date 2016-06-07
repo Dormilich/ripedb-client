@@ -249,4 +249,15 @@ class ObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(['num', '1'], call_user_func($getData, $lines[4]));
 		$this->assertEquals(['source', 'test'], call_user_func($getData, $lines[5]));
 	}
+
+	public function testGetAttributeNames()
+	{
+		$obj = new TestObject;
+
+		$attr = $obj->getAttributeNames();
+		$this->assertEquals(['bar', 'abc', 'choice', 'num', 'source'], $attr);
+
+		$all = $obj->getAttributeNames(true);
+		$this->assertEquals(['bar', 'abc', 'choice', 'num', 'source', 'changed'], $all);
+	}
 }

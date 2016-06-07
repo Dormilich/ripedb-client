@@ -17,8 +17,7 @@ class Inetnum extends Object
      * Create a INETNUM RIPE object.
      * 
      * Supported input formats:
-     *  - IP range string (IP address - [space] hyphen [space] - IP address)
-     *  - single IP address/object
+     *  - IP range string (IP address - space - hyphen - space - IP address)
      *  - IP address/object & IP address/object
      *  - CIDR
      *  - IP address/object & CIDR prefix

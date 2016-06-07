@@ -107,8 +107,8 @@ class AttributeValueTest extends PHPUnit_Framework_TestCase
 		$reg['register'] = $value;
 
 		$this->assertEquals($reg->toArray()['objects']['object'][0]['attributes']['attribute'], [
-				['name' => 'register', 'value' => 'something'],
-				['name' => 'source', 'value' => 'TEST']
-			]);
+			['name' => 'register', 'value' => 'something'],
+			['name' => 'source', 'value' => 'TEST']
+		]);
 	}
 }

@@ -176,6 +176,24 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
     }
 
     /**
+     * Get the keys for the attributes (no matter whether they’re defined or not), 
+     * optionally adding the names of the generated attributes.
+     * 
+     * @param bool $includeGenerated 
+     * @return array
+     */
+    public function getAttributeNames($includeGenerated = false)
+    {
+        $names = array_keys($this->attributes);
+
+        if ($includeGenerated) {
+            $names = array_merge($names, array_keys($this->generated));
+        }
+
+        return $names;
+    }
+
+    /**
      * Get an attribute specified by name.
      * 
      * @param string $name Name of the attribute.
@@ -236,7 +254,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
-                if($attr->getValue() instanceof AttributeValue) {
+                if ($attr->getValue() instanceof AttributeValue) {
                     $attributes[] = [
                         "name"  => $attr->getName(),
                         "value" => (string) $attr->getValue(),
