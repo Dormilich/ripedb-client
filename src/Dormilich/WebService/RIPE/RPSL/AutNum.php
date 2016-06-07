@@ -40,7 +40,7 @@ class AutNum extends Object
     {
         $this->create('aut-num',    Attr::REQUIRED, Attr::SINGLE);
         $this->create('as-name',    Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',      Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',      Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('member-of',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('import-via', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('import',     Attr::OPTIONAL, Attr::MULTIPLE);

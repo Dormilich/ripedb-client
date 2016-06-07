@@ -126,7 +126,7 @@ class Inetnum extends Object
     {
         $this->create('inetnum',     Attr::REQUIRED, Attr::SINGLE);
         $this->create('netname',     Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('country',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('geoloc',      Attr::OPTIONAL, Attr::SINGLE);
         $this->create('language',    Attr::OPTIONAL, Attr::MULTIPLE);
