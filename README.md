@@ -9,7 +9,7 @@ preconditions.
 
 ## Installation
 
-ToDo: Install the RIPE client via composer
+You can install the RIPE client via composer
 
     composer require "dormilich/ripedb-client": "dev-master"
 
@@ -88,8 +88,6 @@ try {
 	];
 
 	// setting attributes via method
-	// using setAttribute() you can only set a single value
-	// even if it is a multiple-valued attribute
 	$me
 		->addAttribute('address', 'Any Street 1')
 		->addAttribute('address', 'Anytown')
@@ -280,4 +278,4 @@ will be used as well. When accessing the attribute value as string, the comment 
 
 ## Notes
 
-* Object validation uses RIPE DB version 1.82
+Object validation uses RIPE DB version 1.86
