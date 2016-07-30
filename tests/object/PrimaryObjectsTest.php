@@ -1,6 +1,8 @@
 <?php
 
-class PrimaryObjectsTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PrimaryObjectsTest extends TestCase
 {
 	public function objectTypeProvider()
 	{

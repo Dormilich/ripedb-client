@@ -1,9 +1,10 @@
 <?php
 
 use Dormilich\WebService\RIPE\Object;
+use PHPUnit\Framework\TestCase;
 use Test\TestObject;
 
-class ObjectTest extends PHPUnit_Framework_TestCase
+class ObjectTest extends TestCase
 {
 	// testing the ObjectInterface implementation (1)
 	// these tests don’t need an attribute value set

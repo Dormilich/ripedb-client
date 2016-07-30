@@ -19,14 +19,20 @@
          <directory suffix="Test.php" phpVersion="5.5.0">./tests/live</directory>
       </testsuite>
    </testsuites>
+
    <groups>
       <exclude>
          <group>live</group>
       </exclude>
    </groups>
+
    <filter>
       <whitelist processUncoveredFilesFromWhitelist="true">
          <directory suffix=".php">./src</directory>
       </whitelist>
    </filter>
+
+    <logging>
+        <log type="coverage-html" target="./coverage" lowUpperBound="50" highLowerBound="80"/>
+    </logging>
 </phpunit>

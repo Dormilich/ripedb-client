@@ -4,8 +4,9 @@ use Dormilich\WebService\RIPE\Object;
 use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\PoeticForm;
 use Dormilich\WebService\RIPE\RPSL\Role;
+use PHPUnit\Framework\TestCase;
 
-class SecondaryObjectsTest extends PHPUnit_Framework_TestCase
+class SecondaryObjectsTest extends TestCase
 {
 	public function objectTypeProvider()
 	{

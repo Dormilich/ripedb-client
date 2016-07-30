@@ -4,9 +4,10 @@ use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
+use PHPUnit\Framework\TestCase;
 use Test\RegObject;
 
-class ParseTest extends PHPUnit_Framework_TestCase
+class ParseTest extends TestCase
 {
 	public function load($name)
 	{

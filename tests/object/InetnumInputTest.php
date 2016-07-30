@@ -1,9 +1,10 @@
 <?php
 
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
+use PHPUnit\Framework\TestCase;
 use Test\IP;
 
-class InetnumInputTest extends PHPUnit_Framework_TestCase
+class InetnumInputTest extends TestCase
 {
     public function testRange()
     {

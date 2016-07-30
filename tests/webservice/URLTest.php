@@ -4,9 +4,10 @@ use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
+use PHPUnit\Framework\TestCase;
 use Test\RegObject;
 
-class URLTest extends PHPUnit_Framework_TestCase
+class URLTest extends TestCase
 {
 	public function getClient($name = NULL)
 	{

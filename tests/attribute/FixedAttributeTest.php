@@ -3,8 +3,9 @@
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\FixedAttribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
+use PHPUnit\Framework\TestCase;
 
-class FixedAttributeTest extends PHPUnit_Framework_TestCase
+class FixedAttributeTest extends TestCase
 {
 	public function testAttributeInterfaceIsImplemented()
 	{

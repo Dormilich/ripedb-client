@@ -5,9 +5,10 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use Dormilich\WebService\RIPE\AttributeValue;
 use Dormilich\WebService\RIPE\FixedAttribute;
 use Dormilich\WebService\RIPE\MatchedAttribute;
+use PHPUnit\Framework\TestCase;
 use Test\RegObject;
 
-class AttributeValueTest extends PHPUnit_Framework_TestCase
+class AttributeValueTest extends TestCase
 {
 	public function testAttributeAcceptsValueObject()
 	{

@@ -3,8 +3,9 @@
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\RPSL\Role;
 use Dormilich\WebService\RIPE\WebService;
+use PHPUnit\Framework\TestCase;
 
-class LiveTest extends PHPUnit_Framework_TestCase
+class LiveTest extends TestCase
 {
 	private $ripe;
 

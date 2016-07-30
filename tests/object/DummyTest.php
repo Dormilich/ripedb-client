@@ -2,8 +2,9 @@
 
 use Dormilich\WebService\RIPE\AttributeInterface as A;
 use Dormilich\WebService\RIPE\Dummy;
+use PHPUnit\Framework\TestCase;
 
-class DummyTest extends PHPUnit_Framework_TestCase
+class DummyTest extends TestCase
 {
 	public function testObjectTypeIsCorrectlySet()
 	{
