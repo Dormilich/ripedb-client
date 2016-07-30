@@ -1,9 +1,11 @@
-composer.phar
-vendor/
-coverage/
+# windows thumbnail cache
+Thumbs.db
 
-# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
-
+# Mac DS_Store Files
 .DS_Store
+
+# composer vendor dir
+/vendor
+
+# coverage report
+/coverage
