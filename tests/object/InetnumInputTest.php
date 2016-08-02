@@ -22,6 +22,13 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    public function testSameIpInputTwice()
+    {
+        $net = new Inetnum('73.46.254.16', '73.46.254.16');
+
+        $this->assertSame('73.46.254.16', $net->getPrimaryKey());
+    }
+
     public function testIpAndPrefix()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -85,9 +92,12 @@ class InetnumInputTest extends TestCase
         $net2 = new Inetnum($bogus, '127.0.0.1');
         // as CIDR
         $net3 = new Inetnum($bogus, 30);
+        // IPv4 overflow
+        $net4 = new Inetnum('255.255.255.254/30');
 
         $this->assertSame($bogus, $net1->getPrimaryKey());
         $this->assertSame($bogus, $net2->getPrimaryKey());
         $this->assertSame($bogus, $net3->getPrimaryKey());
+        $this->assertSame('255.255.255.254/30', $net4->getPrimaryKey());
     }
 }
