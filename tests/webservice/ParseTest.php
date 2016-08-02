@@ -222,6 +222,25 @@ class ParseTest extends TestCase
 		$this->assertCount(0, $list);
 	}
 
+	public function testReadIncompleteErrorMessage()
+	{
+		$error = [
+			'errormessages' => [
+				'errormessage' => [[
+					'severity' => 'Error',
+					'text' => 'some unexpected %s has occurred for %s',
+					'args' => [[
+						'value' => 'issue',
+					]],
+				]],
+			],
+		];
+		$list = Webservice::getErrors(json_encode($error));
+
+		$this->assertCount(1, $list);
+		$this->assertEquals("Error: some unexpected %s has occurred for %s", $list[0]);
+	}
+
 	// response parsing is handled inside the send() method 
 	// hence no need to test it for each method separately. 
 	public function testConvertResponse()
