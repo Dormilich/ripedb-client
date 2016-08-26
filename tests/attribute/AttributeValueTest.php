@@ -112,4 +112,32 @@ class AttributeValueTest extends TestCase
 			['name' => 'source', 'value' => 'TEST']
 		]);
 	}
+
+	public function testSingleAttributeWithValueObject()
+	{
+		$attr = new Attribute('test', Attr::REQUIRED, Attr::SINGLE);
+
+		$value = new AttributeValue('something');
+		$value->setType('example')->setLink('http://www.example.com/something');
+
+		$attr->addValue($value);
+
+		$this->assertInternalType('object', $attr->getValue());
+	}
+
+	public function testMultipleAttributeWithValueObject()
+	{
+		$attr = new Attribute('test', Attr::REQUIRED, Attr::MULTIPLE);
+
+		$value = new AttributeValue('something');
+		$value->setType('example')->setLink('http://www.example.com/something');
+
+		$attr->addValue($value);
+
+		$data = $attr->getValue();
+
+		$this->assertInternalType('array', $data);
+		$this->assertCount(1, $data);
+		$this->assertInternalType('object', $data[0]);
+	}
 }

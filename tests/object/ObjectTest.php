@@ -1,5 +1,6 @@
 <?php
 
+use Dormilich\WebService\RIPE\AttributeValue;
 use Dormilich\WebService\RIPE\Object;
 use PHPUnit\Framework\TestCase;
 use Test\TestObject;
@@ -162,9 +163,12 @@ class ObjectTest extends TestCase
 
 	public function testObjectToArray()
 	{
+		$bar = new AttributeValue('bar');
+		$bar->setComment('testing a value object');
+
 		$obj = new TestObject;
 		$obj
-			->addAttribute('bar', 'bar')
+			->addAttribute('bar', $bar)
 			->addAttribute('abc', 'x')
 			->addAttribute('abc', 'y')
 			->addAttribute('abc', 'z')
@@ -190,9 +194,12 @@ class ObjectTest extends TestCase
 
 	public function testObjectToXML()
 	{
+		$bar = new AttributeValue('bar');
+		$bar->setComment('testing a value object');
+
 		$obj = new TestObject;
 		$obj
-			->addAttribute('bar', 'bar')
+			->addAttribute('bar', $bar)
 			->addAttribute('abc', 'x')
 			->addAttribute('abc', 'y')
 			->addAttribute('abc', 'z')
@@ -220,9 +227,12 @@ class ObjectTest extends TestCase
 
 	public function testObjectToString()
 	{
+		$bar = new AttributeValue('bar');
+		$bar->setComment('testing a value object');
+
 		$obj = new TestObject;
 		$obj
-			->addAttribute('bar', 'bar')
+			->addAttribute('bar', $bar)
 			->addAttribute('abc', 'x')
 			->addAttribute('abc', 'y')
 			->addAttribute('abc', 'z')
@@ -243,7 +253,7 @@ class ObjectTest extends TestCase
 			return $match;
 		};
 
-		$this->assertEquals(['bar', 'bar'], call_user_func($getData, $lines[0]));
+		$this->assertEquals(['bar', 'bar # testing a value object'], call_user_func($getData, $lines[0]));
 		$this->assertEquals(['abc', 'x'], call_user_func($getData, $lines[1]));
 		$this->assertEquals(['abc', 'y'], call_user_func($getData, $lines[2]));
 		$this->assertEquals(['abc', 'z'], call_user_func($getData, $lines[3]));

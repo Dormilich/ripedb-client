@@ -7,7 +7,7 @@
       "attributes" : {
         "attribute" : [ {
           "name" : "bar",
-          "value" : "bar"
+          "value" : "bar # testing a value object"
         }, {
           "name" : "abc",
           "value" : "x"

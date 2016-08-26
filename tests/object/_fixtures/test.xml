@@ -4,7 +4,7 @@
         <object type="foo">
             <source id="test"/>
             <attributes>
-                <attribute name="bar" value="bar"/>
+                <attribute name="bar" value="bar # testing a value object"/>
                 <attribute name="abc" value="x"/>
                 <attribute name="abc" value="y"/>
                 <attribute name="abc" value="z"/>
