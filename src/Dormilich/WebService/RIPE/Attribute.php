@@ -107,6 +107,18 @@ class Attribute implements AttributeInterface
     }
 
     /**
+     * Get the underlying data array that holds the values. This is inteded for 
+     * when you need to loop over all attribute values. If the value is not set, 
+     * it will return an empty array, respectively.
+     * 
+     * @return array
+     */
+    public function getAllValues()
+    {
+        return $this->value;
+    }
+
+    /**
      * Set the value(s) of the attribute. Each value must be either a scalar 
      * or a stringifiable object.
      * 
@@ -141,6 +153,10 @@ class Attribute implements AttributeInterface
         if (!$this->multiple) {
             $this->value = [ $this->convert($value) ];
             return $this;
+        }
+
+        if (is_object($value)) {
+            $value = [ $value ];
         }
 
         foreach ((array) $value as $v) {

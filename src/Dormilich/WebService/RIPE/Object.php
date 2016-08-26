@@ -254,19 +254,11 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
                 throw new IncompleteRPSLObjectException('Required attribute ' . $attr->getName() . ' is not set.');
             }
             if ($attr->isDefined()) {
-                if ($attr->getValue() instanceof AttributeValue) {
+                foreach ($attr->getAllValues() as $value) {
                     $attributes[] = [
                         "name"  => $attr->getName(),
-                        "value" => (string) $attr->getValue(),
+                        "value" => (string) $value,
                     ];
-                }
-                else {
-                    foreach ((array) $attr->getValue() as $value) {
-                        $attributes[] = [
-                            "name"  => $attr->getName(),
-                            "value" => (string) $value,
-                        ];
-                    }
                 }
             }
         }
@@ -311,7 +303,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
             }
             if ($attr->isDefined()) {
                 $name = $attr->getName();
-                foreach ((array) $attr->getValue() as $value) {
+                foreach ($attr->getAllValues() as $value) {
                     $attribute = $node->addChild('attribute');
                     $attribute->addAttribute('name',  $name);
                     $attribute->addAttribute('value', (string) $value);
@@ -361,7 +353,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
         // using $this because of the applied filter 
         // (no empty attributes displayed)
         foreach ($this as $name => $attr)  {
-            foreach ((array) $attr->getValue() as $value) {
+            foreach ($attr->getAllValues() as $value) {
                 $output .= sprintf('   %-20s %s'.\PHP_EOL, $name, $value);
             }
         }
