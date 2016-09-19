@@ -266,7 +266,11 @@ class WebService
      */
     public function createJSON(ObjectInterface $object)
     {
-        $object->getAttribute('source')->addValue( $this->getSource(\CASE_UPPER) );
+        $source = $object->getAttribute('source');
+
+        if (!$source->isDefined()) {
+            $source->addValue( $this->getSource(\CASE_UPPER) );
+        }
 
         // otherwise the intended exception won’t make it through
         return json_encode($object->toArray());
