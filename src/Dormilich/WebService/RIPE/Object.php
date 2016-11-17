@@ -57,6 +57,8 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
     /**
      * Get the value of the attribute defined as primary key.
      * 
+     * Note: this is overwritten in Route/Route6 !
+     * 
      * @return string
      */
     public function getPrimaryKey()

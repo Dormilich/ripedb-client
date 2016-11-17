@@ -23,9 +23,38 @@ class Route extends Object
     public function __construct($value)
     {
         $this->setType('route');
-        $this->setKey('route');
         $this->init();
-        $this->setAttribute('route', $value);
+        $this->parseKey($value);
+    }
+
+    /**
+     * Parse input for a composite primary key.
+     * 
+     * @param string $value Route with optional Aut-Num.
+     * @return void
+     */
+    private function parseKey($value)
+    {
+        $value = strtoupper($value);
+
+        if (preg_match('/AS\d+/', $value, $match) === 1) {
+            $this->setAttribute('origin', $match[0]);
+            $value = str_replace($match[0], '', $value);
+        }
+
+        $this->setAttribute('route', trim($value));
+        $this->setKey('route');
+    }
+
+    /**
+     * Get the value of the attributes defined as (composite) primary key.
+     * 
+     * @return string
+     */
+    public function getPrimaryKey()
+    {
+        return $this->getAttribute('route')->getValue() 
+             . $this->getAttribute('origin')->getValue();
     }
 
     /**
