@@ -35,8 +35,6 @@ class Route extends Object
      */
     private function parseKey($value)
     {
-        $value = strtoupper($value);
-
         if (preg_match('/AS\d+/', $value, $match) === 1) {
             $this->setAttribute('origin', $match[0]);
             $value = str_replace($match[0], '', $value);
