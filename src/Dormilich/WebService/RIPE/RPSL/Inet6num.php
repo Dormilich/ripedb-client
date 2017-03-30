@@ -41,7 +41,7 @@ class Inet6num extends Object
         $this->create('geoloc',      Attr::OPTIONAL, Attr::SINGLE);
         $this->create('language',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::SINGLE);
-        $this->generated('sponsoring-org');
+        $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('admin-c',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
         $this->fixed('status',       Attr::REQUIRED, [
