@@ -11,7 +11,7 @@ class RtrSet extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create a RTR-SET RIPE object.
@@ -35,7 +35,7 @@ class RtrSet extends Object
     protected function init()
     {
         $this->create('rtr-set',     Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('members',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mp-members',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mbrs-by-ref', Attr::OPTIONAL, Attr::MULTIPLE);

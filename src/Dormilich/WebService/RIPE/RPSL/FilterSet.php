@@ -11,7 +11,7 @@ class FilterSet extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create a FILTER-SET RIPE object.
@@ -35,7 +35,7 @@ class FilterSet extends Object
     protected function init()
     {
         $this->create('filter-set',  Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',       Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('filter',      Attr::OPTIONAL, Attr::SINGLE);
         $this->create('mp-filter',   Attr::OPTIONAL, Attr::SINGLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);

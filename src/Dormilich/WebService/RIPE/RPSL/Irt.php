@@ -11,7 +11,7 @@ class Irt extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create an incident response team (IRT) RIPE object.
@@ -39,6 +39,7 @@ class Irt extends Object
         $this->create('phone',      Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('fax-no',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('e-mail',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::MULTIPLE); // deprecated
         $this->create('signature',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('encryption', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',        Attr::OPTIONAL, Attr::MULTIPLE);
@@ -53,7 +54,5 @@ class Irt extends Object
 
         $this->generated('created');
         $this->generated('last-modified');
-        // deprecated
-        $this->generated('abuse-mailbox', Attr::MULTIPLE);
     }
 }

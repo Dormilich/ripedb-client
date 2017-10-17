@@ -15,7 +15,7 @@ class AutNum extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.
@@ -49,17 +49,19 @@ class AutNum extends Object
         $this->create('export',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mp-export',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('default',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-default', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',    Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('org',        Attr::REQUIRED, Attr::SINGLE);
+        $this->create('org',        Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('admin-c',    Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('abuse-c',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-lower',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-routes', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
-        $this->generated('sponsoring-org');
         $this->generated('status');
         $this->generated('created');
         $this->generated('last-modified');

@@ -11,7 +11,7 @@ class Route6 extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create a ROUTE6 RIPE object.
@@ -63,7 +63,7 @@ class Route6 extends Object
     protected function init()
     {
         $this->create('route6',       Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',        Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',        Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('origin',       Attr::REQUIRED, Attr::SINGLE);
         $this->create('pingable',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('ping-hdl',     Attr::OPTIONAL, Attr::MULTIPLE);

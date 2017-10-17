@@ -11,7 +11,7 @@ class Domain extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create a DOMAIN RIPE object.
@@ -35,7 +35,7 @@ class Domain extends Object
     protected function init()
     {
         $this->create('domain',   Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',    Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',      Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('admin-c',  Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',   Attr::REQUIRED, Attr::MULTIPLE);

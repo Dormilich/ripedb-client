@@ -11,7 +11,7 @@ class InetRtr extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.90';
 
     /**
      * Create a router (INET-RTR) RIPE object.
@@ -35,7 +35,7 @@ class InetRtr extends Object
     protected function init()
     {
         $this->create('inet-rtr',  Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('alias',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('local-as',  Attr::REQUIRED, Attr::SINGLE);
         $this->create('ifaddr',    Attr::REQUIRED, Attr::MULTIPLE);
