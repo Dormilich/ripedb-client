@@ -4,7 +4,7 @@ A PHP library to communicate with the RIPE NCC database.
 
 ## Requirements
 
-The RipeDB-Client requires PHP 5.4 or above. The connection object might have further 
+The RipeDB-Client requires PHP 5.4 up to PHP 7.1. The connection object might have further 
 preconditions.
 
 ## Installation
