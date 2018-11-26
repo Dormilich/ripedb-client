@@ -15,7 +15,7 @@ class AutNum extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.

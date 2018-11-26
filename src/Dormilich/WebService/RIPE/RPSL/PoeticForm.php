@@ -11,7 +11,7 @@ class PoeticForm extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.92';
 
     /**
      * Create a POETIC-FORM RIPE object.

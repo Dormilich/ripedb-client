@@ -11,7 +11,7 @@ class AsSet extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create an AS-SET RIPE object.

@@ -11,7 +11,7 @@ class Inetnum extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create a INETNUM RIPE object.
@@ -134,7 +134,7 @@ class Inetnum extends Object
         $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('admin-c',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
-        $this->create('abuse-c',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('abuse-c',     Attr::OPTIONAL, Attr::SINGLE);
         $this->fixed('status',       Attr::REQUIRED, [
             'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',        'ALLOCATED PI', 
             'LIR-PARTITIONED PA',    'LIR-PARTITIONED PI',  'SUB-ALLOCATED PA', 

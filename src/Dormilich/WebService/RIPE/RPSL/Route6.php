@@ -11,7 +11,7 @@ class Route6 extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create a ROUTE6 RIPE object.

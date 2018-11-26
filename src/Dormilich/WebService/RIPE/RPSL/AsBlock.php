@@ -11,7 +11,7 @@ class AsBlock extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.86';
+    const VERSION = '1.92';
 
     /**
      * Create a AS-BLOCK RIPE object.
@@ -35,7 +35,7 @@ class AsBlock extends Object
     protected function init()
     {
         $this->create('as-block',  Attr::REQUIRED, Attr::SINGLE);
-        $this->create('descr',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('descr',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',       Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',    Attr::OPTIONAL, Attr::MULTIPLE);

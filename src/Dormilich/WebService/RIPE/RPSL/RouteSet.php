@@ -11,7 +11,7 @@ class RouteSet extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create a ROUTE-SET RIPE object.

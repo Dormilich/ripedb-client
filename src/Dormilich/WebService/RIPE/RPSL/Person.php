@@ -11,7 +11,7 @@ class Person extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create a PERSON RIPE object.
@@ -44,7 +44,6 @@ class Person extends Object
         $this->create('nic-hdl', Attr::REQUIRED, Attr::SINGLE);
         $this->create('remarks', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',  Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::MULTIPLE); // deprecated
         $this->create('mnt-by',  Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',  Attr::REQUIRED, Attr::SINGLE);
 

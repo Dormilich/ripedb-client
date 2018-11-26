@@ -11,7 +11,7 @@ class Mntner extends Object
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.90';
+    const VERSION = '1.92';
 
     /**
      * Create a maintainer (MNTNER) RIPE object.
@@ -46,7 +46,6 @@ class Mntner extends Object
         $this->create('notify',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',  Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',  Attr::REQUIRED, Attr::SINGLE);
-        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::MULTIPLE);
 
         $this->generated('created');
         $this->generated('last-modified');
