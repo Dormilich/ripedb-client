@@ -405,7 +405,7 @@ class WebService
      */
     public function abuseContact($value)
     {
-        if ($value instanceof Object) {
+        if ($value instanceof RipeObject) {
             $key = $value->getPrimaryKey();
         }
         elseif (filter_var($value, \FILTER_VALIDATE_IP)) {
@@ -432,7 +432,7 @@ class WebService
      */
     public function getObjectFromTemplate($name)
     {
-        if ($name instanceof Object) {
+        if ($name instanceof RipeObject) {
             $type = $name->getType();
         }
         else {
@@ -447,7 +447,7 @@ class WebService
 
         $template = $json['templates']['template'][0];
 
-        $object   = Object::factory($type, $template['attributes']['attribute']);
+        $object   = RipeObject::factory($type, $template['attributes']['attribute']);
         $object['source'] = $template['source']['id'];
 
         return $object;

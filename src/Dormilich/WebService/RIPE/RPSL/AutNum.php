@@ -3,14 +3,14 @@
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
  * Be aware that the 'sponsoring-org' and 'status' attributes 
  * must not be set/updated/deleted by the user.
  */
-class AutNum extends Object
+class AutNum extends RipeObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.

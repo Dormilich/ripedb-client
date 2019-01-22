@@ -3,10 +3,10 @@
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class Inetnum extends Object
+class Inetnum extends RipeObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.
@@ -110,7 +110,9 @@ class Inetnum extends Object
         $netsize = 1 << (32 - $prefix);
         $end_num = $ipnum + $netsize - 1;
 
-        if ($end_num >= (1 << 32)) {
+        // adjusted so that this works on 32 and 64 bit systems
+				$unsignedEndNum = sprintf("%u", $ipnum) + $netsize - 1;
+				if ($unsignedEndNum >= 4294967295) {
             return false;
         }
 

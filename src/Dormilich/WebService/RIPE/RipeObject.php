@@ -1,5 +1,5 @@
 <?php
-// Object.php
+// RipeObject.php
 
 namespace Dormilich\WebService\RIPE;
 
@@ -21,7 +21,7 @@ use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
  *  - set the primary key on instantiation
  *  - set a "VERSION" constant
  */
-abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
+abstract class RipeObject implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * The type of the object as found in the WHOIS response object’s 'type' parameter.

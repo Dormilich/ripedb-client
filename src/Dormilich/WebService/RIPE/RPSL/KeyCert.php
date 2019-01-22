@@ -3,14 +3,14 @@
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
  * Be aware that the 'method', 'owner' and 'fingerpr' attributes 
  * must not be set/updated/deleted by the user.
  */
-class KeyCert extends Object
+class KeyCert extends RipeObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.

@@ -8,7 +8,6 @@
    convertWarningsToExceptions="true"
    processIsolation="false"
    stopOnFailure="false"
-   syntaxCheck="false"
 >
    <testsuites>
       <testsuite name="local">
@@ -16,16 +15,16 @@
          <exclude>./tests/live</exclude>
       </testsuite>
       <testsuite name="attribute">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/attribute</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0">./tests/attribute</directory>
       </testsuite>
       <testsuite name="object">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/object</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0">./tests/object</directory>
       </testsuite>
       <testsuite name="webservice">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/webservice</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0">./tests/webservice</directory>
       </testsuite>
       <testsuite name="live">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/live</directory>
+         <directory suffix="Test.php" phpVersion="5.4.0">./tests/live</directory>
       </testsuite>
    </testsuites>
 

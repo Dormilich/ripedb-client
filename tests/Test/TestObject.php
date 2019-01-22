@@ -2,10 +2,10 @@
 
 namespace Test;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\AttributeInterface as A;
 
-class TestObject extends Object
+class TestObject extends RipeObject
 {
 	public function __construct($type = 'foo', $key = 'bar')
 	{

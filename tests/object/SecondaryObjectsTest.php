@@ -1,6 +1,6 @@
 <?php
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\PoeticForm;
 use Dormilich\WebService\RIPE\RPSL\Role;

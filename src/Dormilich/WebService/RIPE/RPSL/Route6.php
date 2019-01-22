@@ -3,10 +3,10 @@
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\RipeObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class Route6 extends Object
+class Route6 extends RipeObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.
