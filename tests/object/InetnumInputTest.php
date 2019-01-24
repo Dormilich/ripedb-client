@@ -99,5 +99,14 @@ class InetnumInputTest extends TestCase
         $this->assertSame($bogus, $net2->getPrimaryKey());
         $this->assertSame($bogus, $net3->getPrimaryKey());
         $this->assertSame('255.255.255.254/30', $net4->getPrimaryKey());
+		}
+
+    public function testHighRangeWithCidr()
+		{
+        // ensure no issues with high ranges on 64 bit systems
+        $range = '255.255.255.240 - 255.255.255.255';
+        $net = new Inetnum('255.255.255.240/28');
+
+        $this->assertSame($range, $net->getPrimaryKey());
     }
 }
