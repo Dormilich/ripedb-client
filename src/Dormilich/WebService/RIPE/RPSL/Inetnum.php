@@ -112,7 +112,7 @@ class Inetnum extends RipeObject
 
         // adjusted so that this works on 32 and 64 bit systems
 				$unsignedEndNum = sprintf("%u", $ipnum) + $netsize - 1;
-				if ($unsignedEndNum >= 4294967295) {
+				if ($unsignedEndNum > 4294967295) {
             return false;
         }
 

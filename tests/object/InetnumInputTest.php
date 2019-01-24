@@ -104,8 +104,8 @@ class InetnumInputTest extends TestCase
     public function testHighRangeWithCidr()
 		{
         // ensure no issues with high ranges on 64 bit systems
-        $range = '223.46.254.16 - 223.46.254.31';
-        $net = new Inetnum('223.46.254.16/28');
+        $range = '255.255.255.240 - 255.255.255.255';
+        $net = new Inetnum('255.255.255.240/28');
 
         $this->assertSame($range, $net->getPrimaryKey());
     }
