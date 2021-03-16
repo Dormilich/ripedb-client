@@ -1,3 +1,11 @@
+## 1.0.7 - 2019-01-24
+
+- Fixed:  Test for the end of IPv4 address space in Inetnum::convertCIDR() now works properly on 64 bit systems.
+
+## 1.0.6 - 2018-11-26
+
+- Updated RPSL definitions to RIPE DB version 1.92
+
 ## 1.0.5 - 2017-10-17
 
 - Updated RPSL definitions to RIPE DB version 1.90

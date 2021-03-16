@@ -110,7 +110,9 @@ class Inetnum extends Object
         $netsize = 1 << (32 - $prefix);
         $end_num = $ipnum + $netsize - 1;
 
-        if ($end_num >= (1 << 32)) {
+        // adjusted so that this works on 32 and 64 bit systems
+				$unsignedEndNum = sprintf("%u", $ipnum) + $netsize - 1;
+				if ($unsignedEndNum > 4294967295) {
             return false;
         }
 
