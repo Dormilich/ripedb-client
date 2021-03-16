@@ -102,7 +102,7 @@ class InetnumInputTest extends TestCase
 		}
 
     public function testHighRangeWithCidr()
-		{
+    {
         // ensure no issues with high ranges on 64 bit systems
         $range = '255.255.255.240 - 255.255.255.255';
         $net = new Inetnum('255.255.255.240/28');

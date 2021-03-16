@@ -9,3 +9,6 @@ Thumbs.db
 
 # coverage report
 /coverage
+
+# PHPSorm
+/.idea
