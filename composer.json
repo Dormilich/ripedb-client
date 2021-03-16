@@ -16,11 +16,12 @@
         "source": "https://github.com/Dormilich/ripedb-client.git"
     },
     "require": {
-        "php": "^5.4 || 7.0 - 7.1"
+        "php": "^7.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
-            "Dormilich\\": "src/Dormilich/"
+            "Dormilich\\WebService\\": "src/"
         }
     },
     "autoload-dev": {
@@ -29,8 +30,9 @@
         }
     },
     "require-dev": {
+        "ext-simplexml": "*",
         "guzzlehttp/guzzle": "~6.0",
-        "phpunit/phpunit": "^5.4"
+        "phpunit/phpunit": "^6.0"
     },
     "minimum-stability": "stable"
 }

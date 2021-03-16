@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 use Dormilich\WebService\RIPE\MatchedAttribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use PHPUnit\Framework\TestCase;
@@ -48,21 +49,19 @@ class MatchedAttributeTest extends TestCase
 		$this->assertSame('Hold onto the FizzBuzz!', $attr->getValue());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidValueException
-	 * @expectedExceptionMessageRegExp # \[bar\] #
-	 */
 	public function testAttributeDoesNotAcceptUndefinedValue()
 	{
+	    $this->expectException(InvalidValueException::class);
+	    $this->expectExceptionMessage('[bar]');
+
 		$attr = new MatchedAttribute('bar', Attr::REQUIRED, '/\bFizzBuzz\b/');
 		$attr->setValue('get the fizz buzz');
 	}
 
-	/**
-	 * @expectedException LogicException
-	 */
 	public function testInvalidRegexpThrowsException()
 	{
+        $this->expectException('LogicException');
+
 		$attr = new MatchedAttribute('bar', Attr::REQUIRED, 'string');
 	}
 }

@@ -1,7 +1,8 @@
 <?php
 
 use Dormilich\WebService\RIPE\AttributeValue;
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException;
+use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
 use PHPUnit\Framework\TestCase;
 use Test\TestObject;
 
@@ -27,7 +28,9 @@ class ObjectTest extends TestCase
 	 */
 	public function testSetEmptyObjectTypeFails()
 	{
-		new TestObject(NULL);
+        $this->expectException('LogicException');
+
+        new TestObject(NULL);
 	}
 
 	public function testPrimaryKeyIsCorrectlySet()
@@ -41,7 +44,9 @@ class ObjectTest extends TestCase
 	 */
 	public function testSetEmptyObjectKeyFails()
 	{
-		new TestObject('foo', NULL);
+        $this->expectException('LogicException');
+
+        new TestObject('foo', NULL);
 	}
 
 	public function testGetExistingAttribute()
@@ -56,12 +61,11 @@ class ObjectTest extends TestCase
 			$obj->getAttribute('num'));
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException
-	 */
 	public function testGetUnknownAttributeFails()
 	{
-		$obj = new TestObject;
+        $this->expectException(InvalidAttributeException::class);
+
+        $obj = new TestObject;
 		$obj->getAttribute('12345');
 	}
 
@@ -182,12 +186,11 @@ class ObjectTest extends TestCase
 		$this->assertEquals($ref, $array);
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException
-	 */
 	public function testIncompleteObjectToArrayFails()
 	{
-		$obj = new TestObject;
+        $this->expectException(IncompleteRPSLObjectException::class);
+
+        $obj = new TestObject;
 		$this->assertFalse($obj->isValid());
 		$obj->toArray();
 	}
@@ -215,12 +218,11 @@ class ObjectTest extends TestCase
 		$this->assertEquals($ref, $xml);
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException
-	 */
 	public function testIncompleteObjectToXMLFails()
 	{
-		$obj = new TestObject;
+        $this->expectException(IncompleteRPSLObjectException::class);
+
+        $obj = new TestObject;
 		$this->assertFalse($obj->isValid());
 		$obj->toXML();
 	}

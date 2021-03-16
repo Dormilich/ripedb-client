@@ -1,12 +1,12 @@
 <?php
-// FilterSet.php
+// RouteSet.php
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class FilterSet extends Object
+class RouteSet extends AbstractObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.
@@ -14,30 +14,31 @@ class FilterSet extends Object
     const VERSION = '1.92';
 
     /**
-     * Create a FILTER-SET RIPE object.
+     * Create a ROUTE-SET RIPE object.
      * 
-     * @param string $value The name of the set (of routers).
+     * @param string $value The name of the set (of route prefixes).
      * @return self
      */
     public function __construct($value)
     {
-        $this->setType('filter-set');
-        $this->setKey('filter-set');
+        $this->setType('route-set');
+        $this->setKey('route-set');
         $this->init();
-        $this->setAttribute('filter-set', $value);
+        $this->setAttribute('route-set', $value);
     }
 
     /**
-     * Defines attributes for the FILTER-SET RIPE object. 
+     * Defines attributes for the ROUTE-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('filter-set',  Attr::REQUIRED, Attr::SINGLE);
+        $this->create('route-set',   Attr::REQUIRED, Attr::SINGLE);
         $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('filter',      Attr::OPTIONAL, Attr::SINGLE);
-        $this->create('mp-filter',   Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('members',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-members',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mbrs-by-ref', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);

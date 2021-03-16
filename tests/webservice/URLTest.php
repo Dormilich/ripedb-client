@@ -1,7 +1,7 @@
 <?php
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 use Dormilich\WebService\RIPE\RPSL\Person;
-use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use PHPUnit\Framework\TestCase;
@@ -158,11 +158,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	/**
-	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
-	 */
 	public function testSearchRequestFailsOnNonQuery()
 	{
+	    $this->expectException(InvalidValueException::class);
+
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
 

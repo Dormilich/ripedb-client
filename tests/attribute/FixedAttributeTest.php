@@ -1,6 +1,6 @@
 <?php
 
-use Dormilich\WebService\RIPE\Attribute;
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 use Dormilich\WebService\RIPE\FixedAttribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use PHPUnit\Framework\TestCase;
@@ -48,13 +48,12 @@ class FixedAttributeTest extends TestCase
 		$this->assertSame('c', $attr->getValue());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidValueException
-	 * @expectedExceptionMessageRegExp # \[bar\] #
-	 */
 	public function testAttributeDoesNotAcceptUndefinedValue()
 	{
-		$attr = new FixedAttribute('bar', Attr::REQUIRED, ['a', 'b', 'c']);
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('[bar]');
+
+        $attr = new FixedAttribute('bar', Attr::REQUIRED, ['a', 'b', 'c']);
 		$attr->setValue('x');
 	}
 }

@@ -1,12 +1,12 @@
 <?php
-// PeeringSet.php
+// FilterSet.php
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class PeeringSet extends Object
+class FilterSet extends AbstractObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.
@@ -14,30 +14,30 @@ class PeeringSet extends Object
     const VERSION = '1.92';
 
     /**
-     * Create a PEERING-SET RIPE object.
+     * Create a FILTER-SET RIPE object.
      * 
-     * @param string $value The name of the set.
+     * @param string $value The name of the set (of routers).
      * @return self
      */
     public function __construct($value)
     {
-        $this->setType('peering-set');
-        $this->setKey('peering-set');
+        $this->setType('filter-set');
+        $this->setKey('filter-set');
         $this->init();
-        $this->setAttribute('peering-set', $value);
+        $this->setAttribute('filter-set', $value);
     }
 
     /**
-     * Defines attributes for the PEERING-SET RIPE object. 
+     * Defines attributes for the FILTER-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('peering-set', Attr::REQUIRED, Attr::SINGLE);
+        $this->create('filter-set',  Attr::REQUIRED, Attr::SINGLE);
         $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('peering',     Attr::OPTIONAL, Attr::SINGLE);
-        $this->create('mp-peering',  Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('filter',      Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('mp-filter',   Attr::OPTIONAL, Attr::SINGLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);

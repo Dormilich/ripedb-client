@@ -3,6 +3,7 @@
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\RPSL\Role;
 use Dormilich\WebService\RIPE\WebService;
+use GuzzleHttp\Exception\ClientException;
 use PHPUnit\Framework\TestCase;
 
 class LiveTest extends TestCase
@@ -115,10 +116,10 @@ class LiveTest extends TestCase
 	/**
 	 * @group live
 	 * @depends testVersionInetnum
-	 * @expectedException GuzzleHttp\Exception\ClientException
 	 */
 	public function testDeleteInetnum($ip)
 	{
+        $this->expectException(ClientException::class);
 
 		$this->getRIPE()->delete($ip);
 

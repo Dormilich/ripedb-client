@@ -1,12 +1,12 @@
 <?php
-// RouteSet.php
+// AsSet.php
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class RouteSet extends Object
+class AsSet extends AbstractObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.
@@ -14,30 +14,29 @@ class RouteSet extends Object
     const VERSION = '1.92';
 
     /**
-     * Create a ROUTE-SET RIPE object.
+     * Create an AS-SET RIPE object.
      * 
-     * @param string $value The name of the set (of route prefixes).
+     * @param string $value The name of the AS-Set.
      * @return self
      */
     public function __construct($value)
     {
-        $this->setType('route-set');
-        $this->setKey('route-set');
+        $this->setType('as-set');
+        $this->setKey('as-set');
         $this->init();
-        $this->setAttribute('route-set', $value);
+        $this->setAttribute('as-set', $value);
     }
 
     /**
-     * Defines attributes for the ROUTE-SET RIPE object. 
+     * Defines attributes for the AS-SET RIPE object. 
      * 
      * @return void
      */
     protected function init()
     {
-        $this->create('route-set',   Attr::REQUIRED, Attr::SINGLE);
+        $this->create('as-set',      Attr::REQUIRED, Attr::SINGLE);
         $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('members',     Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('mp-members',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mbrs-by-ref', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::MULTIPLE);

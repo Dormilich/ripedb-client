@@ -8,7 +8,7 @@ use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 /**
  * A stand-in for objects that don’t have the appropriate class defined.
  */
-class Dummy extends Object
+class Dummy extends AbstractObject
 {
     /**
      * Create stand-in object for any RIPE object data. 
