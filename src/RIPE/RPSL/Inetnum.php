@@ -3,10 +3,10 @@
 
 namespace Dormilich\WebService\RIPE\RPSL;
 
-use Dormilich\WebService\RIPE\Object;
+use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
-class Inetnum extends Object
+class Inetnum extends AbstractObject
 {
     /**
      * The version of the RIPE DB used for attribute definitions.

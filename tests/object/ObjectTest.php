@@ -1,7 +1,6 @@
 <?php
 
 use Dormilich\WebService\RIPE\AttributeValue;
-use Dormilich\WebService\RIPE\Object;
 use PHPUnit\Framework\TestCase;
 use Test\TestObject;
 

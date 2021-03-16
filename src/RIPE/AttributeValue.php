@@ -140,7 +140,7 @@ class AttributeValue
     /**
      * Get an RPSL object for lookup purposes (i.e. only the primary loopup key is set).
      * 
-     * @return Object Empty RPSL object.
+     * @return AbstractObject Empty RPSL object.
      * @throws InvalidDataTypeException Attribute is not a referenced object.
      * @throws InvalidValueException Invalid object type.
      */

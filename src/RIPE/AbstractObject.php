@@ -1,13 +1,11 @@
 <?php
-// Object.php
+// AbstractObject.php
 
 namespace Dormilich\WebService\RIPE;
 
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException;
 use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
-use Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException;
-use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 
 /**
  * The prototype for every RIPE object class. 
@@ -21,7 +19,7 @@ use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
  *  - set the primary key on instantiation
  *  - set a "VERSION" constant
  */
-abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
+abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * The type of the object as found in the WHOIS response object’s 'type' parameter.
@@ -399,7 +397,7 @@ abstract class Object implements ObjectInterface, \ArrayAccess, \IteratorAggrega
 
     /**
      * Set an Attibute’s value. Existing values will be replaced. 
-     * For adding values use Object::addAttribute().
+     * For adding values use AbstractObject::addAttribute().
      * 
      * @param string $offset Attribute name.
      * @param type $value New Attribute value.

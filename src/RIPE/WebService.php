@@ -405,7 +405,7 @@ class WebService
      */
     public function abuseContact($value)
     {
-        if ($value instanceof Object) {
+        if ($value instanceof AbstractObject) {
             $key = $value->getPrimaryKey();
         }
         elseif (filter_var($value, \FILTER_VALIDATE_IP)) {
@@ -427,12 +427,12 @@ class WebService
      * Create a RIPE object according to the current definitions in the RIPE DB.
      * This object’s attributes do not have value constraints.
      * 
-     * @param string|Object $name Either a RIPE object or a RIPE object type.
-     * @return Object The RPSL object from the latest definitions.
+     * @param string|AbstractObject $name Either a RIPE object or a RIPE object type.
+     * @return AbstractObject The RPSL object from the latest definitions.
      */
     public function getObjectFromTemplate($name)
     {
-        if ($name instanceof Object) {
+        if ($name instanceof AbstractObject) {
             $type = $name->getType();
         }
         else {
@@ -447,7 +447,7 @@ class WebService
 
         $template = $json['templates']['template'][0];
 
-        $object   = Object::factory($type, $template['attributes']['attribute']);
+        $object   = AbstractObject::factory($type, $template['attributes']['attribute']);
         $object['source'] = $template['source']['id'];
 
         return $object;
@@ -456,11 +456,11 @@ class WebService
     /**
      * Get the available versions of a RIPE resource.
      * 
-     * @param Object $object The RIPE object of interest.
+     * @param AbstractObject $object The RIPE object of interest.
      * @return array An array containing the revision number as key and the 
      *          date and operation type as value.
      */
-    public function versions(Object $object)
+    public function versions(AbstractObject $object)
     {
         $path = sprintf('%s/%s/versions', $object->getType(), $object->getPrimaryKey());
         $json = $this->query($path);
@@ -475,11 +475,11 @@ class WebService
      * 
      * Note: some objects do not support versions (esp. role/person).
      * 
-     * @param Object $object RIPE object.
+     * @param AbstractObject $object RIPE object.
      * @param integer $version The version of this object in the RIPE DB.
-     * @return Object The requested object.
+     * @return AbstractObject The requested object.
      */
-    public function version(Object $object, $version)
+    public function version(AbstractObject $object, $version)
     {
         $path = sprintf('%s/%s/versions/%d?unfiltered', 
             $object->getType(), $object->getPrimaryKey(), $version
@@ -493,11 +493,11 @@ class WebService
     /**
      * Get a RIPE object from the DB by its primary key.
      * 
-     * @param Object $object RIPE Object.
+     * @param AbstractObject $object RIPE AbstractObject.
      * @param array $params Additional options: unfiltered, unformatted. Default: unfiltered.
-     * @return Object The requested object.
+     * @return AbstractObject The requested object.
      */
-    public function read(Object $object, array $params = array('unfiltered'))
+    public function read(AbstractObject $object, array $params = array('unfiltered'))
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
 
@@ -543,10 +543,10 @@ class WebService
     /**
      * Create a new RIPE object in the RIPE database.
      * 
-     * @param Object $object RIPE object.
-     * @return Object The created object.
+     * @param AbstractObject $object RIPE object.
+     * @return AbstractObject The created object.
      */
-    public function create(Object $object)
+    public function create(AbstractObject $object)
     {
         $this->send('POST', $object->getType(), [], $object);
 
@@ -556,11 +556,11 @@ class WebService
     /**
      * Modify a RIPE object in the RIPE database.
      * 
-     * @param Object $object RIPE object.
+     * @param AbstractObject $object RIPE object.
      * @param array $params Optional params to pass to the query.
-     * @return Object Parsed response.
+     * @return AbstractObject Parsed response.
      */
-    public function update(Object $object)
+    public function update(AbstractObject $object)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
         $this->send('PUT', $path, [], $object);
@@ -574,10 +574,10 @@ class WebService
      * Note: the API also accepts a reason string,
      * but it is omitted for simplicity.
      * 
-     * @param Object $object RIPE object.
-     * @return Object The deleted object.
+     * @param AbstractObject $object RIPE object.
+     * @return AbstractObject The deleted object.
      */
-    public function delete(Object $object, $reason = NULL)
+    public function delete(AbstractObject $object, $reason = NULL)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
 
