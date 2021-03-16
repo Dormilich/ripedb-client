@@ -3,6 +3,8 @@
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use Dormilich\WebService\RIPE\AttributeValue;
+use Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException;
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 use Dormilich\WebService\RIPE\FixedAttribute;
 use Dormilich\WebService\RIPE\MatchedAttribute;
 use PHPUnit\Framework\TestCase;
@@ -51,21 +53,19 @@ class AttributeValueTest extends TestCase
 		$this->assertSame('something', $poem->getPrimaryKey());
 	}
 
-	/**
-	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 */
 	public function testGetObjectWithoutTypeFails()
 	{
-		$value = new AttributeValue('something');
+        $this->expectException(InvalidDataTypeException::class);
+
+        $value = new AttributeValue('something');
 		$value->getObject();
 	}
 
-	/**
-	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
-	 */
 	public function testGetObjectWithUnknownTypeFails()
 	{
-		$value = new AttributeValue('something');
+        $this->expectException(InvalidValueException::class);
+
+        $value = new AttributeValue('something');
 		$value->setType('foo')->getObject();
 	}
 

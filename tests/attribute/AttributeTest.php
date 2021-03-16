@@ -2,6 +2,7 @@
 
 use Dormilich\WebService\RIPE\Attribute;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
+use Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException;
 use PHPUnit\Framework\TestCase;
 
 class AttributeTest extends TestCase
@@ -83,23 +84,21 @@ class AttributeTest extends TestCase
 		$this->assertFalse($attr->isDefined());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 * @expectedExceptionMessageRegExp # \[foo\] #
-	 */
 	public function testAttributeDoesNotAcceptResource()
 	{
+	    $this->expectException(InvalidDataTypeException::class);
+	    $this->expectExceptionMessage('[foo]');
+
 		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(tmpfile());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 * @expectedExceptionMessageRegExp # \[foo\] #
-	 */
 	public function testAttributeDoesNotAcceptObject()
 	{
-		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
+        $this->expectException(InvalidDataTypeException::class);
+        $this->expectExceptionMessage('[foo]');
+
+        $attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(new stdClass);
 	}
 
@@ -117,11 +116,10 @@ class AttributeTest extends TestCase
 		$this->assertSame('bar', $attr->getValue());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 */
 	public function testSingleAttributeDoesNotAllowArrayInput()
 	{
+        $this->expectException(InvalidDataTypeException::class);
+
 		$attr = new Attribute('foo', Attr::REQUIRED, Attr::SINGLE);
 		$attr->setValue(['fizz', 'buzz']);
 	}
@@ -156,21 +154,19 @@ class AttributeTest extends TestCase
 		$this->assertSame(['fizz', 'buzz'], $attr->getValue());
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 */
 	public function testMultipleAttributeDoesNotAllowNonScalarArray()
 	{
-		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
+        $this->expectException(InvalidDataTypeException::class);
+
+        $attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 		$attr->setValue([NULL]);
 	}
 
-	/**
-	 * @expectedException \Dormilich\WebService\RIPE\Exceptions\InvalidDataTypeException
-	 */
 	public function testMultipleAttributeDoesNotAllowNestedArray()
 	{
-		$attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
+        $this->expectException(InvalidDataTypeException::class);
+
+        $attr = new Attribute('foo', Attr::REQUIRED, Attr::MULTIPLE);
 		$attr->setValue(['bar', [1,2,3]]);
 	}
 

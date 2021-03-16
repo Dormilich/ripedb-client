@@ -1,5 +1,6 @@
 <?php
 
+use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
@@ -129,11 +130,10 @@ class ParseTest extends TestCase
 		$this->assertEquals('abuse@example.com', $email);
 	}
 
-	/**
-	 * @expectedException Dormilich\WebService\RIPE\Exceptions\InvalidValueException
-	 */
 	public function testAbuseInfoFromInvalidIPFails()
 	{
+	    $this->expectException(InvalidValueException::class);
+
 		$client = $this->getClient('abuse');
 		$ripe   = new WebService($client);
 
