@@ -62,7 +62,7 @@ class WebService
     /**
      * Whether the live database is used.
      * 
-     * @return type
+     * @return bool
      */
     public function isProduction()
     {
@@ -427,12 +427,12 @@ class WebService
      * Create a RIPE object according to the current definitions in the RIPE DB.
      * This object’s attributes do not have value constraints.
      * 
-     * @param string|AbstractObject $name Either a RIPE object or a RIPE object type.
+     * @param string|ObjectInterface $name Either a RIPE object or a RIPE object type.
      * @return AbstractObject The RPSL object from the latest definitions.
      */
     public function getObjectFromTemplate($name)
     {
-        if ($name instanceof AbstractObject) {
+        if ($name instanceof ObjectInterface) {
             $type = $name->getType();
         }
         else {
