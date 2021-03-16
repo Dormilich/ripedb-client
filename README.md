@@ -11,7 +11,7 @@ preconditions.
 
 You can install the RIPE client via composer
 
-    composer require "dormilich/ripedb-client": "dev-master"
+    composer require dormilich/ripedb-client:^1.1
 
 or by cloning this repository.
 
@@ -35,10 +35,10 @@ already exists in the TEST database and has to be deleted before running the tes
 
 In order to create the HTTP connection with the RIPE REST Service you need to create a 
 connection object that implements the `ClientAdapter` interface. Depending on your PHP 
-version or your own preference you can use any existing library or write one using 
+version, or your own preference you can use any existing library or write one using 
 PHP’s curl or socket functions. 
 
-If you’re not convienient doing this you can use the `Guzzle6Adapter` from the `tests/Test` 
+If you’re not convenient doing this you can use the `Guzzle6Adapter` from the `tests/Test` 
 folder (although you might want to change the namespace). However, be aware that Guzzle 6 
 requires PHP 5.5 or above.
 
@@ -47,7 +47,7 @@ requires PHP 5.5 or above.
 For the web service there are two options you can set before using it:
 
 * environment - whether to connect to the RIPE (`WebService::PRODUCTION`) or TEST 
-(`WebService::SANDBOX`) database. Per default it connects to the TEST database.
+(`WebService::SANDBOX`) database. Per default, it connects to the TEST database.
 * password - for any modifying operation (create/update/delete) you must provide 
 the password for the object’s maintainer. The default password is the one for the 
 TEST database’s primary maintainer.

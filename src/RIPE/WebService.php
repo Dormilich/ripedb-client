@@ -400,12 +400,12 @@ class WebService
      * 
      * Note: for an IPv4 range use the Inetnum object.
      * 
-     * @param mixed $value An IPv4 address, range or prefix, IPv6 address or prefix, AS number
+     * @param string|ObjectInterface $value An IPv4 address, range or prefix, IPv6 address or prefix, AS number
      * @return string Abuse email or FALSE.
      */
     public function abuseContact($value)
     {
-        if ($value instanceof AbstractObject) {
+        if ($value instanceof ObjectInterface) {
             $key = $value->getPrimaryKey();
         }
         elseif (filter_var($value, \FILTER_VALIDATE_IP)) {

@@ -1,3 +1,8 @@
+## 1.1.0 - 2021-03-16
+
+- BC Break: Removed support for PHP 5
+- Fixed: Updated base object's name to not trigger a Fatal error due to `object` being a reserved keyword.
+
 ## 1.0.7 - 2019-01-24
 
 - Fixed:  Test for the end of IPv4 address space in Inetnum::convertCIDR() now works properly on 64 bit systems.
