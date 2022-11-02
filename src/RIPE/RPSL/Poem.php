@@ -15,9 +15,8 @@ class Poem extends AbstractObject
 
     /**
      * Create a POEM RIPE object.
-     * 
+     *
      * @param string $value Title of the poem that is represented by this object.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class Poem extends AbstractObject
     }
 
     /**
-     * Defines attributes for the POEM RIPE object. 
-     * 
+     * Defines attributes for the POEM RIPE object.
+     *
      * @return void
      */
     protected function init()

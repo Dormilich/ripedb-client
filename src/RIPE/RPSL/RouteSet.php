@@ -15,9 +15,8 @@ class RouteSet extends AbstractObject
 
     /**
      * Create a ROUTE-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the set (of route prefixes).
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class RouteSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the ROUTE-SET RIPE object. 
-     * 
+     * Defines attributes for the ROUTE-SET RIPE object.
+     *
      * @return void
      */
     protected function init()

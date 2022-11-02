@@ -15,9 +15,8 @@ class FilterSet extends AbstractObject
 
     /**
      * Create a FILTER-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the set (of routers).
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class FilterSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the FILTER-SET RIPE object. 
-     * 
+     * Defines attributes for the FILTER-SET RIPE object.
+     *
      * @return void
      */
     protected function init()

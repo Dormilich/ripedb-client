@@ -15,10 +15,9 @@ class Route6 extends AbstractObject
 
     /**
      * Create a ROUTE6 RIPE object.
-     * 
+     *
      * @param string $value The IPv6 address prefix of the route.
      *      Forms a combined primary key with the 'origin' attribute.
-     * @return self
      */
     public function __construct($value)
     {
@@ -29,7 +28,7 @@ class Route6 extends AbstractObject
 
     /**
      * Parse input for a composite primary key.
-     * 
+     *
      * @param string $value Route with optional Aut-Num.
      * @return void
      */
@@ -46,18 +45,18 @@ class Route6 extends AbstractObject
 
     /**
      * Get the value of the attributes defined as (composite) primary key.
-     * 
+     *
      * @return string
      */
     public function getPrimaryKey()
     {
-        return $this->getAttribute('route6')->getValue() 
+        return $this->getAttribute('route6')->getValue()
              . $this->getAttribute('origin')->getValue();
     }
 
     /**
-     * Defines attributes for the ROUTE6 RIPE object. 
-     * 
+     * Defines attributes for the ROUTE6 RIPE object.
+     *
      * @return void
      */
     protected function init()

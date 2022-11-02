@@ -15,9 +15,8 @@ class Role extends AbstractObject
 
     /**
      * Create a ROLE RIPE object.
-     * 
+     *
      * @param string $value NIC handle. If not specified an auto-handle is used.
-     * @return self
      */
     public function __construct($value = 'AUTO-1')
     {
@@ -28,8 +27,8 @@ class Role extends AbstractObject
     }
 
     /**
-     * Defines attributes for the ROLE RIPE object. 
-     * 
+     * Defines attributes for the ROLE RIPE object.
+     *
      * @return void
      */
     protected function init()

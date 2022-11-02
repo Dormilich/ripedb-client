@@ -15,9 +15,8 @@ class InetRtr extends AbstractObject
 
     /**
      * Create a router (INET-RTR) RIPE object.
-     * 
+     *
      * @param string $value The DNS name.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class InetRtr extends AbstractObject
     }
 
     /**
-     * Defines attributes for the INET-RTR RIPE object. 
-     * 
+     * Defines attributes for the INET-RTR RIPE object.
+     *
      * @return void
      */
     protected function init()

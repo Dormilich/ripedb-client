@@ -11,13 +11,12 @@ class AsSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create an AS-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the AS-Set.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class AsSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the AS-SET RIPE object. 
-     * 
+     * Defines attributes for the AS-SET RIPE object.
+     *
      * @return void
      */
     protected function init()

@@ -15,9 +15,8 @@ class PoeticForm extends AbstractObject
 
     /**
      * Create a POETIC-FORM RIPE object.
-     * 
+     *
      * @param string $value The name of the genre.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class PoeticForm extends AbstractObject
     }
 
     /**
-     * Defines attributes for the POETIC-FORM RIPE object. 
-     * 
+     * Defines attributes for the POETIC-FORM RIPE object.
+     *
      * @return void
      */
     protected function init()

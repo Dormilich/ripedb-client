@@ -15,9 +15,8 @@ class Irt extends AbstractObject
 
     /**
      * Create an incident response team (IRT) RIPE object.
-     * 
+     *
      * @param string $value The name for the response team.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class Irt extends AbstractObject
     }
 
     /**
-     * Defines attributes for the IRT RIPE object. 
-     * 
+     * Defines attributes for the IRT RIPE object.
+     *
      * @return void
      */
     protected function init()

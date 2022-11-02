@@ -15,9 +15,8 @@ class PeeringSet extends AbstractObject
 
     /**
      * Create a PEERING-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the set.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class PeeringSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the PEERING-SET RIPE object. 
-     * 
+     * Defines attributes for the PEERING-SET RIPE object.
+     *
      * @return void
      */
     protected function init()

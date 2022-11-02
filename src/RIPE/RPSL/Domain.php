@@ -15,9 +15,8 @@ class Domain extends AbstractObject
 
     /**
      * Create a DOMAIN RIPE object.
-     * 
+     *
      * @param string $value The reverse delegetion address/range.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class Domain extends AbstractObject
     }
 
     /**
-     * Defines attributes for the DOMAIN RIPE object. 
-     * 
+     * Defines attributes for the DOMAIN RIPE object.
+     *
      * @return void
      */
     protected function init()
