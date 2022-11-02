@@ -11,7 +11,7 @@ class Route6 extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a ROUTE6 RIPE object.
