@@ -11,7 +11,7 @@ class Inetnum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.102';
+    const VERSION = '1.104';
 
     /**
      * Create a INETNUM RIPE object.
@@ -138,10 +138,10 @@ class Inetnum extends AbstractObject
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('abuse-c',     Attr::OPTIONAL, Attr::SINGLE);
         $this->fixed('status',       Attr::REQUIRED, [
-            'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',        'ALLOCATED PI',
-            'LIR-PARTITIONED PA',    'LIR-PARTITIONED PI',  'SUB-ALLOCATED PA',
-            'ASSIGNED PA',           'ASSIGNED PI',         'ASSIGNED ANYCAST',
-            'LEGACY',                'NOT_SET',             'EARLY-REGISTRATION',
+            'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',
+            'LIR-PARTITIONED PA', 'SUB-ALLOCATED PA',
+            'ASSIGNED PA', 'ASSIGNED PI', 'ASSIGNED ANYCAST',
+            'LEGACY',
         ]);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',      Attr::OPTIONAL, Attr::MULTIPLE);
@@ -165,14 +165,7 @@ class Inetnum extends AbstractObject
  *      number of allocations made to members have this status also.
  * ‘ALLOCATED PA’
  *      These are allocations made to members by the RIPE NCC.
- * ‘ALLOCATED PI’
- *      This is mostly used to identify blocks of addresses from which the
- *      RIPE NCC makes assignments to end users. Historically, a small number
- *      of allocations made to members have this status also.
  * ‘LIR-PARTITIONED PA’
- *      This is to allow partitioning of an allocation by a member for
- *      internal business reasons.
- * ‘LIR-PARTITIONED PI’
  *      This is to allow partitioning of an allocation by a member for
  *      internal business reasons.
  * ‘SUB-ALLOCATED PA’
@@ -197,10 +190,4 @@ class Inetnum extends AbstractObject
  * ‘LEGACY’
  *      These are resources that were allocated to users before the RIPE NCC
  *      was set up.
- * ‘NOT-SET’
- *      There are some very old objects in the RIPE Database where the status
- *      was unknown when the “status:” attribute was introduced. When it became
- *      a mandatory attribute, these objects were given this status value.
- *      When contact is made with the organisations holding these resources,
- *      the real status value will be determined.
  */

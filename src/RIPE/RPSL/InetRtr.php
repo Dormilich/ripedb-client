@@ -11,7 +11,7 @@ class InetRtr extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.102';
+    const VERSION = '1.104';
 
     /**
      * Create a router (INET-RTR) RIPE object.

@@ -11,7 +11,7 @@ class Role extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.102';
+    const VERSION = '1.104';
 
     /**
      * Create a ROLE RIPE object.
@@ -47,7 +47,7 @@ class Role extends AbstractObject
         $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
-        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::SINGLE);
 
         $this->generated('created');
         $this->generated('last-modified');

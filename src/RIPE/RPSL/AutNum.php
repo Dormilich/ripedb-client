@@ -15,7 +15,7 @@ class AutNum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.102';
+    const VERSION = '1.104';
 
     /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.
@@ -54,10 +54,8 @@ class AutNum extends AbstractObject
         $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('admin-c',    Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',     Attr::REQUIRED, Attr::MULTIPLE);
-        $this->create('abuse-c',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('abuse-c',    Attr::OPTIONAL, Attr::SINGLE);
         $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('mnt-lower',  Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('mnt-routes', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
