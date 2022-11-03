@@ -35,8 +35,8 @@ class PeeringSet extends AbstractObject
     {
         $this->create('peering-set', Attr::REQUIRED, Attr::SINGLE);
         $this->create('descr',       Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('peering',     Attr::OPTIONAL, Attr::SINGLE);
-        $this->create('mp-peering',  Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('peering',     Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('mp-peering',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);

@@ -41,6 +41,7 @@ class Organisation extends AbstractObject
         $this->create('descr',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('address',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('country',  Attr::OPTIONAL, Attr::SINGLE);
         $this->create('phone',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('fax-no',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('e-mail',   Attr::REQUIRED, Attr::MULTIPLE);
@@ -53,7 +54,6 @@ class Organisation extends AbstractObject
         $this->create('ref-nfy',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-ref',  Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::MULTIPLE); // deprecated
         $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
 

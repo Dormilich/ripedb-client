@@ -54,10 +54,8 @@ class AutNum extends AbstractObject
         $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('admin-c',    Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('tech-c',     Attr::REQUIRED, Attr::MULTIPLE);
-        $this->create('abuse-c',    Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('abuse-c',    Attr::OPTIONAL, Attr::SINGLE);
         $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('mnt-lower',  Attr::OPTIONAL, Attr::MULTIPLE);
-        $this->create('mnt-routes', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
