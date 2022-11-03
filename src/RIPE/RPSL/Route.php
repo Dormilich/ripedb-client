@@ -11,14 +11,13 @@ class Route extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a ROUTE RIPE object.
-     * 
+     *
      * @param string $value The IPv4 address prefix of the route.
      *      Forms a combined primary key with the 'origin' attribute.
-     * @return self
      */
     public function __construct($value)
     {
@@ -29,7 +28,7 @@ class Route extends AbstractObject
 
     /**
      * Parse input for a composite primary key.
-     * 
+     *
      * @param string $value Route with optional Aut-Num.
      * @return void
      */
@@ -46,18 +45,18 @@ class Route extends AbstractObject
 
     /**
      * Get the value of the attributes defined as (composite) primary key.
-     * 
+     *
      * @return string
      */
     public function getPrimaryKey()
     {
-        return $this->getAttribute('route')->getValue() 
+        return $this->getAttribute('route')->getValue()
              . $this->getAttribute('origin')->getValue();
     }
 
     /**
-     * Defines attributes for the ROUTE RIPE object. 
-     * 
+     * Defines attributes for the ROUTE RIPE object.
+     *
      * @return void
      */
     protected function init()

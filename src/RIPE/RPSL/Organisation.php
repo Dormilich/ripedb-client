@@ -11,13 +11,12 @@ class Organisation extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create an ORGANISATION RIPE object.
-     * 
+     *
      * @param string $value A letter combination appended to the Auto-ID.
-     * @return self
      */
     public function __construct($value = 'AUTO-1')
     {
@@ -28,8 +27,8 @@ class Organisation extends AbstractObject
     }
 
     /**
-     * Defines attributes for the ORGANISATION RIPE object. 
-     * 
+     * Defines attributes for the ORGANISATION RIPE object.
+     *
      * @return void
      */
     protected function init()
@@ -37,7 +36,7 @@ class Organisation extends AbstractObject
         $this->create('organisation', Attr::REQUIRED, Attr::SINGLE);
         $this->create('org-name',     Attr::REQUIRED, Attr::SINGLE);
         $this->fixed('org-type',      Attr::REQUIRED, [
-            'IANA', 'RIR', 'NIR', 'LIR', 'WHITEPAGES', 'DIRECT ASSIGNMENT', 'OTHER', 
+            'IANA', 'RIR', 'NIR', 'LIR', 'WHITEPAGES', 'DIRECT ASSIGNMENT', 'OTHER',
         ]);
         $this->create('descr',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
@@ -65,8 +64,8 @@ class Organisation extends AbstractObject
 
 /**
  * The allowed values for the 'org-type' attribute:
- * 
- * Users can only create organisation objects with the type ‘OTHER’. 
+ *
+ * Users can only create organisation objects with the type ‘OTHER’.
  * The rest of the values can only be set by the RIPE NCC.
  *
  * 'IANA'
@@ -74,12 +73,12 @@ class Organisation extends AbstractObject
  * 'RIR'
  *      Only used for the five Regional Internet Registries
  * 'NIR'
- *      This is for National Internet Registries (there are no NIRs in the 
+ *      This is for National Internet Registries (there are no NIRs in the
  *      RIPE NCC service region, but it is used by APNIC)
  * 'LIR'
  *      This represents all the Local Internet Registries (the RIPE NCC members)
  * 'WHITEPAGES'
- *      A little-used historical idea for people who have a ‘significant’ presence 
+ *      A little-used historical idea for people who have a ‘significant’ presence
  *      in the industry but who don’t manage any resources in the RIPE Database.
  * 'DIRECT_ASSIGNMENT'
  *      Used for organisations who have a direct contract with RIPE NCC

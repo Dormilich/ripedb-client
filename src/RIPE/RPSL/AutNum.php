@@ -7,7 +7,7 @@ use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
- * Be aware that the 'sponsoring-org' and 'status' attributes 
+ * Be aware that the 'sponsoring-org' and 'status' attributes
  * must not be set/updated/deleted by the user.
  */
 class AutNum extends AbstractObject
@@ -15,13 +15,12 @@ class AutNum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create an AUTONOMOUS NUMBER (AUT-NUM) RIPE object.
-     * 
+     *
      * @param string $value The ASN.
-     * @return self
      */
     public function __construct($value)
     {
@@ -32,8 +31,8 @@ class AutNum extends AbstractObject
     }
 
     /**
-     * Defines attributes for the AUT-NUM RIPE object. 
-     * 
+     * Defines attributes for the AUT-NUM RIPE object.
+     *
      * @return void
      */
     protected function init()

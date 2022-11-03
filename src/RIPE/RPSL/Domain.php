@@ -11,13 +11,12 @@ class Domain extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a DOMAIN RIPE object.
-     * 
+     *
      * @param string $value The reverse delegetion address/range.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class Domain extends AbstractObject
     }
 
     /**
-     * Defines attributes for the DOMAIN RIPE object. 
-     * 
+     * Defines attributes for the DOMAIN RIPE object.
+     *
      * @return void
      */
     protected function init()

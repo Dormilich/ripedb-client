@@ -1,0 +1,12 @@
+services:
+  php:
+    build:
+      context: .
+      target: php_cli
+    restart: unless-stopped
+    volumes:
+      - php_socket:/var/run/php
+      - .:/srv/app:delegated
+
+volumes:
+  php_socket:

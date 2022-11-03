@@ -1,4 +1,4 @@
-<phpunit 
+<phpunit
    backupGlobals="false"
    backupStaticAttributes="false"
    bootstrap="phpunit.php"
@@ -12,20 +12,20 @@
 >
    <testsuites>
       <testsuite name="local">
-         <directory suffix="Test.php" phpVersion="5.4.0">./tests</directory>
+         <directory>./tests</directory>
          <exclude>./tests/live</exclude>
       </testsuite>
       <testsuite name="attribute">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/attribute</directory>
+         <directory>./tests/attribute</directory>
       </testsuite>
       <testsuite name="object">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/object</directory>
+         <directory>./tests/object</directory>
       </testsuite>
       <testsuite name="webservice">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/webservice</directory>
+         <directory>./tests/webservice</directory>
       </testsuite>
       <testsuite name="live">
-         <directory suffix="Test.php" phpVersion="5.5.0">./tests/live</directory>
+         <directory>./tests/live</directory>
       </testsuite>
    </testsuites>
 
@@ -40,8 +40,4 @@
          <directory suffix=".php">./src</directory>
       </whitelist>
    </filter>
-
-    <logging>
-        <log type="coverage-html" target="./coverage" lowUpperBound="50" highLowerBound="80"/>
-    </logging>
 </phpunit>

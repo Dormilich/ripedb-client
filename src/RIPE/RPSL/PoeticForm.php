@@ -11,13 +11,12 @@ class PoeticForm extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a POETIC-FORM RIPE object.
-     * 
+     *
      * @param string $value The name of the genre.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class PoeticForm extends AbstractObject
     }
 
     /**
-     * Defines attributes for the POETIC-FORM RIPE object. 
-     * 
+     * Defines attributes for the POETIC-FORM RIPE object.
+     *
      * @return void
      */
     protected function init()

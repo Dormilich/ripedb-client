@@ -11,13 +11,12 @@ class Mntner extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a maintainer (MNTNER) RIPE object.
-     * 
+     *
      * @param string $value Handle of the maintainer that is represented by this object.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class Mntner extends AbstractObject
     }
 
     /**
-     * Defines attributes for the MNTNER RIPE object. 
-     * 
+     * Defines attributes for the MNTNER RIPE object.
+     *
      * @return void
      */
     protected function init()

@@ -11,13 +11,12 @@ class FilterSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a FILTER-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the set (of routers).
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class FilterSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the FILTER-SET RIPE object. 
-     * 
+     * Defines attributes for the FILTER-SET RIPE object.
+     *
      * @return void
      */
     protected function init()

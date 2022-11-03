@@ -7,7 +7,7 @@ use Dormilich\WebService\RIPE\AbstractObject;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 
 /**
- * Be aware that the 'method', 'owner' and 'fingerpr' attributes 
+ * Be aware that the 'method', 'owner' and 'fingerpr' attributes
  * must not be set/updated/deleted by the user.
  */
 class KeyCert extends AbstractObject
@@ -15,13 +15,12 @@ class KeyCert extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a key certification (KEY-CERT) RIPE object.
-     * 
+     *
      * @param string $value The key ID.
-     * @return self
      */
     public function __construct($value)
     {
@@ -32,8 +31,8 @@ class KeyCert extends AbstractObject
     }
 
     /**
-     * Defines attributes for the KEY-CERT RIPE object. 
-     * 
+     * Defines attributes for the KEY-CERT RIPE object.
+     *
      * @return void
      */
     protected function init()

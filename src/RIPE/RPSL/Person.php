@@ -11,13 +11,12 @@ class Person extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a PERSON RIPE object.
-     * 
+     *
      * @param string $value NIC handle. If not specified an auto-handle is used.
-     * @return self
      */
     public function __construct($value = 'AUTO-1')
     {
@@ -28,8 +27,8 @@ class Person extends AbstractObject
     }
 
     /**
-     * Defines attributes for the PERSON RIPE object. 
-     * 
+     * Defines attributes for the PERSON RIPE object.
+     *
      * @return void
      */
     protected function init()

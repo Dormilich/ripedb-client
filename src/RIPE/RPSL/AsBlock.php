@@ -11,13 +11,12 @@ class AsBlock extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a AS-BLOCK RIPE object.
-     * 
+     *
      * @param string $value The range of AS numbers in this block.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class AsBlock extends AbstractObject
     }
 
     /**
-     * Defines attributes for the AS-BLOCK RIPE object. 
-     * 
+     * Defines attributes for the AS-BLOCK RIPE object.
+     *
      * @return void
      */
     protected function init()

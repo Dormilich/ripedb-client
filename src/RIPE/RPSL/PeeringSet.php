@@ -11,13 +11,12 @@ class PeeringSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.92';
+    const VERSION = '1.102';
 
     /**
      * Create a PEERING-SET RIPE object.
-     * 
+     *
      * @param string $value The name of the set.
-     * @return self
      */
     public function __construct($value)
     {
@@ -28,8 +27,8 @@ class PeeringSet extends AbstractObject
     }
 
     /**
-     * Defines attributes for the PEERING-SET RIPE object. 
-     * 
+     * Defines attributes for the PEERING-SET RIPE object.
+     *
      * @return void
      */
     protected function init()
