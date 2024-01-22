@@ -2,9 +2,15 @@
 
 namespace Test;
 
+/**
+ * StringObject
+ */
 class StringObject
 {
-	public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString()
 	{
 		return 'test';
 	}

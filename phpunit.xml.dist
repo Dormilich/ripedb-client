@@ -1,14 +1,10 @@
 <phpunit
    backupGlobals="false"
-   backupStaticAttributes="false"
+   backupStaticProperties="false"
    bootstrap="phpunit.php"
    colors="true"
-   convertErrorsToExceptions="true"
-   convertNoticesToExceptions="true"
-   convertWarningsToExceptions="true"
    processIsolation="false"
    stopOnFailure="false"
-   syntaxCheck="false"
 >
    <testsuites>
       <testsuite name="local">
@@ -35,9 +31,9 @@
       </exclude>
    </groups>
 
-   <filter>
-      <whitelist processUncoveredFilesFromWhitelist="true">
-         <directory suffix=".php">./src</directory>
-      </whitelist>
-   </filter>
+   <coverage>
+       <include>
+           <directory suffix=".php">./src</directory>
+       </include>
+   </coverage>
 </phpunit>
