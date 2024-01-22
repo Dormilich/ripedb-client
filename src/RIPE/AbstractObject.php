@@ -6,15 +6,16 @@ namespace Dormilich\WebService\RIPE;
 use Dormilich\WebService\RIPE\AttributeInterface as Attr;
 use Dormilich\WebService\RIPE\Exceptions\IncompleteRPSLObjectException;
 use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
+use \Traversable;
 
 /**
- * The prototype for every RIPE object class. 
- * 
+ * The prototype for every RIPE object class.
+ *
  * A child class must
  *  1) define a primary key and type (which are usually the same)
  *  2) set the class name to thats name using camel case (e.g. domain => Domain, aut-num => AutNum)
  *  3) define the attributes for this RIPE object
- * 
+ *
  * A child class should
  *  - set the primary key on instantiation
  *  - set a "VERSION" constant
@@ -35,28 +36,28 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Name-indexed array of attributes.
-     * @var array 
+     * @var array
      */
     private $attributes = [];
 
     /**
      * Name-indexed array of auto-generated attributes, which must not be set by the user.
-     * @var array 
+     * @var array
      */
     private $generated  = [];
 
     /**
      * Define the attributes for this object according to the RIPE DB docs.
-     * 
+     *
      * @return void
      */
     abstract protected function init();
 
     /**
      * Get the value of the attribute defined as primary key.
-     * 
+     *
      * Note: this is overwritten in Route/Route6 !
-     * 
+     *
      * @return string
      */
     public function getPrimaryKey()
@@ -65,10 +66,10 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Get the name of the PK via function. 
-     * Conformance function to overwrite in the Dummy class, 
+     * Get the name of the PK via function.
+     * Conformance function to overwrite in the Dummy class,
      * which can not use a constant to store the PK.
-     * 
+     *
      * @return string
      */
     public function getPrimaryKeyName()
@@ -78,7 +79,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Set the name of the primary key.
-     * 
+     *
      * @param string $value The name of the primary key.
      * @return void
      * @throws LogicException Value is empty
@@ -95,7 +96,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Get the name of the current RIPE object.
-     * 
+     *
      * @return string RIPE object name.
      */
     public function getType()
@@ -105,7 +106,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Set the name of the object type.
-     * 
+     *
      * @param string $value The name of the primary key.
      * @return void
      * @throws LogicException Value is empty
@@ -122,7 +123,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Shortcut for creating an attribute definition.
-     * 
+     *
      * @param string $name Name of the attribute.
      * @param boolean $required If the attribute is mandatory.
      * @param boolean $multiple If the attribute allows multiple values.
@@ -134,9 +135,9 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Shortcut for creating a generated attribute definition. Generated 
+     * Shortcut for creating a generated attribute definition. Generated
      * attributes are set to be optional.
-     * 
+     *
      * @param string $name Name of the attribute.
      * @param boolean $multiple [false] If the attribute allows multiple values.
      * @return void
@@ -147,9 +148,9 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Shortcut for creating an attribute with fixed values. Fixed attributes 
+     * Shortcut for creating an attribute with fixed values. Fixed attributes
      * are usually single value attributes.
-     * 
+     *
      * @param string $name Name of the attribute.
      * @param boolean $required If the attribute is mandatory.
      * @param array $constraint A string list of the allowed values.
@@ -161,9 +162,9 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Shortcut for creating an attribute with values matching a given regular 
+     * Shortcut for creating an attribute with values matching a given regular
      * expression. Fixed attributes are usually single value attributes.
-     * 
+     *
      * @param string $name Name of the attribute.
      * @param boolean $required If the attribute is mandatory.
      * @param string $constraint A RegExp the values have to fulfill.
@@ -176,10 +177,10 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Get the keys for the attributes (no matter whether they’re defined or not), 
+     * Get the keys for the attributes (no matter whether they’re defined or not),
      * optionally adding the names of the generated attributes.
-     * 
-     * @param bool $includeGenerated 
+     *
+     * @param bool $includeGenerated
      * @return array
      */
     public function getAttributeNames($includeGenerated = false)
@@ -195,7 +196,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Get an attribute specified by name.
-     * 
+     *
      * @param string $name Name of the attribute.
      * @return Attribute Attribute object.
      * @throws InvalidAttributeException Invalid argument name.
@@ -213,7 +214,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Set an attribute’s value(s).
-     * 
+     *
      * @param string $name Attribute name.
      * @param mixed $value Attibute value(s).
      * @return self
@@ -227,7 +228,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Add a value to an attribute.
-     * 
+     *
      * @param string $name Attribute name.
      * @param mixed $value Attibute value(s).
      * @return self
@@ -241,7 +242,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Get the array representation of all attributes that are populated with values.
-     * 
+     *
      * @return array RIPE REST JSON compatible array.
      * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
@@ -268,7 +269,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Convert object to a RIPE REST JSON compatible array.
-     * 
+     *
      * @return array
      */
     public function toArray()
@@ -277,21 +278,21 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
             "objects" => [
                 "object" => [ [
                     "source" => [
-                        "id" => $this->getAttribute('source')->getValue(), 
+                        "id" => $this->getAttribute('source')->getValue(),
                     ],
                     "attributes" => [
-                        "attribute" => $this->addJSONAttributes(), 
-                    ], 
-                ] ], 
-            ], 
+                        "attribute" => $this->addJSONAttributes(),
+                    ],
+                ] ],
+            ],
         ];
     }
 
     /**
      * Add attribute nodes containing the name-value pairs.
-     * 
+     *
      * @param SimpleXMLElement $node The <attributes> element.
-     * @return SimpleXMLElement $node The <attributes> element containing the 
+     * @return SimpleXMLElement $node The <attributes> element containing the
      *          attribute values.
      * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
@@ -315,7 +316,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Convert object to a SimpleXML object.
-     * 
+     *
      * @return SimpleXMLElement
      * @throws IncompleteRPSLObjectException A required attribute is empty.
      */
@@ -339,18 +340,18 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Output the object as a textual list of its defined attributes.
-     * 
+     *
      * @return string
      */
     public function __toString()
     {
         $name   = get_class($this);
-        $output = sprintf('%s (%s):'.\PHP_EOL, 
-            substr($name, strrpos($name, '\\') + 1), 
+        $output = sprintf('%s (%s):'.\PHP_EOL,
+            substr($name, strrpos($name, '\\') + 1),
             $this->getPrimaryKey()
         );
 
-        // using $this because of the applied filter 
+        // using $this because of the applied filter
         // (no empty attributes displayed)
         foreach ($this as $name => $attr)  {
             foreach ($attr->getAllValues() as $value) {
@@ -363,59 +364,59 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
-     * 
+     *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
     /**
      * Checks if an Attribute exists, but not if it is populated.
-     * 
+     *
      * @param mixed $offset The array key.
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         $attributes = $this->attributes + $this->generated;
-        return isset($attributes[$offset]); 
+        return isset($attributes[$offset]);
     }
 
     /**
      * Get the value of the specified Attribute.
-     * 
+     *
      * @param string $offset Attribute name.
      * @return string|array Attribute value.
      * @throws OutOfBoundsException Attribute does not exist.
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->getAttribute($offset)->getValue();
     }
 
     /**
-     * Set an Attibute’s value. Existing values will be replaced. 
+     * Set an Attibute’s value. Existing values will be replaced.
      * For adding values use AbstractObject::addAttribute().
-     * 
+     *
      * @param string $offset Attribute name.
      * @param type $value New Attribute value.
      * @return void
      * @throws OutOfBoundsException Attribute does not exist.
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->setAttribute($offset, $value);
     }
 
     /**
      * Reset an Attribute’s value.
-     * 
+     *
      * @param string $offset Attribute name.
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         if (isset($this->attributes[$offset])) {
             $this->setAttribute($offset, NULL);
@@ -425,10 +426,10 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     /**
      * Create an Iterator for use in foreach. Only the populated Attributes are passed.
      * This creates a clone of the Attributes array and hence does not modify the original set.
-     * 
+     *
      * @return ArrayIterator Read-only access to all defined attributes (including generated attributes)
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new \ArrayIterator(array_filter($this->attributes + $this->generated, function ($attr) {
             return $attr->isDefined();
@@ -437,10 +438,10 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Return the number of defined Attributes (including generated ones).
-     * 
+     *
      * @return integer
      */
-    public function count()
+    public function count(): int
     {
         return count(array_filter($this->attributes + $this->generated, function ($attr) {
             return $attr->isDefined();
@@ -449,7 +450,7 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
 
     /**
      * Check if any of the required Attributes is undefined.
-     * 
+     *
      * @return boolean
      */
     public function isValid()
@@ -464,11 +465,11 @@ abstract class AbstractObject implements ObjectInterface, \ArrayAccess, \Iterato
     }
 
     /**
-     * Create a dummy object using the template descriptor from the RIPE 
-     * metadata service. This can be useful if the package’s attribute 
-     * validation rules become outdated and you absolutely need a confomant 
+     * Create a dummy object using the template descriptor from the RIPE
+     * metadata service. This can be useful if the package’s attribute
+     * validation rules become outdated and you absolutely need a confomant
      * RIPE object (and can’t wait for the update).
-     * 
+     *
      * @param string $type A RIPE object type
      * @param array $descriptor A template descriptor.
      * @return Dummy A dummy object according to the descriptor.
