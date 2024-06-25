@@ -11,7 +11,7 @@ class Inet6num extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
      * Create a INET6NUM RIPE object
@@ -47,7 +47,7 @@ class Inet6num extends AbstractObject
         $this->create('abuse-c',     Attr::OPTIONAL, Attr::SINGLE);
         $this->fixed('status',       Attr::REQUIRED, [
             'ALLOCATED-BY-RIR', 'ALLOCATED-BY-LIR', 'AGGREGATED-BY-LIR',
-            'ASSIGNED',         'ASSIGNED PI',      'ASSIGNED ANYCAST',
+            'ASSIGNED', 'ASSIGNED PI', 'ASSIGNED ANYCAST',
         ]);
         // this attribute is required if the status is set to 'AGGREGATED-BY-LIR'
         $this->create('assignment-size', Attr::OPTIONAL, Attr::SINGLE);

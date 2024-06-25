@@ -11,10 +11,10 @@ class RtrSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
-     * Create a RTR-SET RIPE object.
+     * Create an RTR-SET RIPE object.
      *
      * @param string $value The name of the set.
      */

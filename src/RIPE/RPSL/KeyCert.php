@@ -15,7 +15,7 @@ class KeyCert extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
      * Create a key certification (KEY-CERT) RIPE object.

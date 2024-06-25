@@ -11,7 +11,7 @@ class PeeringSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
      * Create a PEERING-SET RIPE object.
