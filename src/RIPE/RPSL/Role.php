@@ -46,6 +46,7 @@ class Role extends AbstractObject
         $this->create('remarks',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('mnt-ref',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('source',   Attr::REQUIRED, Attr::SINGLE);
         $this->create('abuse-mailbox', Attr::OPTIONAL, Attr::SINGLE);
 

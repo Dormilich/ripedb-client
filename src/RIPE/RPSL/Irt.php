@@ -48,6 +48,7 @@ class Irt extends AbstractObject
         $this->create('irt-nfy',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',     Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('mnt-ref',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('source',     Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
