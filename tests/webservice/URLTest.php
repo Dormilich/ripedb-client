@@ -7,16 +7,26 @@ use Dormilich\WebService\RIPE\WebService;
 use PHPUnit\Framework\TestCase;
 use Test\RegObject;
 
+/**
+ * URLTest
+ */
 class URLTest extends TestCase
 {
-	public function getClient($name = NULL)
+    /**
+     * @param $name
+     * @return \Test\MockClient
+     */
+    public function getClient($name = NULL)
 	{
 		return new Test\MockClient('[]');
 	}
 
 	// read
 
-	public function testClientGetsCorrectDefaultRequestParameters()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectDefaultRequestParameters()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -32,7 +42,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testClientGetsCorrectUrlForNoOptions()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectUrlForNoOptions()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -43,7 +56,10 @@ class URLTest extends TestCase
 		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST', $client->url);
 	}
 
-	public function testClientGetsCorrectProductionUrlAfterChange()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectProductionUrlAfterChange()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -58,7 +74,10 @@ class URLTest extends TestCase
 		$this->assertEquals('https://rest.db.ripe.net/ripe/person/FOO-TEST', $client->url);
 	}
 
-	public function testClientGetsCorrectCustomRequestParameters()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectCustomRequestParameters()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client, [
@@ -76,7 +95,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testClientGetsCorrectSandboxUrlAfterChange()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectSandboxUrlAfterChange()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client, [
@@ -95,7 +117,10 @@ class URLTest extends TestCase
 
 	// version
 
-	public function testClientGetsCorrectVersionRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectVersionRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -110,7 +135,10 @@ class URLTest extends TestCase
 
 	// versions
 
-	public function testClientGetsCorrectVersionsRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectVersionsRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -125,14 +153,17 @@ class URLTest extends TestCase
 
 	// search
 
-	public function testClientGetsCorrectSearchRequestFromArray()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectSearchRequestFromArray()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
 
 		$ripe->search('FOO', [
-			'type-filter' 		=> 'role', 
-			'inverse-attribute' => ['tech-c', 'admin-c'], 
+			'type-filter' 		=> 'role',
+			'inverse-attribute' => ['tech-c', 'admin-c'],
 		]);
 
 		$url = 'https://rest-test.db.ripe.net/search?type-filter=role&inverse-attribute=tech-c'
@@ -143,7 +174,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testClientGetsCorrectSearchRequestFromString()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectSearchRequestFromString()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -158,7 +192,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testSearchRequestFailsOnNonQuery()
+    /**
+     * @return void
+     */
+    public function testSearchRequestFailsOnNonQuery()
 	{
 	    $this->expectException(InvalidValueException::class);
 
@@ -170,7 +207,10 @@ class URLTest extends TestCase
 
 	// abuse
 
-	public function testClientGetsCorrectAbuseRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectAbuseRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -185,7 +225,10 @@ class URLTest extends TestCase
 
 	// template
 
-	public function testClientGetsCorrectTemplateRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectTemplateRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -199,7 +242,10 @@ class URLTest extends TestCase
 
 	// create
 
-	public function testClientGetsCorrectCreateRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectCreateRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -214,7 +260,10 @@ class URLTest extends TestCase
 		$this->assertEquals($expected, $client->body);
 	}
 
-	public function testClientGetsCorrectCreateUrlAfterChange()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectCreateUrlAfterChange()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -230,7 +279,10 @@ class URLTest extends TestCase
 
 	// update
 
-	public function testClientGetsCorrectUpdateRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectUpdateRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -247,7 +299,10 @@ class URLTest extends TestCase
 
 	// delete
 
-	public function testClientGetsCorrectDeleteRequest()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectDeleteRequest()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
@@ -260,7 +315,10 @@ class URLTest extends TestCase
 		$this->assertNull($client->body);
 	}
 
-	public function testClientGetsCorrectDeleteRequestWithReason()
+    /**
+     * @return void
+     */
+    public function testClientGetsCorrectDeleteRequestWithReason()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);

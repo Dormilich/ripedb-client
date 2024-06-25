@@ -4,8 +4,14 @@ use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use PHPUnit\Framework\TestCase;
 use Test\IP;
 
+/**
+ * InetnumInputTest
+ */
 class InetnumInputTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function testRange()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -14,6 +20,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testCIDR()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -22,6 +31,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testSameIpInputTwice()
     {
         $net = new Inetnum('73.46.254.16', '73.46.254.16');
@@ -29,6 +41,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame('73.46.254.16', $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAndPrefix()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -37,6 +52,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAndInvalidPrefix()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -45,6 +63,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame('73.46.254.16', $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testObjectAndPrefix()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -53,6 +74,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAndIp()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -61,6 +85,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAndIpWithSwitchedPositions()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -69,6 +96,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAsObject()
     {
         $net = new Inetnum(new IP('73.46.254.16'));
@@ -76,6 +106,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame('73.46.254.16', $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testIpAndIpAsObjects()
     {
         $range = '73.46.254.16 - 73.46.254.31';
@@ -84,6 +117,9 @@ class InetnumInputTest extends TestCase
         $this->assertSame($range, $net->getPrimaryKey());
     }
 
+    /**
+     * @return void
+     */
     public function testInvalidInputIsRetained()
     {
         $bogus = 'example.com';
@@ -99,8 +135,11 @@ class InetnumInputTest extends TestCase
         $this->assertSame($bogus, $net2->getPrimaryKey());
         $this->assertSame($bogus, $net3->getPrimaryKey());
         $this->assertSame('255.255.255.254/30', $net4->getPrimaryKey());
-		}
+    }
 
+    /**
+     * @return void
+     */
     public function testHighRangeWithCidr()
     {
         // ensure no issues with high ranges on 64 bit systems
