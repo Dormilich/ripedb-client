@@ -11,7 +11,7 @@ class Inetnum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
      * Create a INETNUM RIPE object.
@@ -138,7 +138,7 @@ class Inetnum extends AbstractObject
         $this->create('tech-c',      Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('abuse-c',     Attr::OPTIONAL, Attr::SINGLE);
         $this->fixed('status',       Attr::REQUIRED, [
-            'ALLOCATED UNSPECIFIED', 'ALLOCATED PA',
+            'ALLOCATED UNSPECIFIED', 'ALLOCATED PA', 'ALLOCATED-ASSIGNED PA',
             'LIR-PARTITIONED PA', 'SUB-ALLOCATED PA',
             'ASSIGNED PA', 'ASSIGNED PI', 'ASSIGNED ANYCAST',
             'LEGACY',
@@ -165,6 +165,8 @@ class Inetnum extends AbstractObject
  *      number of allocations made to members have this status also.
  * ‘ALLOCATED PA’
  *      These are allocations made to members by the RIPE NCC.
+ * ‘ALLOCATED-ASSIGNED PA’
+ *      An allocation with a single assignment of the same prefix length.
  * ‘LIR-PARTITIONED PA’
  *      This is to allow partitioning of an allocation by a member for
  *      internal business reasons.

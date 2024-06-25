@@ -11,7 +11,7 @@ class Mntner extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.104';
+    const VERSION = '1.112';
 
     /**
      * Create a maintainer (MNTNER) RIPE object.
@@ -44,6 +44,7 @@ class Mntner extends AbstractObject
         $this->create('remarks', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',  Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('mnt-ref', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('source',  Attr::REQUIRED, Attr::SINGLE);
 
         $this->generated('created');
