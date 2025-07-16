@@ -16,6 +16,9 @@ class WebService
 
     const PRODUCTION_HOST = 'https://rest.db.ripe.net/ripe/';
 
+    /**
+     * @var array{environment: string, password: string, username: string|null}
+     */
     private $config       = [];
 
     protected $results    = [];
@@ -54,6 +57,7 @@ class WebService
         $defaults = [
             'environment' => self::SANDBOX,
             'password'    => 'emptypassword', // pw of the test db
+            'username'    => 'TEST-DBM-MNT',
         ];
         $this->config = $options + $defaults;
     }
@@ -66,6 +70,32 @@ class WebService
     public function isProduction(): bool
     {
         return strtolower($this->config['environment']) === self::PRODUCTION;
+    }
+
+    /**
+     * Get the defined username.
+     *
+     * @return string|null
+     */
+    public function getUsername()
+    {
+        return $this->config['username'];
+    }
+
+    /**
+     * Set the username. Use NULL to pass the password in the URL (deprecated).
+     *
+     * @param string|null $name
+     * @return void
+     */
+    public function setUsername($name)
+    {
+        if (strlen($name)) {
+            $this->config['username'] = $name;
+        }
+        else {
+            $this->config['username'] = NULL;
+        }
     }
 
     /**
@@ -86,7 +116,7 @@ class WebService
      */
     public function setPassword(string $password): WebService
     {
-        $this->config['password'] = (string) $password;
+        $this->config['password'] = $password;
 
         return $this;
     }
@@ -112,12 +142,23 @@ class WebService
         if ($environment === self::PRODUCTION) {
             $this->config['environment'] = self::PRODUCTION;
             $this->client->setBaseUri(self::PRODUCTION_HOST);
-        } else {
+        }
+        else {
             $this->config['environment'] = self::SANDBOX;
             $this->client->setBaseUri(self::SANDBOX_HOST);
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBasicAuth(): string
+    {
+        $key = sprintf("%s:%s", $this->getUsername(), $this->getPassword());
+
+        return 'Basic ' . base64_encode($key);
     }
 
     /**
@@ -521,7 +562,7 @@ class WebService
      */
     protected function send(string $method, string $path, array $query = array(), ObjectInterface $object = NULL)
     {
-        $headers = ['Accept' => 'application/json'];
+        $headers['Accept'] = 'application/json';
 
         if (NULL === $object) {
             $body = NULL;
@@ -531,7 +572,13 @@ class WebService
             $headers['Content-Type'] = 'application/json';
         }
 
-        $query += ['password' => $this->getPassword()];
+        if (null === $this->getUsername()) {
+            $query += ['password' => $this->getPassword()];
+        }
+        else {
+            $headers['Authorization'] = $this->getBasicAuth();
+        }
+
         $path  .= '?' . $this->createQueryString($query);
 
         $body = $this->client->request($method, $path, $headers, $body);

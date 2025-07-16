@@ -13,7 +13,7 @@ class Guzzle6Adapter implements ClientAdapter
 
     /**
      * Create instance.
-     * 
+     *
      * @param array $options Guzzle configuration options.
      * @return self
      */
@@ -24,24 +24,24 @@ class Guzzle6Adapter implements ClientAdapter
 
     /**
      * Set the Guzzle base URI.
-     * 
+     *
      * @param string $uri Base URI to use.
      * @return void
      */
-    public function setBaseUri($uri)
+    public function setBaseUri(string $uri)
     {
         $this->baseUri = $uri;
     }
 
     /**
      * Send a request to the targeted API URI and return the JSON parsed response body.
-     * 
+     *
      * @param string $method HTTP method.
      * @param string $path Request path.
      * @param string $body Request body.
      * @return array JSON parsed response body.
      */
-    public function request($method, $path, array $headers = NULL, $body = NULL)
+    public function request(string $method, string $path, array $headers = NULL, $body = NULL): string
     {
         $options = ['base_uri' => $this->baseUri];
 

@@ -5,8 +5,8 @@ namespace Test;
 use Dormilich\WebService\Adapter\ClientAdapter;
 
 /**
- * This class is a mock object for the connection client allowing us to inspect 
- * the parameters passed to the object. It is instantiated with the result of 
+ * This class is a mock object for the connection client allowing us to inspect
+ * the parameters passed to the object. It is instantiated with the result of
  * the request() method.
  */
 class MockClient implements ClientAdapter
@@ -23,12 +23,12 @@ class MockClient implements ClientAdapter
 		$this->response = $response;
 	}
 
-	public function setBaseUri($uri)
+	public function setBaseUri(string $uri)
 	{
 		$this->base = $uri;
 	}
 
-	public function request($method, $path, array $headers = NULL, $body = NULL)
+	public function request(string $method, string $path, array $headers = NULL, $body = NULL): string
 	{
 		$host   = parse_url($this->base, \PHP_URL_HOST);
 		$scheme = parse_url($this->base, \PHP_URL_SCHEME);

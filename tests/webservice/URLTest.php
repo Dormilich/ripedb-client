@@ -20,6 +20,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$this->assertSame('sandbox', $ripe->getEnvironment());
 		$this->assertFalse($ripe->isProduction());
@@ -36,6 +37,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$person = new Person('FOO-TEST');
 		$ripe->read($person, []);
@@ -47,6 +49,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 		$this->assertFalse($ripe->isProduction());
 
 		$ripe->setEnvironment(WebService::PRODUCTION);
@@ -64,6 +67,7 @@ class URLTest extends TestCase
 		$ripe   = new WebService($client, [
 			'environment' => WebService::PRODUCTION,
 		]);
+        $ripe->setUsername(NULL);
 
 		$this->assertSame('production', $ripe->getEnvironment());
 		$this->assertTrue($ripe->isProduction());
@@ -82,6 +86,7 @@ class URLTest extends TestCase
 		$ripe   = new WebService($client, [
 			'environment' => WebService::PRODUCTION,
 		]);
+        $ripe->setUsername(NULL);
 		$this->assertTrue($ripe->isProduction());
 
 		$ripe->setEnvironment(WebService::SANDBOX);
@@ -99,6 +104,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->version($ip, 5);
@@ -114,6 +120,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->versions($ip);
@@ -129,10 +136,11 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ripe->search('FOO', [
-			'type-filter' 		=> 'role', 
-			'inverse-attribute' => ['tech-c', 'admin-c'], 
+			'type-filter' 		=> 'role',
+			'inverse-attribute' => ['tech-c', 'admin-c'],
 		]);
 
 		$url = 'https://rest-test.db.ripe.net/search?type-filter=role&inverse-attribute=tech-c'
@@ -147,6 +155,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ripe->search('FOO', 'type-filter=role&inverse-attribute=tech-c&inverse-attribute=admin-c');
 
@@ -174,6 +183,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->abuseContact($ip);
@@ -189,6 +199,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$poem = $ripe->getObjectFromTemplate('poem');
 
@@ -203,6 +214,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 		$obj    = new RegObject('create');
 
 		$ripe->create($obj);
@@ -218,6 +230,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 		$obj    = new RegObject('create');
 
 		$ripe->setEnvironment(WebService::PRODUCTION);
@@ -234,6 +247,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 		$obj    = new RegObject('update');
 
 		$ripe->update($obj);
@@ -251,6 +265,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$person = new RegObject('FOO');
 		$ripe->delete($person);
@@ -264,6 +279,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$person = new RegObject('FOO');
 		$ripe->delete($person, 'because I can!');
