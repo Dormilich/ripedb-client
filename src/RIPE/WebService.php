@@ -17,7 +17,7 @@ class WebService
     const PRODUCTION_HOST = 'https://rest.db.ripe.net/ripe/';
 
     /**
-     * @var array{environment: string, password: string, username: string|null}
+     * @var array{environment: string, password: string, username: string|null, location: string}
      */
     private $config       = [];
 
@@ -29,16 +29,13 @@ class WebService
      * Create a webservice to request WHOIS data.
      *
      * @param ClientAdapter $client A connection adapter.
-     * @param array $config Webservice config options
+     * @param array{environment: string, password: string, username: string, location: string} $config Webservice config options
      */
     public function __construct(ClientAdapter $client, array $config = array())
     {
-        $this->setOptions($config);
-
-        $base = $this->isProduction() ? self::PRODUCTION_HOST : self::SANDBOX_HOST;
-
         $this->client = $client;
-        $this->client->setBaseUri($base);
+        $this->setOptions($config);
+        $this->setEnvironment($this->getEnvironment());
     }
 
     /**
@@ -58,6 +55,7 @@ class WebService
             'environment' => self::SANDBOX,
             'password'    => 'emptypassword', // pw of the test db
             'username'    => 'TEST-DBM-MNT',
+            'location'    => self::SANDBOX_HOST,
         ];
         $this->config = $options + $defaults;
     }
@@ -122,6 +120,60 @@ class WebService
     }
 
     /**
+     * Get the base URL.
+     *
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->config['location'];
+    }
+
+    /**
+     * Set the base URL. If a username and password is contained, extract it and
+     * save it as credentials (allowing to pass username/password/URL at once).
+     *
+     * @param string $url
+     * @return self
+     */
+    public function setHost(string $url): WebService
+    {
+        $this->config['location'] = $this->getUrl($url);
+
+        $this->client->setBaseUri($this->getHost());
+
+        if ($username = parse_url($url, PHP_URL_USER)) {
+            $this->setUsername($username);
+        }
+        if ($password = parse_url($url, PHP_URL_PASS)) {
+            $this->setPassword($password);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Extract the base URL for the HTTP client.
+     *
+     * @param string $url
+     * @return string
+     */
+    private function getUrl(string $url): string
+    {
+        $scheme = parse_url($url, PHP_URL_SCHEME) ?: 'https';
+        $result = $scheme . '://' . parse_url($url, PHP_URL_HOST);
+
+        if ($port = parse_url($url, PHP_URL_PORT)) {
+            $result .= ':' . $port;
+        }
+        if ($path = parse_url($url, PHP_URL_PATH)) {
+            $result .= $path;
+        }
+
+        return $result;
+    }
+
+    /**
      * Get the current environment.
      *
      * @return string
@@ -139,13 +191,15 @@ class WebService
      */
     public function setEnvironment(string $environment): WebService
     {
+        $this->config['environment'] = $environment;
+
         if ($environment === self::PRODUCTION) {
-            $this->config['environment'] = self::PRODUCTION;
-            $this->client->setBaseUri(self::PRODUCTION_HOST);
+            $this->setHost(self::PRODUCTION_HOST);
         }
-        else {
-            $this->config['environment'] = self::SANDBOX;
-            $this->client->setBaseUri(self::SANDBOX_HOST);
+        elseif ($environment === self::SANDBOX) {
+            $this->setHost(self::SANDBOX_HOST);
+            $this->setUsername('TEST-DBM-MNT');
+            $this->setPassword('emptypassword');
         }
 
         return $this;
@@ -579,7 +633,9 @@ class WebService
             $headers['Authorization'] = $this->getBasicAuth();
         }
 
-        $path  .= '?' . $this->createQueryString($query);
+        if ($q = $this->createQueryString($query)) {
+            $path  .= '?' . $q;
+        }
 
         $body = $this->client->request($method, $path, $headers, $body);
         $json = json_decode($body, true);

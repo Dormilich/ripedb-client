@@ -5,13 +5,14 @@ use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use PHPUnit\Framework\TestCase;
+use Test\MockClient;
 use Test\RegObject;
 
 class URLTest extends TestCase
 {
-	public function getClient($name = NULL)
-	{
-		return new Test\MockClient('[]');
+	public function getClient(): MockClient
+    {
+		return new MockClient('[]');
 	}
 
 	// read

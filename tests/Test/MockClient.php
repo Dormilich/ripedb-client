@@ -11,9 +11,10 @@ use Dormilich\WebService\Adapter\ClientAdapter;
  */
 class MockClient implements ClientAdapter
 {
-	public $method;
-	public $url;
-	public $body;
+	public $method = '';
+	public $url = '';
+	public $body = '';
+    public $header = [];
 
 	protected $base;
 	protected $response;
@@ -46,6 +47,7 @@ class MockClient implements ClientAdapter
 
 		$this->method  = $method;
 		$this->body    = $body;
+        $this->header  = $headers;
 
 		return $this->response;
 	}
