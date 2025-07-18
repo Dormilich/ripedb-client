@@ -109,6 +109,7 @@ class AttributeValueTest extends TestCase
 
 		$this->assertEquals($reg->toArray()['objects']['object'][0]['attributes']['attribute'], [
 			['name' => 'register', 'value' => 'something'],
+            ['name' => 'mnt-by', 'value' => 'TEST-MNT'],
 			['name' => 'source', 'value' => 'TEST']
 		]);
 	}

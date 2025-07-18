@@ -4,6 +4,7 @@
 namespace Dormilich\WebService\RIPE;
 
 use Dormilich\WebService\Adapter\ClientAdapter;
+use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
 use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
 
 class WebService
@@ -53,8 +54,8 @@ class WebService
     {
         $defaults = [
             'environment' => self::SANDBOX,
-            'password'    => 'emptypassword', // pw of the test db
-            'username'    => 'TEST-DBM-MNT',
+            'password'    => '',
+            'username'    => NULL,
             'location'    => self::SANDBOX_HOST,
         ];
         $this->config = $options + $defaults;
@@ -206,13 +207,38 @@ class WebService
     }
 
     /**
+     * Get the HTTP Basic header value.
+     *
+     * @param ObjectInterface $object
      * @return string
      */
-    protected function getBasicAuth(): string
+    protected function getBasicAuth(ObjectInterface $object): string
     {
-        $key = sprintf("%s:%s", $this->getUsername(), $this->getPassword());
+        $user = $this->getUsername() ?: $this->getMaintainer($object);
+        $key = sprintf("%s:%s", $user, $this->getPassword());
 
         return 'Basic ' . base64_encode($key);
+    }
+
+    /**
+     * Get the maintainer of an object.
+     *
+     * @param ObjectInterface $object
+     * @return string
+     */
+    private function getMaintainer(ObjectInterface $object): string
+    {
+        try {
+            $mnt = $object->getAttribute('mnt-by')->getValue();
+        } catch (InvalidAttributeException $e) {
+            $mnt = [];
+        }
+
+        if (is_array($mnt)) {
+            return reset($mnt) ?: '';
+        }
+
+        return (string) $mnt;
     }
 
     /**
@@ -607,35 +633,17 @@ class WebService
     }
 
     /**
-     * Make a query to the RIPE DB using the password and parse the response.
+     * Send request to the RIPE DB and parse the response.
      *
      * @param string $method An HTTP verb.
      * @param string $path The path identifying the RIPE DB object.
-     * @param ObjectInterface $object RPSL object.
+     * @param array $headers The request headers (containing authentication).
+     * @param string|null $body The request body.
      * @return void
      */
-    protected function send(string $method, string $path, array $query = array(), ObjectInterface $object = NULL)
+    protected function submit(string $method, string $path, array $headers, string $body = NULL)
     {
         $headers['Accept'] = 'application/json';
-
-        if (NULL === $object) {
-            $body = NULL;
-        }
-        else {
-            $body = $this->createJSON($object);
-            $headers['Content-Type'] = 'application/json';
-        }
-
-        if (null === $this->getUsername()) {
-            $query += ['password' => $this->getPassword()];
-        }
-        else {
-            $headers['Authorization'] = $this->getBasicAuth();
-        }
-
-        if ($q = $this->createQueryString($query)) {
-            $path  .= '?' . $q;
-        }
 
         $body = $this->client->request($method, $path, $headers, $body);
         $json = json_decode($body, true);
@@ -651,7 +659,12 @@ class WebService
      */
     public function create(ObjectInterface $object)
     {
-        $this->send('POST', $object->getType(), [], $object);
+        $path = $object->getType();
+        $headers['Content-Type']  = 'application/json';
+        $headers['Authorization'] = $this->getBasicAuth($object);
+        $body = $this->createJSON($object);
+
+        $this->submit('POST', $path, $headers, $body);
 
         return $this->getResult();
     }
@@ -660,12 +673,16 @@ class WebService
      * Modify a RIPE object in the RIPE database.
      *
      * @param ObjectInterface $object RIPE object.
-     * @return ObjectInterface Parsed response.
+     * @return ObjectInterface The updated object.
      */
     public function update(ObjectInterface $object)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
-        $this->send('PUT', $path, [], $object);
+        $headers['Content-Type']  = 'application/json';
+        $headers['Authorization'] = $this->getBasicAuth($object);
+        $body = $this->createJSON($object);
+
+        $this->submit('PUT', $path, $headers, $body);
 
         return $this->getResult();
     }
@@ -673,22 +690,21 @@ class WebService
     /**
      * Delete a RIPE object from the RIPE database.
      *
-     * Note: the API also accepts a reason string,
-     * but it is omitted for simplicity.
-     *
      * @param ObjectInterface $object RIPE object.
+     * @param string $reason An explanation why the object is deleted.
      * @return ObjectInterface The deleted object.
      */
-    public function delete(ObjectInterface $object, $reason = NULL)
+    public function delete(ObjectInterface $object, string $reason = NULL)
     {
         $path = $object->getType() . '/' . $object->getPrimaryKey();
 
         if ($reason) {
-            $this->send('DELETE', $path, ['reason' => $reason]);
+            $path .= '?' . $this->createQueryString(['reason' => $reason]);
         }
-        else {
-            $this->send('DELETE', $path);
-        }
+
+        $headers['Authorization'] = $this->getBasicAuth($object);
+
+        $this->submit('DELETE', $path, $headers);
 
         return $this->getResult();
     }
