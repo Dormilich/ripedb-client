@@ -1,6 +1,8 @@
 <?php
 
+use Dormilich\WebService\RIPE\Dummy;
 use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
+use Dormilich\WebService\RIPE\RPSL\Mntner;
 use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Poem;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
@@ -40,17 +42,17 @@ class ParseTest extends TestCase
 		$person = new Person('FOO-TEST');
 		$person = $ripe->read($person);
 
-		$this->assertInstanceOf('Dormilich\\WebService\\RIPE\\RPSL\\Person', $person);
+		$this->assertInstanceOf(Person::class, $person);
 
 		$this->assertCount(1, $ripe->getAllResults());
 
 		$this->assertEquals('FOO-TEST', $person->getPrimaryKey());
 		$this->assertEquals('John Smith', $person['person']);
 		$this->assertEquals([
-			"Example, Ltd.", 
-			"Road to Mandalay 1", 
-			"1234 Gareth", 
-			"Aventuria", 
+			"Example, Ltd.",
+			"Road to Mandalay 1",
+			"1234 Gareth",
+			"Aventuria",
 		], $person['address']);
 		$this->assertEquals(["+0 1234 123456"], $person['phone']);
 		$this->assertEquals(["+0 1234 123457"], $person['fax-no']);
@@ -70,7 +72,7 @@ class ParseTest extends TestCase
 		$person = new Person('FOO-TEST');
 		$object = $ripe->read($person);
 
-		$this->assertInstanceOf('Dormilich\\WebService\\RIPE\\Dummy', $object);
+		$this->assertInstanceOf(Dummy::class, $object);
 		$this->assertEquals('register', $object->getType());
 		$this->assertEquals('ripe', $object->getPrimaryKey());
 	}
@@ -241,8 +243,8 @@ class ParseTest extends TestCase
 		$this->assertEquals("Error: some unexpected %s has occurred for %s", $list[0]);
 	}
 
-	// response parsing is handled inside the send() method 
-	// hence no need to test it for each method separately. 
+	// response parsing is handled inside the `send()` method
+	// hence no need to test it for each method separately.
 	public function testConvertResponse()
 	{
 		$client = $this->getClient('haiku');
@@ -267,7 +269,7 @@ class ParseTest extends TestCase
 
 		$mntner = $haiku['mnt-by'];
 		$this->assertEquals('mntner', $mntner->getType());
-		$this->assertInstanceOf('\Dormilich\WebService\RIPE\RPSL\Mntner', $mntner->getObject());
+		$this->assertInstanceOf(Mntner::class, $mntner->getObject());
 		$this->assertEquals('http://rest.db.ripe.net/ripe/mntner/CROSSLINE-MNT', $mntner->getLink());
 	}
 

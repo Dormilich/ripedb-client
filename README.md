@@ -4,7 +4,7 @@ A PHP library to communicate with the RIPE NCC database.
 
 ## Requirements
 
-The RipeDB-Client requires PHP 5.4 up to PHP 7.1. The connection object might have further 
+The RipeDB-Client requires PHP 7.0 up to PHP 7.4. The connection object might have further 
 preconditions.
 
 ## Installation
@@ -23,13 +23,14 @@ To run the offline tests run:
 
 on the command line from the project’s root directory.
 
-There is also an online test you can run if you have an internet connection, which runs 
-some basic operations on the RIPE TEST database. 
+There is also an online test you can run if you have an internet connection,
+which runs some basic operations on the RIPE TEST database. 
 
     phpunit --group live
 
-Should these tests fail with a HTTP status code of 409 then the used IP range (127.0.0.0/31) 
-already exists in the TEST database and has to be deleted before running the test again.
+Should these tests fail with an HTTP status code of 409 then the used IP range
+(127.0.0.0/24) is already occupied otherwise and needs to be cleaned up first.
+You may also have to disable PHPUnit’s error conversion.
 
 ## Setup
 
@@ -39,22 +40,29 @@ version, or your own preference you can use any existing library or write one us
 PHP’s curl or socket functions. 
 
 If you’re not convenient doing this you can use the `Guzzle6Adapter` from the `tests/Test` 
-folder (although you might want to change the namespace). However, be aware that Guzzle 6 
-requires PHP 5.5 or above.
+folder (although you might want to change the namespace).
 
 ## Usage
 
-For the web service there are two options you can set before using it:
+For the web service there are four options you can set before using it:
 
-* environment - whether to connect to the RIPE (`WebService::PRODUCTION`) or TEST 
+* `environment` - whether to connect to the RIPE (`WebService::PRODUCTION`) or TEST 
 (`WebService::SANDBOX`) database. Per default, it connects to the TEST database.
-* password - for any modifying operation (create/update/delete) you must provide 
-the password for the object’s maintainer. The default password is the one for the 
-TEST database’s primary maintainer.
+You may set any other name for local testing.
+* `username` - the username part of the API key.
+* `password` - for any modifying operation (create/update/delete) you must provide 
+the password part of the API key.
+* `location` - for local testing any URL that connects to the mock instance. The
+production/sandbox environments will set their appropriate location automatically.
 
-For more information check out the [RIPE REST API Documentation](https://github.com/RIPE-NCC/whois/wiki/WHOIS-REST-API) and the [RIPE Database Documentation](https://www.ripe.net/manage-ips-and-asns/db/support/documentation/ripe-database-documentation)
+For more information check out the [RIPE Database Documentation](https://docs.db.ripe.net).
 
 ### Setting up the web service object
+
+#### Starting from 2026
+
+Since MD5-based password are retired starting from 2026, you need to use one of
+the API key that you can create in your RIPE account.
 
 ```php
 // create the connection object
@@ -63,12 +71,37 @@ $client = new Client(…);
 // create the web service object
 $ripe   = new WebService($client, [
 	'environment' => WebService::PRODUCTION,
-	'password'    => 'your maintainer password',
+	'username'    => 'your API username',
+	'password'    => 'your API password',
 ]);
 
 // you can set also these options separately
 $ripe   = new WebService($client);
 $ripe->setEnvironment(WebService::PRODUCTION);
+$ripe->setUsername('your API username');
+$ripe->setPassword('your API password');
+
+// or using a URL
+$ripe   = new WebService($client);
+$ripe->setHost('https://username:password@rest.db.ripe.net/ripe');
+```
+
+#### Before 2026
+
+As long as passwords are supported, they can be used in conjunction with the
+maintainer handle. If that is not given explicitly, it will be taken from the
+object that is processed (lookup queries do not require authentication).
+
+```php
+// create the connection object
+$client = new Client(…);
+
+// create the web service object
+$ripe   = new WebService($client, [
+	'environment' => WebService::PRODUCTION,
+	'username'    => 'TEST-MNT', // optional
+	'password'    => 'your maintainer password',
+]);
 ```
 
 ### Create a RIPE DB entry
@@ -109,7 +142,7 @@ catch (BadResponseException $e) {
 }
 ```
 
-Note: the webservice will set the *source* attribute depending on its setting 
+Note: the webservice will set the *source* attribute depending on its setting, 
 so you don’t need to set it yourself except when you want to use the serializer 
 or the `isValid()` method before that.
 
@@ -157,4 +190,4 @@ will be used as well. When accessing the attribute value as string, the comment 
 
 ## Notes
 
-Object validation uses RIPE DB version 1.86
+Object validation uses RIPE DB version 1.112.

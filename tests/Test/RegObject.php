@@ -13,12 +13,14 @@ class RegObject extends AbstractObject
 		$this->setKey('register');
 		$this->init();
 		$this->setAttribute('register', $value);
+        $this->setAttribute('mnt-by', 'TEST-MNT');
 	}
 
 	protected function init()
 	{
 		$this->create('register', A::REQUIRED, A::SINGLE);
 		$this->create('comment',  A::OPTIONAL, A::MULTIPLE);
+        $this->create('mnt-by',   A::REQUIRED, A::MULTIPLE);
 		$this->create('source',   A::REQUIRED, A::SINGLE);
 	}
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
+use Dormilich\WebService\RIPE\RPSL\Organisation;
 use Dormilich\WebService\RIPE\RPSL\Role;
 use Dormilich\WebService\RIPE\WebService;
 use GuzzleHttp\Exception\ClientException;
@@ -23,26 +24,31 @@ class LiveTest extends TestCase
 	 */
 	public function testCreateInetnum()
 	{
-		$role = new Role;
-		$role['role']    = 'inetnum contact';
-		$role['address'] = 'Any Street 1';
-		$role['e-mail']  = 'no-reply@example.com';
-		$role['mnt-by']  = "TEST-DBM-MNT";
+		$role = $this->getRIPE()->read(new Role('AA2-TEST'));
+        $org = $this->getRIPE()->read(new Organisation('ORG-TT1-TEST'));
 
-		$role = $this->getRIPE()->create($role);
+		$ip = new Inetnum('127.0.0.0 - 127.0.0.255');
 
-		$ip = new Inetnum('127.0.0.0 - 127.0.0.1');
-		$ip['netname'] = "test-ripedb-client";
-		$ip['descr']   = "test instance of IPv4 for the ripedb PHP client library";
-		$ip['country'] = "DE";
-		$ip['admin-c'] = $role->getPrimaryKey();
-		$ip['tech-c']  = $role->getPrimaryKey();
-		$ip['status']  = "ASSIGNED PA";
-		$ip['mnt-by']  = "TEST-DBM-MNT";
+        try {
+            $obj = $this->getRIPE()->read($ip);
+        } catch (ClientException $e) {
+            if (404 !== $e->getResponse()->getStatusCode()) {
+                throw $e;
+            }
 
-		$obj = $this->getRIPE()->create($ip);
+            $ip['netname'] = "test-ripedb-client";
+            $ip['descr']   = "test instance of IPv4 for the ripedb PHP client library";
+            $ip['country'] = "DE";
+            $ip['org']     = $org->getPrimaryKey();
+            $ip['admin-c'] = $role->getPrimaryKey();
+            $ip['tech-c']  = $role->getPrimaryKey();
+            $ip['status']  = "ALLOCATED PA";
+            $ip['mnt-by']  = "TEST-DBM-MNT";
 
-		$this->assertInstanceOf('Dormilich\WebService\RIPE\RPSL\Inetnum', $obj);
+            $obj = $this->getRIPE()->create($ip);
+        }
+
+		$this->assertInstanceOf(Inetnum::class, $obj);
 
 		return $obj;
 	}
@@ -108,7 +114,8 @@ class LiveTest extends TestCase
 	{
 		$obj = $this->getRIPE()->version($ip, 2);
 
-		$this->assertEquals($ip, $obj);
+        $this->assertSame($ip->getPrimaryKey(), $obj->getPrimaryKey());
+        $this->assertSame(['US'], $obj['country']);
 
 		return $ip;
 	}

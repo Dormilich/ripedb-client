@@ -5,13 +5,14 @@ use Dormilich\WebService\RIPE\RPSL\Person;
 use Dormilich\WebService\RIPE\RPSL\Inetnum;
 use Dormilich\WebService\RIPE\WebService;
 use PHPUnit\Framework\TestCase;
+use Test\MockClient;
 use Test\RegObject;
 
-class URLTest extends TestCase
+class QueryTest extends TestCase
 {
-	public function getClient($name = NULL)
-	{
-		return new Test\MockClient('[]');
+	public function getClient(): MockClient
+    {
+		return new MockClient('[]');
 	}
 
 	// read
@@ -30,6 +31,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST?unfiltered', $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testClientGetsCorrectUrlForNoOptions()
@@ -40,7 +44,12 @@ class URLTest extends TestCase
 		$person = new Person('FOO-TEST');
 		$ripe->read($person, []);
 
+        $this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST', $client->url);
+        $this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testClientGetsCorrectProductionUrlAfterChange()
@@ -55,7 +64,12 @@ class URLTest extends TestCase
 		$person = new Person('FOO-TEST');
 		$ripe->read($person, []);
 
+        $this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest.db.ripe.net/ripe/person/FOO-TEST', $client->url);
+        $this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testClientGetsCorrectCustomRequestParameters()
@@ -64,6 +78,7 @@ class URLTest extends TestCase
 		$ripe   = new WebService($client, [
 			'environment' => WebService::PRODUCTION,
 		]);
+        $ripe->setUsername(NULL);
 
 		$this->assertSame('production', $ripe->getEnvironment());
 		$this->assertTrue($ripe->isProduction());
@@ -74,6 +89,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest.db.ripe.net/ripe/person/FOO-TEST?unfiltered', $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testClientGetsCorrectSandboxUrlAfterChange()
@@ -90,7 +108,12 @@ class URLTest extends TestCase
 		$person = new Person('FOO-TEST');
 		$ripe->read($person, []);
 
+        $this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/test/person/FOO-TEST', $client->url);
+        $this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	// version
@@ -99,6 +122,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->version($ip, 5);
@@ -106,6 +130,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/test/inetnum/127.0.0.1/versions/5?unfiltered', $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	// versions
@@ -114,6 +141,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->versions($ip);
@@ -121,6 +149,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/test/inetnum/127.0.0.1/versions', $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	// search
@@ -129,10 +160,11 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ripe->search('FOO', [
-			'type-filter' 		=> 'role', 
-			'inverse-attribute' => ['tech-c', 'admin-c'], 
+			'type-filter' 		=> 'role',
+			'inverse-attribute' => ['tech-c', 'admin-c'],
 		]);
 
 		$url = 'https://rest-test.db.ripe.net/search?type-filter=role&inverse-attribute=tech-c'
@@ -141,12 +173,16 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals($url, $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testClientGetsCorrectSearchRequestFromString()
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ripe->search('FOO', 'type-filter=role&inverse-attribute=tech-c&inverse-attribute=admin-c');
 
@@ -156,6 +192,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals($url, $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	public function testSearchRequestFailsOnNonQuery()
@@ -174,6 +213,7 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
 		$ip = new Inetnum('127.0.0.1');
 		$ripe->abuseContact($ip);
@@ -181,6 +221,9 @@ class URLTest extends TestCase
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/abuse-contact/127.0.0.1', $client->url);
 		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 
 	// template
@@ -189,87 +232,15 @@ class URLTest extends TestCase
 	{
 		$client = $this->getClient();
 		$ripe   = new WebService($client);
+        $ripe->setUsername(NULL);
 
-		$poem = $ripe->getObjectFromTemplate('poem');
+		$ripe->getObjectFromTemplate('poem');
 
 		$this->assertEquals('GET', $client->method);
 		$this->assertEquals('https://rest-test.db.ripe.net/metadata/templates/poem', $client->url);
 		$this->assertNull($client->body);
-	}
-
-	// create
-
-	public function testClientGetsCorrectCreateRequest()
-	{
-		$client = $this->getClient();
-		$ripe   = new WebService($client);
-		$obj    = new RegObject('create');
-
-		$ripe->create($obj);
-
-		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"create"},{"name":"source","value":"TEST"}]}}]}}';
-
-		$this->assertEquals('POST', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net/test/register?password=emptypassword', $client->url);
-		$this->assertEquals($expected, $client->body);
-	}
-
-	public function testClientGetsCorrectCreateUrlAfterChange()
-	{
-		$client = $this->getClient();
-		$ripe   = new WebService($client);
-		$obj    = new RegObject('create');
-
-		$ripe->setEnvironment(WebService::PRODUCTION);
-		$ripe->setPassword('super-secret');
-
-		$ripe->create($obj);
-
-		$this->assertEquals('https://rest.db.ripe.net/ripe/register?password=super-secret', $client->url);
-	}
-
-	// update
-
-	public function testClientGetsCorrectUpdateRequest()
-	{
-		$client = $this->getClient();
-		$ripe   = new WebService($client);
-		$obj    = new RegObject('update');
-
-		$ripe->update($obj);
-
-		$expected = '{"objects":{"object":[{"source":{"id":"TEST"},"attributes":{"attribute":[{"name":"register","value":"update"},{"name":"source","value":"TEST"}]}}]}}';
-
-		$this->assertEquals('PUT', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net/test/register/update?password=emptypassword', $client->url);
-		$this->assertEquals($expected, $client->body);
-	}
-
-	// delete
-
-	public function testClientGetsCorrectDeleteRequest()
-	{
-		$client = $this->getClient();
-		$ripe   = new WebService($client);
-
-		$person = new RegObject('FOO');
-		$ripe->delete($person);
-
-		$this->assertEquals('DELETE', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net/test/register/FOO?password=emptypassword', $client->url);
-		$this->assertNull($client->body);
-	}
-
-	public function testClientGetsCorrectDeleteRequestWithReason()
-	{
-		$client = $this->getClient();
-		$ripe   = new WebService($client);
-
-		$person = new RegObject('FOO');
-		$ripe->delete($person, 'because I can!');
-
-		$this->assertEquals('DELETE', $client->method);
-		$this->assertEquals('https://rest-test.db.ripe.net/test/register/FOO?reason=because%20I%20can%21&password=emptypassword', $client->url);
-		$this->assertNull($client->body);
+        $this->assertArrayNotHasKey('Authorization', $client->header);
+        $this->assertArrayHasKey('Accept', $client->header);
+        $this->assertEquals('application/json', $client->header['Accept']);
 	}
 }
