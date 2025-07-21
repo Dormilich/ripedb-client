@@ -13,9 +13,9 @@ class WebService
 
     const PRODUCTION      = 'production';
 
-    const SANDBOX_HOST    = 'https://rest-test.db.ripe.net/test/';
+    const SANDBOX_HOST    = 'https://rest-test.db.ripe.net';
 
-    const PRODUCTION_HOST = 'https://rest.db.ripe.net/ripe/';
+    const PRODUCTION_HOST = 'https://rest.db.ripe.net';
 
     /**
      * @var array{environment: string, password: string, username: string|null, location: string}
@@ -150,6 +150,8 @@ class WebService
             $this->setPassword($password);
         }
 
+        $this->setEnvironmentFromUrl($url);
+
         return $this;
     }
 
@@ -166,9 +168,6 @@ class WebService
 
         if ($port = parse_url($url, PHP_URL_PORT)) {
             $result .= ':' . $port;
-        }
-        if ($path = parse_url($url, PHP_URL_PATH)) {
-            $result .= $path;
         }
 
         return $result;
@@ -202,8 +201,29 @@ class WebService
             $this->setUsername('TEST-DBM-MNT');
             $this->setPassword('emptypassword');
         }
+        else {
+            $this->setHost($this->config['location']);
+        }
 
         return $this;
+    }
+
+    /**
+     * Extract the environment from the setup URL.
+     *
+     * @param string $url
+     * @return void
+     */
+    private function setEnvironmentFromUrl(string $url)
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+
+        if ('/ripe' === $path) {
+            $this->config['environment'] = WebService::PRODUCTION;
+        }
+        elseif ('/test' === $path) {
+            $this->config['environment'] = WebService::SANDBOX;
+        }
     }
 
     /**
@@ -583,7 +603,9 @@ class WebService
      */
     public function versions(AbstractObject $object): array
     {
-        $path = sprintf('%s/%s/versions', $object->getType(), $object->getPrimaryKey());
+        $path = sprintf('/%s/%s/%s/versions',
+            $this->getSource(), $object->getType(), $object->getPrimaryKey()
+        );
         $json = $this->query($path);
         $this->setVersions($json);
 
@@ -602,8 +624,8 @@ class WebService
      */
     public function version(ObjectInterface $object, int $version)
     {
-        $path = sprintf('%s/%s/versions/%d?unfiltered',
-            $object->getType(), $object->getPrimaryKey(), $version
+        $path = sprintf('/%s/%s/%s/versions/%d?unfiltered',
+            $this->getSource(), $object->getType(), $object->getPrimaryKey(), $version
         );
         $json = $this->query($path);
         $this->setObjects($json);
@@ -620,8 +642,9 @@ class WebService
      */
     public function read(ObjectInterface $object, array $params = array('unfiltered'))
     {
-        $path = $object->getType() . '/' . $object->getPrimaryKey();
-
+        $path = sprintf('/%s/%s/%s',
+            $this->getSource(), $object->getType(), $object->getPrimaryKey()
+        );
         if (count($params)) {
             $path .= '?' . implode('&', $params);
         }
@@ -659,7 +682,7 @@ class WebService
      */
     public function create(ObjectInterface $object)
     {
-        $path = $object->getType();
+        $path = $this->getSource() . '/' . $object->getType();
         $headers['Content-Type']  = 'application/json';
         $headers['Authorization'] = $this->getBasicAuth($object);
         $body = $this->createJSON($object);
@@ -677,7 +700,7 @@ class WebService
      */
     public function update(ObjectInterface $object)
     {
-        $path = $object->getType() . '/' . $object->getPrimaryKey();
+        $path = $this->getSource() . '/' . $object->getType() . '/' . $object->getPrimaryKey();
         $headers['Content-Type']  = 'application/json';
         $headers['Authorization'] = $this->getBasicAuth($object);
         $body = $this->createJSON($object);
@@ -696,7 +719,7 @@ class WebService
      */
     public function delete(ObjectInterface $object, string $reason = NULL)
     {
-        $path = $object->getType() . '/' . $object->getPrimaryKey();
+        $path = $this->getSource() . '/' . $object->getType() . '/' . $object->getPrimaryKey();
 
         if ($reason) {
             $path .= '?' . $this->createQueryString(['reason' => $reason]);

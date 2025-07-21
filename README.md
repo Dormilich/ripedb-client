@@ -56,6 +56,11 @@ For more information check out the [RIPE REST API Documentation](https://github.
 
 ### Setting up the web service object
 
+#### Starting from 2026
+
+Since MD5-based password are retired starting from 2026, you need to use one of
+the API key that you can create in your RIPE account.
+
 ```php
 // create the connection object
 $client = new Client(…);
@@ -63,12 +68,37 @@ $client = new Client(…);
 // create the web service object
 $ripe   = new WebService($client, [
 	'environment' => WebService::PRODUCTION,
-	'password'    => 'your maintainer password',
+	'username'    => 'your API username',
+	'password'    => 'your API password',
 ]);
 
 // you can set also these options separately
 $ripe   = new WebService($client);
 $ripe->setEnvironment(WebService::PRODUCTION);
+$ripe->setUsername('your API username');
+$ripe->setPassword('your API password');
+
+// or using a URL
+$ripe   = new WebService($client);
+$ripe->setHost('https://username:password@rest.db.ripe.net/ripe');
+```
+
+#### Before 2026
+
+As long as passwords are supported, they can be used in conjunction with the
+maintainer handle. If that is not given explicitly, it will be taken from the
+object that is processed (lookup queries do not require authentication).
+
+```php
+// create the connection object
+$client = new Client(…);
+
+// create the web service object
+$ripe   = new WebService($client, [
+	'environment' => WebService::PRODUCTION,
+	'username'    => 'TEST-MNT', // optional
+	'password'    => 'your maintainer password',
+]);
 ```
 
 ### Create a RIPE DB entry
@@ -109,7 +139,7 @@ catch (BadResponseException $e) {
 }
 ```
 
-Note: the webservice will set the *source* attribute depending on its setting 
+Note: the webservice will set the *source* attribute depending on its setting, 
 so you don’t need to set it yourself except when you want to use the serializer 
 or the `isValid()` method before that.
 
@@ -157,4 +187,4 @@ will be used as well. When accessing the attribute value as string, the comment 
 
 ## Notes
 
-Object validation uses RIPE DB version 1.86
+Object validation uses RIPE DB version 1.112.

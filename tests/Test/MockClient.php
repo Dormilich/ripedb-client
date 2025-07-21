@@ -26,24 +26,28 @@ class MockClient implements ClientAdapter
 
 	public function setBaseUri(string $uri)
 	{
-		$this->base = $uri;
+		$this->base = rtrim($uri, '/');
 	}
 
 	public function request(string $method, string $path, array $headers = NULL, $body = NULL): string
 	{
+        $scheme = parse_url($this->base, \PHP_URL_SCHEME);
 		$host   = parse_url($this->base, \PHP_URL_HOST);
-		$scheme = parse_url($this->base, \PHP_URL_SCHEME);
-		$dir	= substr($this->base, 0, strrpos($this->base, '/', strlen($host))+1);
+        $port   = parse_url($this->base, \PHP_URL_PORT);
+        $dir    = parse_url($this->base, \PHP_URL_PATH);
 
-		if (strpos($path, '//') === 0) {
-			$this->url = $scheme . '://' . $path;
-		}
-		elseif (strpos($path, '/') === 0) {
-			$this->url = $scheme . '://' . $host . $path;
-		}
-		else {
-			$this->url = $dir . $path;
-		}
+        $this->url = $scheme . '://' . $host;
+
+        if ($port) {
+            $this->url .= ':' . $port;
+        }
+
+        if ('/' === $path[0]) {
+            $this->url .= $path;
+        }
+        else {
+            $this->url .= $dir . '/' . $path;
+        }
 
 		$this->method  = $method;
 		$this->body    = $body;
