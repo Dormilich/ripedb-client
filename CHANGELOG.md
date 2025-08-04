@@ -1,3 +1,7 @@
+## 1.1.5 - 2025-08-04
+
+- Updated RPSL definitions to RIPE DB version 1.118
+
 ## 1.1.4 - 2025-07-21
 
 - Changed authentication to only use the `Authorization` header

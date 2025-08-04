@@ -11,7 +11,7 @@ class Inetnum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.112';
+    const VERSION = '1.118';
 
     /**
      * Create a INETNUM RIPE object.
@@ -131,6 +131,7 @@ class Inetnum extends AbstractObject
         $this->create('country',     Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('geofeed',     Attr::OPTIONAL, Attr::SINGLE);
         $this->create('geoloc',      Attr::OPTIONAL, Attr::SINGLE);
+        $this->create('prefixlen',   Attr::OPTIONAL, Attr::SINGLE);
         $this->create('language',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',         Attr::OPTIONAL, Attr::SINGLE);
         $this->create('sponsoring-org', Attr::OPTIONAL, Attr::SINGLE);
