@@ -700,7 +700,9 @@ class WebService
      */
     public function create(ObjectInterface $object)
     {
-        $path = $this->getSource() . '/' . $object->getType();
+        $path = sprintf('/%s/%s',
+            $this->getSource(), $object->getType()
+        );
         $headers['Content-Type']  = 'application/json';
         $headers['Authorization'] = $this->getBasicAuth($object);
         $body = $this->createJSON($object);
@@ -718,7 +720,9 @@ class WebService
      */
     public function update(ObjectInterface $object)
     {
-        $path = $this->getSource() . '/' . $object->getType() . '/' . $object->getPrimaryKey();
+        $path = sprintf('/%s/%s/%s',
+            $this->getSource(), $object->getType(), $object->getPrimaryKey()
+        );
         $headers['Content-Type']  = 'application/json';
         $headers['Authorization'] = $this->getBasicAuth($object);
         $body = $this->createJSON($object);
@@ -737,8 +741,9 @@ class WebService
      */
     public function delete(ObjectInterface $object, string $reason = NULL)
     {
-        $path = $this->getSource() . '/' . $object->getType() . '/' . $object->getPrimaryKey();
-
+        $path = sprintf('/%s/%s/%s',
+            $this->getSource(), $object->getType(), $object->getPrimaryKey()
+        );
         if ($reason) {
             $path .= '?' . $this->createQueryString(['reason' => $reason]);
         }
