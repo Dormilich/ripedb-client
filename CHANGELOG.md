@@ -1,5 +1,11 @@
+## 1.1.6 - 2025-08-06
+
+- Added error handling when encoding the request body, mostly to catch malformed UTF-8
+- Fixed: Using consistent URI path naming scheme before passing the path to the HTTP client
+
 ## 1.1.5 - 2025-08-04
 
+- Added `prefixlen` attribute to the `inetnum` and `inet6num` objects
 - Updated RPSL definitions to RIPE DB version 1.118
 
 ## 1.1.4 - 2025-07-21
