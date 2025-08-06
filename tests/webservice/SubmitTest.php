@@ -140,4 +140,17 @@ class SubmitTest extends TestCase
         $this->assertArrayHasKey('Authorization', $client->header);
         $this->assertEquals('Basic VEVTVC1EQk0tTU5UOmVtcHR5cGFzc3dvcmQ=', $client->header['Authorization']);
     }
+
+    public function testFaultyJsonEncodeFails()
+    {
+        $this->expectExceptionCode(JSON_ERROR_UTF8);
+        $this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
+
+        $client = $this->getClient();
+        $ripe   = new WebService($client);
+
+        $object = new RegObject();
+        $object->setAttribute('register', "\xB1\x31");
+        $ripe->create($object);
+    }
 }

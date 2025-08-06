@@ -6,6 +6,7 @@ namespace Dormilich\WebService\RIPE;
 use Dormilich\WebService\Adapter\ClientAdapter;
 use Dormilich\WebService\RIPE\Exceptions\InvalidAttributeException;
 use Dormilich\WebService\RIPE\Exceptions\InvalidValueException;
+use Exception;
 
 class WebService
 {
@@ -388,7 +389,7 @@ class WebService
 
                 $object->getAttribute($value['name'])->addValue($attr_val);
             }
-            catch (\Exception $e) {
+            catch (Exception $e) {
                 // skip over attributes that are present in the response but do
                 // not conform to the current definitions
                 continue;
@@ -403,6 +404,7 @@ class WebService
      *
      * @param ObjectInterface $object RPSL object.
      * @return string
+     * @throws Exception
      */
     public function createJSON(ObjectInterface $object): string
     {
@@ -413,7 +415,23 @@ class WebService
         }
 
         // otherwise the intended exception won’t make it through
-        return json_encode($object->toArray());
+        return $this->encodeJSON( $object->toArray() );
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     * @throws Exception Failed to encode the data (e.g. for invalid character encoding).
+     */
+    private function encodeJSON(array $data): string
+    {
+        $json = json_encode($data);
+
+        if (JSON_ERROR_NONE === json_last_error()) {
+            return $json;
+        }
+
+        throw new Exception(json_last_error_msg(), json_last_error());
     }
 
     /**
