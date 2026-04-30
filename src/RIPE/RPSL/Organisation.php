@@ -11,7 +11,7 @@ class Organisation extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.118';
+    const VERSION = '1.122';
 
     /**
      * Create an ORGANISATION RIPE object.
@@ -45,8 +45,10 @@ class Organisation extends AbstractObject
         $this->create('phone',    Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('fax-no',   Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('e-mail',   Attr::REQUIRED, Attr::MULTIPLE);
+        $this->create('contact',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('geoloc',   Attr::OPTIONAL, Attr::SINGLE);
         $this->create('language', Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('reg-nr',   Attr::OPTIONAL, Attr::SINGLE);
         $this->create('org',      Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('admin-c',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('tech-c',   Attr::OPTIONAL, Attr::MULTIPLE);

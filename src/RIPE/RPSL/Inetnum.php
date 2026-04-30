@@ -11,7 +11,7 @@ class Inetnum extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.118';
+    const VERSION = '1.122';
 
     /**
      * Create a INETNUM RIPE object.
@@ -140,10 +140,12 @@ class Inetnum extends AbstractObject
         $this->create('abuse-c',     Attr::OPTIONAL, Attr::SINGLE);
         $this->fixed('status',       Attr::REQUIRED, [
             'ALLOCATED UNSPECIFIED', 'ALLOCATED PA', 'ALLOCATED-ASSIGNED PA',
-            'LIR-PARTITIONED PA', 'SUB-ALLOCATED PA',
+            'AGGREGATED-BY-LIR', 'LIR-PARTITIONED PA', 'SUB-ALLOCATED PA',
             'ASSIGNED PA', 'ASSIGNED PI', 'ASSIGNED ANYCAST',
             'LEGACY',
         ]);
+        // this attribute is required if the status is set to 'AGGREGATED-BY-LIR'
+        $this->create('assignment-size', Attr::OPTIONAL, Attr::SINGLE);
         $this->create('remarks',     Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('notify',      Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('mnt-by',      Attr::REQUIRED, Attr::MULTIPLE);

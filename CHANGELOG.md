@@ -1,3 +1,10 @@
+## 1.1.7 - 2026-04-30
+
+- Added `assignment-size` attribute to the `inetnum` object
+- Added `contact` attribute to the `person`, `role`, and `organisation` objects
+- Added `reg-nr` attribute to the `organisation` object
+- Updated RPSL definitions to RIPE DB version 1.122 
+
 ## 1.1.6 - 2025-08-06
 
 - Added error handling when encoding the request body, mostly to catch malformed UTF-8

@@ -11,7 +11,7 @@ class Person extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.118';
+    const VERSION = '1.122';
 
     /**
      * Create a PERSON RIPE object.
@@ -38,6 +38,7 @@ class Person extends AbstractObject
         $this->create('phone',   Attr::REQUIRED, Attr::MULTIPLE);
         $this->create('fax-no',  Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('e-mail',  Attr::OPTIONAL, Attr::MULTIPLE);
+        $this->create('contact', Attr::OPTIONAL, Attr::MULTIPLE);
         $this->create('org',     Attr::OPTIONAL, Attr::MULTIPLE);
         // auto: AUTO-1, AUTO-1{[A-Z]+}, manual: {[A-Z]+}, {[A-Z]+}-RIPE, {[A-Z]+}-{2-letter country code}
         $this->create('nic-hdl', Attr::REQUIRED, Attr::SINGLE);

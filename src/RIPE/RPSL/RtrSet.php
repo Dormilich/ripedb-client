@@ -11,7 +11,7 @@ class RtrSet extends AbstractObject
     /**
      * The version of the RIPE DB used for attribute definitions.
      */
-    const VERSION = '1.118';
+    const VERSION = '1.122';
 
     /**
      * Create an RTR-SET RIPE object.
